@@ -9,8 +9,7 @@ import org.tomaszkowalczyk94.gui.model.Context;
 
 public class DebuggerController {
 
-    @Setter
-    private Context context;
+    @Setter private Context context;
 
     @FXML public Button oneStepButton;
     @FXML public Button resetButton;

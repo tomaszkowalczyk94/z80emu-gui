@@ -7,12 +7,12 @@ public class MainController {
 
     private Context context;
 
-    @FXML
-    DebuggerController debuggerController;
+    @FXML private DebuggerController debuggerController;
+    @FXML private MemoryController memoryController;
 
     public void initialize() {
         context = new Context();
         debuggerController.setContext(context);
-
+        memoryController.setContext(context);
     }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tomaszkowalczyk94.gui.controller.MemoryController">
+    <TableView fx:id="memoryTable" prefHeight="200.0" prefWidth="643.0">
+        <columns>
+            <TableColumn fx:id="memoryColumnAddress" prefWidth="75.0" text="adres" />
+            <TableColumn fx:id="memoryColumn0" prefWidth="35.0" text="0" />
+            <TableColumn fx:id="memoryColumn1" prefWidth="35.0" text="1" />
+            <TableColumn fx:id="memoryColumn2" prefWidth="35.0" text="2" />
+            <TableColumn fx:id="memoryColumn3" prefWidth="35.0" text="3" />
+            <TableColumn fx:id="memoryColumn4" prefWidth="35.0" text="4" />
+            <TableColumn fx:id="memoryColumn5" prefWidth="35.0" text="5" />
+            <TableColumn fx:id="memoryColumn6" prefWidth="35.0" text="6" />
+            <TableColumn fx:id="memoryColumn7" prefWidth="35.0" text="7" />
+            <TableColumn fx:id="memoryColumn8" prefWidth="35.0" text="8" />
+            <TableColumn fx:id="memoryColumn9" prefWidth="35.0" text="9" />
+            <TableColumn fx:id="memoryColumnA" prefWidth="35.0" text="A" />
+            <TableColumn fx:id="memoryColumnB" prefWidth="35.0" text="B" />
+            <TableColumn fx:id="memoryColumnC" prefWidth="35.0" text="C" />
+            <TableColumn fx:id="memoryColumnD" prefWidth="35.0" text="D" />
+            <TableColumn fx:id="memoryColumnE" prefWidth="35.0" text="E" />
+            <TableColumn fx:id="memoryColumnF" prefWidth="35.0" text="F" />
+        </columns>
+    </TableView>
+
+</AnchorPane>
