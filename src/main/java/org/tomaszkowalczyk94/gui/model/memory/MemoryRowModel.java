@@ -17,6 +17,10 @@ public class MemoryRowModel {
         this.startAddress = startAddress;
     }
 
+    public int getIntStartAddress() {
+        return startAddress;
+    }
+
     public String getStartAddress() {
         return getHexFormattedString(startAddress, 4);
     }

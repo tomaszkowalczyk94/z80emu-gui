@@ -5,13 +5,12 @@ import org.tomaszkowalczyk94.gui.model.Context;
 
 public class MainController {
 
-    private Context context;
+    private Context context = new Context();
 
     @FXML private DebuggerController debuggerController;
     @FXML private MemoryController memoryController;
 
     public void initialize() {
-        context = new Context();
         debuggerController.setContext(context);
         memoryController.setContext(context);
     }
