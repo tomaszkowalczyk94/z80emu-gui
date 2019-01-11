@@ -9,10 +9,10 @@ public class MemoryRowModelTest {
 
     @Test
     public void getStartAddress() {
-        MemoryRowModel memoryRowModel = new MemoryRowModel(0x00A0, new short[16]);
+        MemoryRowModel memoryRowModel = new MemoryRowModel(new ValueFormatter(), 0x00A0, new short[16]);
         assertEquals("00A0", memoryRowModel.getStartAddress());
 
-        memoryRowModel = new MemoryRowModel(0xFFF0, new short[16]);
+        memoryRowModel = new MemoryRowModel(new ValueFormatter(),0xFFF0, new short[16]);
         assertEquals("FFF0", memoryRowModel.getStartAddress());
 
 

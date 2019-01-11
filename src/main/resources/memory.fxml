@@ -2,29 +2,31 @@
 
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tomaszkowalczyk94.gui.controller.MemoryController">
-    <TableView fx:id="memoryTable" editable="true" prefHeight="200.0" prefWidth="643.0">
-        <columns>
-            <TableColumn fx:id="memoryColumnAddress" editable="false" prefWidth="75.0" sortable="false" text="adres" />
-            <TableColumn fx:id="memoryColumn0" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="0" />
-            <TableColumn fx:id="memoryColumn1" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="1" />
-            <TableColumn fx:id="memoryColumn2" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="2" />
-            <TableColumn fx:id="memoryColumn3" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="3" />
-            <TableColumn fx:id="memoryColumn4" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="4" />
-            <TableColumn fx:id="memoryColumn5" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="5" />
-            <TableColumn fx:id="memoryColumn6" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="6" />
-            <TableColumn fx:id="memoryColumn7" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="7" />
-            <TableColumn fx:id="memoryColumn8" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="8" />
-            <TableColumn fx:id="memoryColumn9" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="9" />
-            <TableColumn fx:id="memoryColumnA" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="A" />
-            <TableColumn fx:id="memoryColumnB" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="B" />
-            <TableColumn fx:id="memoryColumnC" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="C" />
-            <TableColumn fx:id="memoryColumnD" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="D" />
-            <TableColumn fx:id="memoryColumnE" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="E" />
-            <TableColumn fx:id="memoryColumnF" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="F" />
-        </columns>
-    </TableView>
 
-</AnchorPane>
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tomaszkowalczyk94.gui.controller.MemoryController">
+   <children>
+       <TableView fx:id="memoryTable" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+           <columns>
+               <TableColumn fx:id="memoryColumnAddress" editable="false" prefWidth="75.0" sortable="false" text="adres" />
+               <TableColumn fx:id="memoryColumn0" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="0" />
+               <TableColumn fx:id="memoryColumn1" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="1" />
+               <TableColumn fx:id="memoryColumn2" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="2" />
+               <TableColumn fx:id="memoryColumn3" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="3" />
+               <TableColumn fx:id="memoryColumn4" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="4" />
+               <TableColumn fx:id="memoryColumn5" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="5" />
+               <TableColumn fx:id="memoryColumn6" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="6" />
+               <TableColumn fx:id="memoryColumn7" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="7" />
+               <TableColumn fx:id="memoryColumn8" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="8" />
+               <TableColumn fx:id="memoryColumn9" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="9" />
+               <TableColumn fx:id="memoryColumnA" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="A" />
+               <TableColumn fx:id="memoryColumnB" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="B" />
+               <TableColumn fx:id="memoryColumnC" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="C" />
+               <TableColumn fx:id="memoryColumnD" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="D" />
+               <TableColumn fx:id="memoryColumnE" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="E" />
+               <TableColumn fx:id="memoryColumnF" onEditCommit="#onEditCell" prefWidth="35.0" sortable="false" text="F" />
+           </columns>
+       </TableView>
+   </children>
+</VBox>

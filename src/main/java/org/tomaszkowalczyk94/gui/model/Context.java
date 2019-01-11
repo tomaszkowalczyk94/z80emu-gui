@@ -7,5 +7,5 @@ public class Context {
 
     @Getter private Z80 z80 = new Z80();
     @Getter private DialogHelper dialogHelper = new DialogHelper();
-
+    @Getter ValueFormatter valueFormatter = new ValueFormatter();
 }

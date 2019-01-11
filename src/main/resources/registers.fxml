@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="144.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tomaszkowalczyk94.gui.controller.RegistersController">
+   <children>
+      <Group layoutX="14.0" layoutY="13.0">
+         <children>
+            <Label text="główne" />
+            <TextField fx:id="regA" editable="false" layoutX="18.0" layoutY="17.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
+            <Label layoutX="64.0" text="alt." />
+            <Label layoutY="21.0" text="A" />
+            <Label layoutX="1.0" layoutY="51.0" text="B" />
+            <Label layoutX="1.0" layoutY="81.0" text="C" />
+            <Label layoutX="1.0" layoutY="111.0" text="D" />
+            <Label layoutX="1.0" layoutY="141.0" text="E" />
+            <Label layoutX="1.0" layoutY="171.0" text="H" />
+            <Label layoutX="1.0" layoutY="201.0" text="L" />
+            <TextField fx:id="regB" editable="false" layoutX="18.0" layoutY="47.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
+            <TextField fx:id="regC" editable="false" layoutX="18.0" layoutY="77.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
+            <TextField fx:id="regD" editable="false" layoutX="18.0" layoutY="107.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
+            <TextField fx:id="regE" editable="false" layoutX="18.0" layoutY="137.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
+            <TextField fx:id="regH" editable="false" layoutX="18.0" layoutY="167.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
+            <TextField fx:id="regL" editable="false" layoutX="18.0" layoutY="197.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
+            <TextField fx:id="regAPrim" editable="false" layoutX="80.0" layoutY="17.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
+            <Label layoutX="62.0" layoutY="21.0" text="A'" />
+            <Label layoutX="63.0" layoutY="51.0" text="B'" />
+            <TextField fx:id="regBPrim" editable="false" layoutX="80.0" layoutY="47.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
+            <TextField fx:id="regCPrim" editable="false" layoutX="80.0" layoutY="77.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
+            <TextField fx:id="regDPrim" editable="false" layoutX="80.0" layoutY="107.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
+            <TextField fx:id="regEPrim" editable="false" layoutX="80.0" layoutY="137.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
+            <TextField fx:id="regHPrim" editable="false" layoutX="80.0" layoutY="167.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
+            <TextField fx:id="regLPrim" editable="false" layoutX="80.0" layoutY="197.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
+            <Label layoutX="63.0" layoutY="81.0" text="C'" />
+            <Label layoutX="63.0" layoutY="111.0" text="D'" />
+            <Label layoutX="63.0" layoutY="141.0" text="E'" />
+            <Label layoutX="63.0" layoutY="171.0" text="H'" />
+            <Label layoutX="63.0" layoutY="201.0" text="L'" />
+         </children>
+      </Group>
+      <Group layoutX="37.0" layoutY="248.0">
+         <children>
+            <Label layoutY="6.0" text="PC" />
+            <TextField fx:id="regPc" editable="false" layoutX="24.0" prefHeight="29.0" prefWidth="39.0" text="FFFF" />
+            <TextField fx:id="regSp" editable="false" layoutX="24.0" layoutY="30.0" prefHeight="29.0" prefWidth="39.0" text="FFFF" />
+            <Label layoutY="36.0" text="SP" />
+         </children>
+      </Group>
+      <Group layoutX="38.0" layoutY="316.0">
+         <children>
+            <TextField fx:id="regIx" editable="false" layoutX="23.0" prefHeight="29.0" prefWidth="39.0" text="FFFF" />
+            <TextField fx:id="regIy" editable="false" layoutX="23.0" layoutY="30.0" prefHeight="29.0" prefWidth="39.0" text="FFFF" />
+            <Label layoutY="6.0" text="IX" />
+            <Label layoutY="36.0" text="IY" />
+         </children>
+      </Group>
+   </children>
+</AnchorPane>

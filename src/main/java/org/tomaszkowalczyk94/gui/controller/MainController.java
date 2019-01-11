@@ -9,9 +9,14 @@ public class MainController {
 
     @FXML private DebuggerController debuggerController;
     @FXML private MemoryController memoryController;
+    @FXML private RegistersController registersController;
 
     public void initialize() {
-        debuggerController.setContext(context);
         memoryController.setContext(context);
+        registersController.setContext(context);
+
+        debuggerController.setContext(context);
+        debuggerController.setMemoryController(memoryController);
+        debuggerController.setRegistersController(registersController);
     }
 }

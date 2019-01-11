@@ -87,7 +87,7 @@ public class MemoryController implements Initializable {
         memoryColumnF.setCellFactory(TextFieldTableCell.<MemoryRowModel>forTableColumn());
     }
 
-    private void refreshMemoryTable() {
+    public void refreshMemoryTable() {
         memoryTable.setItems(memoryTableData);
         memoryTableData.clear();
 
@@ -103,7 +103,7 @@ public class MemoryController implements Initializable {
                 }
             }
 
-            memoryTableData.add(new MemoryRowModel(startAddress, memRowData));
+            memoryTableData.add(new MemoryRowModel(context.getValueFormatter(), startAddress, memRowData));
         }
 
         memoryTable.refresh();
@@ -113,7 +113,7 @@ public class MemoryController implements Initializable {
     public void onEditCell(TableColumn.CellEditEvent<MemoryRowModel,String> event) {
         try {
 
-            /** -1 because firs column in table is column with address. We cannot take that into account */
+            // -1 because firs column in table is column with address. We cannot take that into account
             int memoryAddress = event.getRowValue().getIntStartAddress() + event.getTablePosition().getColumn() - 1;
 
             int intNewValue = Integer.parseInt(event.getNewValue(), 16);
