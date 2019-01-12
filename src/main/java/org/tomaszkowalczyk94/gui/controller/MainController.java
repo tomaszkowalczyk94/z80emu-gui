@@ -10,13 +10,16 @@ public class MainController {
     @FXML private DebuggerController debuggerController;
     @FXML private MemoryController memoryController;
     @FXML private RegistersController registersController;
+    @FXML private AssemblerController assemblerController;
 
     public void initialize() {
         memoryController.setContext(context);
         registersController.setContext(context);
+        assemblerController.setContext(context);
 
         debuggerController.setContext(context);
         debuggerController.setMemoryController(memoryController);
         debuggerController.setRegistersController(registersController);
+
     }
 }
