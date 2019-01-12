@@ -13,9 +13,13 @@ public class MainController {
     @FXML private AssemblerController assemblerController;
 
     public void initialize() {
+
         memoryController.setContext(context);
+
         registersController.setContext(context);
+
         assemblerController.setContext(context);
+        assemblerController.setMemoryController(memoryController);
 
         debuggerController.setContext(context);
         debuggerController.setMemoryController(memoryController);
