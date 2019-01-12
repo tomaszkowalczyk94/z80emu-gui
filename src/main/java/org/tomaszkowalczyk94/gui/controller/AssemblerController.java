@@ -2,7 +2,6 @@ package org.tomaszkowalczyk94.gui.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -16,6 +15,7 @@ import org.tomaszkowalczyk94.gui.model.assembler.AssemblerException;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblerFacade;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblyOutput.AssemblerLine;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblyOutput;
+import org.tomaszkowalczyk94.z80emu.core.memory.exception.MemoryException;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 public class AssemblerController implements Initializable {
 
     private AssemblerFacade assemblerFacade;
-    private AssemblyOutput lastAssemblyOutput;
+    private AssemblyOutput assemblyOutput;
 
     private Context context;
     @Setter private MemoryController memoryController;
@@ -52,18 +52,30 @@ public class AssemblerController implements Initializable {
         assemblerFacade = new AssemblerFacade(context.getValueFormatter());
     }
 
-    public void onAssemblyButton(ActionEvent actionEvent) {
-
+    public void onAssemblyButton() {
         try {
-            lastAssemblyOutput = assemblerFacade.assembly(asmTextArea.getText());
-            displayHexAsm(lastAssemblyOutput);
-
+            displayHexAsm(assemblerFacade.assembly(asmTextArea.getText()));
         } catch (AssemblerException e) {
             context.getDialogHelper().displayError("błąd asemblera",e);
         }
     }
 
+    public void onLoadButton() {
+        if(assemblyOutput == null) {
+            context.getDialogHelper().displayError("brak danych do wczytania");
+        } else {
+            loadAssemblerOutputToMemory();
+        }
+    }
+
+    public void onAssemblyAndLoadButton() {
+        onAssemblyButton();
+        onLoadButton();
+    }
+
     public void displayHexAsm(AssemblyOutput assemblyOutput) {
+        this.assemblyOutput = assemblyOutput;
+
         asmHexTable.setItems(asmHexTableData);
 
         asmHexTableData.clear();
@@ -72,10 +84,20 @@ public class AssemblerController implements Initializable {
         asmHexTable.refresh();
     }
 
-    public void onLoadButton(ActionEvent actionEvent) {
+    public void loadAssemblerOutputToMemory() {
+        assemblyOutput.getLines().forEach(assemblerLine -> {
+            try {
+                for(int address = assemblerLine.getAddress(), i = 0; i<assemblerLine.getBytes().size(); address++, i++) {
+                    context.getZ80().getMem().write(address, assemblerLine.getBytes().get(i));
+                }
+            } catch (MemoryException e) {
+                context.getDialogHelper().displayError("memory error", e);
+            } finally {
+                memoryController.refreshMemoryTable();
+            }
+        });
     }
 
-    public void onAssemblyAndLoadButton(ActionEvent actionEvent) {
-    }
+
 
 }

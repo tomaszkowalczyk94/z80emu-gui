@@ -23,21 +23,17 @@ public class AssemblerFacade {
 
         try {
             source.assemble(output);
-            return transform(output, source.getLines());
+            return transform(source.getLines());
         } catch (IOException | AssemblyException e) {
             throw new AssemblerException(e);
         }
     }
 
-    private AssemblyOutput transform(ByteArrayOutputStream output, List<Line> lines) {
+    private AssemblyOutput transform(List<Line> lines) {
         AssemblyOutput assemblyOutput = new AssemblyOutput();
 
-        for(byte oneByte: output.toByteArray()) {
-            assemblyOutput.getBytes().add(XBit8.valueOfSigned(oneByte));
-        }
-
         lines.stream()
-            .filter(line -> (line.getBytes().length != 0)) //ignore coments, labels, etc
+            .filter(line -> (line.getBytes().length != 0)) //ignore comments, labels, etc
             .forEach(lineFromGlassAssembler -> {
                 AssemblyOutput.AssemblerLine assemblerLine = new AssemblyOutput.AssemblerLine(valueFormatter);
                 assemblerLine.setAddress(lineFromGlassAssembler.getScope().getAddress());

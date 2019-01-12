@@ -47,6 +47,5 @@ public class AssemblyOutput {
 
 
     private List<AssemblerLine> lines = new ArrayList<>();
-    private List<XBit8> bytes = new ArrayList<>();
 
 }
