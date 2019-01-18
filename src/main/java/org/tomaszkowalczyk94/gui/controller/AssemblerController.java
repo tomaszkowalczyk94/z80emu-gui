@@ -7,10 +7,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import lombok.Setter;
+import org.fxmisc.flowless.VirtualizedScrollPane;
+import org.fxmisc.richtext.LineNumberFactory;
 import org.tomaszkowalczyk94.gui.model.Context;
+import org.tomaszkowalczyk94.gui.model.assembler.AsmTextArea;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblerException;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblerFacade;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblyOutput.AssemblerLine;
@@ -22,13 +26,14 @@ import java.util.ResourceBundle;
 
 public class AssemblerController implements Initializable {
 
+
     private AssemblerFacade assemblerFacade;
     private AssemblyOutput assemblyOutput;
 
     private Context context;
     @Setter private MemoryController memoryController;
 
-    @FXML public TextArea asmTextArea;
+    @FXML public GridPane asmMainGridPane;
 
     @FXML public Button assemblyButton;
     @FXML public Button loadButton;
@@ -39,12 +44,18 @@ public class AssemblerController implements Initializable {
     @FXML public TableColumn asmHexBytesColumn;
     @FXML public TableColumn asmHexInstructionColumn;
 
+    @FXML public AsmTextArea asmTextArea = new AsmTextArea();
+
     private final ObservableList<AssemblerLine> asmHexTableData = FXCollections.observableArrayList();
 
     public void initialize(URL location, ResourceBundle resources) {
         asmHexAddressColumn.setCellValueFactory(new PropertyValueFactory<AssemblerLine, String>("addressInTable"));
         asmHexBytesColumn.setCellValueFactory(new PropertyValueFactory<AssemblerLine, String>("bytesInTable"));
         asmHexInstructionColumn.setCellValueFactory(new PropertyValueFactory<AssemblerLine, String>("instructionInTable"));
+
+        asmTextArea.setParagraphGraphicFactory(LineNumberFactory.get(asmTextArea));
+        StackPane stackPane = new StackPane(new VirtualizedScrollPane<>(asmTextArea));
+        asmMainGridPane.add(stackPane, 0, 0);
     }
 
     public void setContext(Context context) {
@@ -73,7 +84,7 @@ public class AssemblerController implements Initializable {
         onLoadButton();
     }
 
-    public void displayHexAsm(AssemblyOutput assemblyOutput) {
+    private void displayHexAsm(AssemblyOutput assemblyOutput) {
         this.assemblyOutput = assemblyOutput;
 
         asmHexTable.setItems(asmHexTableData);
@@ -84,7 +95,7 @@ public class AssemblerController implements Initializable {
         asmHexTable.refresh();
     }
 
-    public void loadAssemblerOutputToMemory() {
+    private void loadAssemblerOutputToMemory() {
         assemblyOutput.getLines().forEach(assemblerLine -> {
             try {
                 for(int address = assemblerLine.getAddress(), i = 0; i<assemblerLine.getBytes().size(); address++, i++) {
@@ -97,7 +108,4 @@ public class AssemblerController implements Initializable {
             }
         });
     }
-
-
-
 }

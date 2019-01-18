@@ -3,16 +3,15 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<HBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tomaszkowalczyk94.gui.controller.AssemblerController">
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tomaszkowalczyk94.gui.controller.AssemblerController">
    <children>
-      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+      <GridPane fx:id="asmMainGridPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
             <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
@@ -21,7 +20,6 @@
           <RowConstraints percentHeight="100.0" />
         </rowConstraints>
          <children>
-            <TextArea fx:id="asmTextArea" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="label:&#10;&#9;inc a" />
             <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />

@@ -11,6 +11,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("main.fxml"));
+        root.getStylesheets().add("css/style.css");
         primaryStage.setTitle("Z80 emu Tomasz Kowalczyk");
         primaryStage.setScene(new Scene(root, 780, 428));
         primaryStage.show();

@@ -1,0 +1,12 @@
+
+ #asmTextArea .instruction {
+    -fx-fill: #0000FF;
+ }
+
+ #asmTextArea .comment {
+     -fx-fill: #949494;
+ }
+
+ #asmTextArea .string {
+     -fx-fill: #299413;
+ }
