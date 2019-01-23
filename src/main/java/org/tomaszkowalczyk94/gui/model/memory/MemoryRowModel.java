@@ -1,7 +1,7 @@
 package org.tomaszkowalczyk94.gui.model.memory;
 
 import org.tomaszkowalczyk94.gui.EmulatorCriticalException;
-import org.tomaszkowalczyk94.gui.model.ValueFormatter;
+import org.tomaszkowalczyk94.gui.view.ValueFormatter;
 
 public class MemoryRowModel {
 

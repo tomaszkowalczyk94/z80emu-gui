@@ -1,7 +1,7 @@
 package org.tomaszkowalczyk94.gui.model.assembler;
 
 import lombok.Data;
-import org.tomaszkowalczyk94.gui.model.ValueFormatter;
+import org.tomaszkowalczyk94.gui.view.ValueFormatter;
 import org.tomaszkowalczyk94.xbit.XBit8;
 
 import java.util.ArrayList;

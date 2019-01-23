@@ -1,26 +1,22 @@
 package org.tomaszkowalczyk94.gui.controller;
 
+import com.google.inject.Inject;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import org.tomaszkowalczyk94.gui.model.Context;
+import org.tomaszkowalczyk94.gui.view.DialogHelper;
 import org.tomaszkowalczyk94.z80emu.core.memory.exception.MemoryException;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class MainController implements Initializable {
+public class MainController {
 
-    private File lastOpenedAsmFile;
-
-    private Context context = new Context();
+    @Inject private DialogHelper dialogHelper;
 
     @FXML private DebuggerController debuggerController;
     @FXML private MemoryController memoryController;
@@ -30,24 +26,9 @@ public class MainController implements Initializable {
     @FXML public BorderPane mainBorderPane;
     @FXML public MenuItem closeMenuItem;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    private File lastOpenedAsmFile;
 
-        memoryController.setContext(context);
-
-        registersController.setContext(context);
-
-        assemblerController.setContext(context);
-        assemblerController.setMemoryController(memoryController);
-
-        debuggerController.setContext(context);
-        debuggerController.setMemoryController(memoryController);
-        debuggerController.setRegistersController(registersController);
-
-    }
-
-
-    public void onOpenAsmFileClicked(ActionEvent actionEvent) {
+    public void onOpenAsmFileClicked() {
         FileChooser asmFileChooser = createAsmFileChooser();
         File file = asmFileChooser.showOpenDialog(getWindow());
 
@@ -56,12 +37,12 @@ public class MainController implements Initializable {
             try {
                 assemblerController.loadAsmFromFile(file);
             } catch (IOException e) {
-                context.getDialogHelper().displayError("Błąd pliku",e);
+                dialogHelper.displayError("Błąd pliku",e);
             }
         }
     }
 
-    public void onSaveAsmToFileClicked(ActionEvent actionEvent) {
+    public void onSaveAsmToFileClicked() {
         FileChooser asmFileChooser = createAsmFileChooser();
         File file = asmFileChooser.showSaveDialog(getWindow());
 
@@ -70,23 +51,25 @@ public class MainController implements Initializable {
             try {
                 assemblerController.saveAsmFromFile(file);
             } catch (IOException e) {
-                context.getDialogHelper().displayError("Błąd pliku",e);
+                dialogHelper.displayError("Błąd pliku",e);
             }
         }
     }
 
-    public void onClearMemoryClicked(ActionEvent actionEvent) {
+    public void onClearMemoryClicked() {
         try {
             memoryController.resetMemory();
         } catch (MemoryException e) {
-            context.getDialogHelper().displayError("Błąd pamięci",e);
+            dialogHelper.displayError("Błąd pamięci",e);
         }
     }
 
     public void onLoadMemoryFromFileClicked(ActionEvent actionEvent) {
+       //not yet implemented
     }
 
     public void onSaveMemoryToFileClicked(ActionEvent actionEvent) {
+        //not yet implemented
     }
 
     public void onCloseClicked() {

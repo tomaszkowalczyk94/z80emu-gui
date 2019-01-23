@@ -1,5 +1,6 @@
 package org.tomaszkowalczyk94.gui.controller;
 
+import com.google.inject.Inject;
 import lombok.NonNull;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,17 +12,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import lombok.Setter;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.LineNumberFactory;
-import org.tomaszkowalczyk94.gui.model.Context;
-import org.tomaszkowalczyk94.gui.model.assembler.AsmTextArea;
+import org.tomaszkowalczyk94.gui.view.AsmTextArea;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblerException;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblerFacade;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblyOutput.AssemblerLine;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblyOutput;
+import org.tomaszkowalczyk94.gui.view.DialogHelper;
+import org.tomaszkowalczyk94.z80emu.core.Z80;
 import org.tomaszkowalczyk94.z80emu.core.memory.exception.MemoryException;
 
 import java.io.File;
@@ -33,12 +34,13 @@ import java.util.ResourceBundle;
 
 public class AssemblerController implements Initializable {
 
+    @Inject private DialogHelper dialogHelper;
+    @Inject private AssemblerFacade assemblerFacade;
+    @Inject private Z80 z80;
 
-    private AssemblerFacade assemblerFacade;
+    @Inject private MemoryController memoryController;
+
     private AssemblyOutput assemblyOutput;
-
-    private Context context;
-    @Setter private MemoryController memoryController;
 
     @FXML public GridPane asmMainGridPane;
 
@@ -51,7 +53,7 @@ public class AssemblerController implements Initializable {
     @FXML public TableColumn asmHexBytesColumn;
     @FXML public TableColumn asmHexInstructionColumn;
 
-    @FXML public AsmTextArea asmTextArea = new AsmTextArea();
+    @FXML private AsmTextArea asmTextArea = new AsmTextArea();
 
     private final ObservableList<AssemblerLine> asmHexTableData = FXCollections.observableArrayList();
 
@@ -65,22 +67,17 @@ public class AssemblerController implements Initializable {
         asmMainGridPane.add(stackPane, 0, 0);
     }
 
-    public void setContext(Context context) {
-        this.context = context;
-        assemblerFacade = new AssemblerFacade(context.getValueFormatter());
-    }
-
     public void onAssemblyButton() {
         try {
             displayHexAsm(assemblerFacade.assembly(asmTextArea.getText()));
         } catch (AssemblerException e) {
-            context.getDialogHelper().displayError("błąd asemblera",e);
+            dialogHelper.displayError("błąd asemblera",e);
         }
     }
 
     public void onLoadButton() {
         if(assemblyOutput == null) {
-            context.getDialogHelper().displayError("brak danych do wczytania");
+            dialogHelper.displayError("brak danych do wczytania");
         } else {
             loadAssemblerOutputToMemory();
         }
@@ -116,10 +113,10 @@ public class AssemblerController implements Initializable {
         assemblyOutput.getLines().forEach(assemblerLine -> {
             try {
                 for(int address = assemblerLine.getAddress(), i = 0; i<assemblerLine.getBytes().size(); address++, i++) {
-                    context.getZ80().getMem().write(address, assemblerLine.getBytes().get(i));
+                    z80.getMem().write(address, assemblerLine.getBytes().get(i));
                 }
             } catch (MemoryException e) {
-                context.getDialogHelper().displayError("memory error", e);
+                dialogHelper.displayError("memory error", e);
             } finally {
                 memoryController.refreshMemoryTable();
             }

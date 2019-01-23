@@ -1,7 +1,8 @@
 package org.tomaszkowalczyk94.gui.model.assembler;
 
+import com.google.inject.Inject;
 import nl.grauw.glass.*;
-import org.tomaszkowalczyk94.gui.model.ValueFormatter;
+import org.tomaszkowalczyk94.gui.view.ValueFormatter;
 import org.tomaszkowalczyk94.xbit.XBit8;
 
 import java.io.*;
@@ -9,11 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class AssemblerFacade {
 
-    private ValueFormatter valueFormatter;
-
-    public AssemblerFacade(ValueFormatter valueFormatter) {
-        this.valueFormatter = valueFormatter;
-    }
+    @Inject private ValueFormatter valueFormatter;
 
     public AssemblyOutput assembly(String asmCode) throws AssemblerException{
         try {

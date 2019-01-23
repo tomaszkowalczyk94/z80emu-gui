@@ -1,4 +1,4 @@
-package org.tomaszkowalczyk94.gui.model.assembler;
+package org.tomaszkowalczyk94.gui.view;
 
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;

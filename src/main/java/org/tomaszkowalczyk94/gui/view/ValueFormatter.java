@@ -1,4 +1,4 @@
-package org.tomaszkowalczyk94.gui.model;
+package org.tomaszkowalczyk94.gui.view;
 
 public class ValueFormatter {
 

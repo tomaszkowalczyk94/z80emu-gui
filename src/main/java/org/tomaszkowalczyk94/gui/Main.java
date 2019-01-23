@@ -1,5 +1,7 @@
 package org.tomaszkowalczyk94.gui;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +12,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("main.fxml"));
+
+        Injector injector = Guice.createInjector(new BasicModule());
+
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("main.fxml"));
+
+        loader.setControllerFactory(injector::getInstance);
+
+        Parent root = loader.load();
         root.getStylesheets().add("css/style.css");
         primaryStage.setTitle("Z80 emu Tomasz Kowalczyk");
         primaryStage.setScene(new Scene(root, 780, 428));

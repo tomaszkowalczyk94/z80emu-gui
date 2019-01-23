@@ -2,6 +2,7 @@ package org.tomaszkowalczyk94.gui.model;
 
 import org.junit.Test;
 import org.tomaszkowalczyk94.gui.model.memory.MemoryRowModel;
+import org.tomaszkowalczyk94.gui.view.ValueFormatter;
 
 import static org.junit.Assert.*;
 

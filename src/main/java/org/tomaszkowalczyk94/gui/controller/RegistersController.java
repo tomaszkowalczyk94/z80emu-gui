@@ -1,15 +1,16 @@
 package org.tomaszkowalczyk94.gui.controller;
 
+import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import org.tomaszkowalczyk94.gui.model.Context;
-import org.tomaszkowalczyk94.gui.model.ValueFormatter;
+import org.tomaszkowalczyk94.gui.view.ValueFormatter;
+import org.tomaszkowalczyk94.z80emu.core.Z80;
 import org.tomaszkowalczyk94.z80emu.core.register.RegisterBank;
 
 public class RegistersController {
 
-
-    private Context context;
+    @Inject private ValueFormatter valueFormatter;
+    @Inject private Z80 z80;
 
     @FXML public TextField regA;
     @FXML public TextField regB;
@@ -30,15 +31,8 @@ public class RegistersController {
     @FXML public TextField regIx;
     @FXML public TextField regIy;
 
-    public void setContext(Context context) {
-        this.context = context;
-        refreshRegs();
-    }
-
     public void refreshRegs() {
-
-        ValueFormatter valueFormatter = context.getValueFormatter();
-        RegisterBank regs = context.getZ80().getRegs();
+        RegisterBank regs = z80.getRegs();
 
         regA.setText(valueFormatter.getUnsignedHex( regs.getA().getUnsignedValue(), 2));
         regB.setText(valueFormatter.getUnsignedHex( regs.getB().getUnsignedValue(), 2));
