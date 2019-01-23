@@ -16,12 +16,12 @@ public class AssemblerFacade {
     }
 
     public AssemblyOutput assembly(String asmCode) throws AssemblerException{
-        SourceBuilder sourceBuilder = new SourceBuilder(new ArrayList<>());
-        Source source = sourceBuilder.parse(new StringReader(asmCode), null);
-
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-
         try {
+            SourceBuilder sourceBuilder = new SourceBuilder(new ArrayList<>());
+            Source source = sourceBuilder.parse(new StringReader(asmCode), null);
+
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+
             source.assemble(output);
             return transform(source.getLines());
         } catch (IOException | AssemblyException e) {
@@ -51,13 +51,11 @@ public class AssemblerFacade {
     }
 
     private String generateInstructionString(Line line) {
-
-
-                if(line.getMnemonic() != null) {
-                    return line.getMnemonic() + (line.getArguments() != null ? " " + line.getArguments() : "");
-                } else {
-                    return "";
-                }
+            if(line.getMnemonic() != null) {
+                return line.getMnemonic() + (line.getArguments() != null ? " " + line.getArguments() : "");
+            } else {
+                return "";
+            }
     }
 
 }

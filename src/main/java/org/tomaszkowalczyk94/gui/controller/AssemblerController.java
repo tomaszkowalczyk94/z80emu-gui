@@ -1,6 +1,6 @@
 package org.tomaszkowalczyk94.gui.controller;
 
-import com.sun.istack.internal.NotNull;
+import lombok.NonNull;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import lombok.Setter;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.LineNumberFactory;
@@ -27,6 +28,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ResourceBundle;
 
 public class AssemblerController implements Initializable {
@@ -84,10 +86,14 @@ public class AssemblerController implements Initializable {
         }
     }
 
-    public void loadAsmFromFile(@NotNull File file) throws IOException {
+    public void loadAsmFromFile(@NonNull File file) throws IOException {
         String asmCodeString = IOUtils.toString(new FileReader(file));
         asmTextArea.clear();
         asmTextArea.replaceText(0, 0, asmCodeString);
+    }
+
+    public void saveAsmFromFile(@NonNull File file) throws IOException {
+        FileUtils.writeStringToFile(file, "Hello File", Charset.forName("UTF-8"), false);
     }
 
     public void onAssemblyAndLoadButton() {

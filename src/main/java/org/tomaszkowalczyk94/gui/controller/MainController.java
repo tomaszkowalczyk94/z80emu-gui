@@ -17,6 +17,8 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
+    private File lastOpenedAsmFile;
+
     private Context context = new Context();
 
     @FXML private DebuggerController debuggerController;
@@ -45,19 +47,31 @@ public class MainController implements Initializable {
 
 
     public void onOpenAsmFileClicked(ActionEvent actionEvent) {
-        FileChooser fileChooser = new FileChooser();
-        File file = fileChooser.showOpenDialog(getWindow());
+        FileChooser asmFileChooser = createAsmFileChooser();
+        File file = asmFileChooser.showOpenDialog(getWindow());
 
         if(file != null) {
+            lastOpenedAsmFile = file;
             try {
                 assemblerController.loadAsmFromFile(file);
             } catch (IOException e) {
-                context.getDialogHelper().displayError("brak pliku",e);
+                context.getDialogHelper().displayError("Błąd pliku",e);
             }
         }
     }
 
     public void onSaveAsmToFileClicked(ActionEvent actionEvent) {
+        FileChooser asmFileChooser = createAsmFileChooser();
+        File file = asmFileChooser.showSaveDialog(getWindow());
+
+        if(file != null) {
+            lastOpenedAsmFile = file;
+            try {
+                assemblerController.saveAsmFromFile(file);
+            } catch (IOException e) {
+                context.getDialogHelper().displayError("Błąd pliku",e);
+            }
+        }
     }
 
     public void onClearMemoryClicked(ActionEvent actionEvent) {
@@ -76,6 +90,19 @@ public class MainController implements Initializable {
 
     private Window getWindow() {
         return mainBorderPane.getScene().getWindow();
+    }
+
+    private FileChooser createAsmFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter( "plik asm", "*.asm"),
+                new FileChooser.ExtensionFilter( "wszystkie pliki", "*.*")
+        );
+
+        if(lastOpenedAsmFile != null && lastOpenedAsmFile.getParentFile() != null) {
+            fileChooser.setInitialDirectory(lastOpenedAsmFile.getParentFile());
+        }
+        return fileChooser;
     }
 
 }
