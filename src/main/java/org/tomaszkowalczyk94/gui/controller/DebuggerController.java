@@ -13,9 +13,8 @@ public class DebuggerController {
 
     @Inject private DialogHelper dialogHelper;
     @Inject private Z80 z80;
-
-    @Setter private MemoryController memoryController;
-    @Setter private RegistersController registersController;
+    @Inject private MemoryController memoryController;
+    @Inject private RegistersController registersController;
 
     @FXML public Button oneStepButton;
     @FXML public Button resetButton;

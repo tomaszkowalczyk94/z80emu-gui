@@ -37,7 +37,6 @@ public class AssemblerController implements Initializable {
     @Inject private DialogHelper dialogHelper;
     @Inject private AssemblerFacade assemblerFacade;
     @Inject private Z80 z80;
-
     @Inject private MemoryController memoryController;
 
     private AssemblyOutput assemblyOutput;
