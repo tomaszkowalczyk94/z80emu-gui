@@ -1,5 +1,6 @@
 package org.tomaszkowalczyk94.gui.controller;
 
+import com.sun.istack.internal.NotNull;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import lombok.Setter;
+import org.apache.commons.io.IOUtils;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.tomaszkowalczyk94.gui.model.Context;
@@ -21,6 +23,9 @@ import org.tomaszkowalczyk94.gui.model.assembler.AssemblyOutput.AssemblerLine;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblyOutput;
 import org.tomaszkowalczyk94.z80emu.core.memory.exception.MemoryException;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -79,6 +84,12 @@ public class AssemblerController implements Initializable {
         }
     }
 
+    public void loadAsmFromFile(@NotNull File file) throws IOException {
+        String asmCodeString = IOUtils.toString(new FileReader(file));
+        asmTextArea.clear();
+        asmTextArea.replaceText(0, 0, asmCodeString);
+    }
+
     public void onAssemblyAndLoadButton() {
         onAssemblyButton();
         onLoadButton();
@@ -108,4 +119,6 @@ public class AssemblerController implements Initializable {
             }
         });
     }
+
+
 }
