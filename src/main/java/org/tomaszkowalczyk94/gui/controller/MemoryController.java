@@ -10,6 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import org.tomaszkowalczyk94.gui.EmulatorCriticalException;
 import org.tomaszkowalczyk94.gui.model.Context;
+import org.tomaszkowalczyk94.gui.model.memory.MemoryManager;
 import org.tomaszkowalczyk94.gui.model.memory.MemoryRowModel;
 import org.tomaszkowalczyk94.xbit.XBit8;
 import org.tomaszkowalczyk94.z80emu.core.memory.exception.MemoryException;
@@ -20,6 +21,7 @@ import java.util.ResourceBundle;
 public class MemoryController implements Initializable {
 
     private Context context;
+    private MemoryManager memoryManager = new MemoryManager();
 
     private static final int COUNT_OF_ROW = 0xFFF+1;
     private static final int COUNT_OF_COLUMN = 0xF+1;
@@ -129,4 +131,11 @@ public class MemoryController implements Initializable {
 
         this.refreshMemoryTable();
     }
+
+    public void resetMemory() throws MemoryException {
+        memoryManager.resetMemory(context.getZ80());
+        refreshMemoryTable();
+    }
+
+
 }

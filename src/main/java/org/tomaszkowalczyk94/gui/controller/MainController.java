@@ -9,6 +9,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.tomaszkowalczyk94.gui.model.Context;
+import org.tomaszkowalczyk94.z80emu.core.memory.exception.MemoryException;
 
 import java.io.File;
 import java.io.IOException;
@@ -75,6 +76,11 @@ public class MainController implements Initializable {
     }
 
     public void onClearMemoryClicked(ActionEvent actionEvent) {
+        try {
+            memoryController.resetMemory();
+        } catch (MemoryException e) {
+            context.getDialogHelper().displayError("Błąd pamięci",e);
+        }
     }
 
     public void onLoadMemoryFromFileClicked(ActionEvent actionEvent) {
