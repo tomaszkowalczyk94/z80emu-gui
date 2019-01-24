@@ -7,6 +7,7 @@ import org.tomaszkowalczyk94.z80emu.core.Z80;
 import org.tomaszkowalczyk94.z80emu.core.memory.Memory;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 public class MemoryService {
@@ -31,6 +32,19 @@ public class MemoryService {
 
         fileOutputStream.flush();
         fileOutputStream.close();
+    }
+
+    public void loadMemoryFromFile(File file) throws Exception {
+        FileInputStream fileInputStream = new FileInputStream(file);
+
+        foreachOnMemory(address ->
+                z80.getMem().write(
+                        address,
+                        XBit8.valueOfSigned(fileInputStream.read())
+                )
+        );
+        fileInputStream.close();
+
     }
 
     private void foreachOnMemory(MemoryAddressConsumer method) throws Exception {

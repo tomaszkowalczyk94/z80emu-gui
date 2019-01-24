@@ -67,8 +67,20 @@ public class MainController {
         }
     }
 
-    public void onLoadMemoryFromFileClicked(ActionEvent actionEvent) {
-       //not yet implemented
+    public void onLoadMemoryFromFileClicked() {
+        FileChooser asmFileChooser = fileChooserFactory.createMemoryFileChooser();
+        File file = asmFileChooser.showOpenDialog(getWindow());
+
+        if(file != null) {
+            fileChooserFactory.setLastOpenedMemoryFile(file);
+            try {
+                memoryService.loadMemoryFromFile(file);
+                memoryController.refreshMemoryTable();
+            } catch (Exception e) {
+                dialogHelper.displayError("Błąd",e);
+            }
+        }
+
     }
 
     public void onSaveMemoryToFileClicked() {
@@ -77,6 +89,7 @@ public class MainController {
         File file = asmFileChooser.showSaveDialog(getWindow());
 
         if(file != null) {
+            fileChooserFactory.setLastOpenedMemoryFile(file);
             try {
                 memoryService.saveToFile(file);
             } catch (Exception e) {
