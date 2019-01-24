@@ -8,8 +8,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.tomaszkowalczyk94.gui.model.memory.MemoryService;
 import org.tomaszkowalczyk94.gui.view.DialogHelper;
-import org.tomaszkowalczyk94.z80emu.core.memory.exception.MemoryException;
+import org.tomaszkowalczyk94.gui.view.FileChooserFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +18,9 @@ import java.io.IOException;
 public class MainController {
 
     @Inject private DialogHelper dialogHelper;
+    @Inject private MemoryService memoryService;
+
+    @Inject private FileChooserFactory fileChooserFactory;
 
     @FXML private DebuggerController debuggerController;
     @FXML private MemoryController memoryController;
@@ -26,14 +30,12 @@ public class MainController {
     @FXML public BorderPane mainBorderPane;
     @FXML public MenuItem closeMenuItem;
 
-    private File lastOpenedAsmFile;
-
     public void onOpenAsmFileClicked() {
-        FileChooser asmFileChooser = createAsmFileChooser();
+        FileChooser asmFileChooser = fileChooserFactory.createAsmFileChooser();
         File file = asmFileChooser.showOpenDialog(getWindow());
 
         if(file != null) {
-            lastOpenedAsmFile = file;
+            fileChooserFactory.setLastOpenedAsmFile(file);
             try {
                 assemblerController.loadAsmFromFile(file);
             } catch (IOException e) {
@@ -43,11 +45,11 @@ public class MainController {
     }
 
     public void onSaveAsmToFileClicked() {
-        FileChooser asmFileChooser = createAsmFileChooser();
+        FileChooser asmFileChooser = fileChooserFactory.createAsmFileChooser();
         File file = asmFileChooser.showSaveDialog(getWindow());
 
         if(file != null) {
-            lastOpenedAsmFile = file;
+            fileChooserFactory.setLastOpenedAsmFile(file);
             try {
                 assemblerController.saveAsmFromFile(file);
             } catch (IOException e) {
@@ -58,9 +60,10 @@ public class MainController {
 
     public void onClearMemoryClicked() {
         try {
-            memoryController.resetMemory();
-        } catch (MemoryException e) {
-            dialogHelper.displayError("Błąd pamięci",e);
+            memoryService.resetMemory();
+            memoryController.refreshMemoryTable();
+        } catch (Exception e) {
+            dialogHelper.displayError("Błąd",e);
         }
     }
 
@@ -68,8 +71,18 @@ public class MainController {
        //not yet implemented
     }
 
-    public void onSaveMemoryToFileClicked(ActionEvent actionEvent) {
-        //not yet implemented
+    public void onSaveMemoryToFileClicked() {
+
+        FileChooser asmFileChooser = fileChooserFactory.createMemoryFileChooser();
+        File file = asmFileChooser.showSaveDialog(getWindow());
+
+        if(file != null) {
+            try {
+                memoryService.saveToFile(file);
+            } catch (Exception e) {
+                dialogHelper.displayError("Błąd",e);
+            }
+        }
     }
 
     public void onCloseClicked() {
@@ -79,19 +92,6 @@ public class MainController {
 
     private Window getWindow() {
         return mainBorderPane.getScene().getWindow();
-    }
-
-    private FileChooser createAsmFileChooser() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter( "plik asm", "*.asm"),
-                new FileChooser.ExtensionFilter( "wszystkie pliki", "*.*")
-        );
-
-        if(lastOpenedAsmFile != null && lastOpenedAsmFile.getParentFile() != null) {
-            fileChooser.setInitialDirectory(lastOpenedAsmFile.getParentFile());
-        }
-        return fileChooser;
     }
 
 }

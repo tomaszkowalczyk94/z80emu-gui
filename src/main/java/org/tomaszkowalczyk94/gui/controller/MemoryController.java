@@ -133,11 +133,4 @@ public class MemoryController implements Initializable {
 
         this.refreshMemoryTable();
     }
-
-    public void resetMemory() throws MemoryException {
-        memoryService.resetMemory(z80);
-        refreshMemoryTable();
-    }
-
-
 }
