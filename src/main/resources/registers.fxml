@@ -1,61 +1,168 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Group?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="144.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tomaszkowalczyk94.gui.controller.RegistersController">
+<AnchorPane minHeight="-Infinity" prefHeight="606.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tomaszkowalczyk94.gui.controller.RegistersController">
    <children>
-      <Group layoutX="14.0" layoutY="13.0">
-         <children>
-            <Label text="główne" />
-            <TextField fx:id="regA" editable="false" layoutX="18.0" layoutY="17.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
-            <Label layoutX="64.0" text="alt." />
-            <Label layoutY="21.0" text="A" />
-            <Label layoutX="1.0" layoutY="51.0" text="B" />
-            <Label layoutX="1.0" layoutY="81.0" text="C" />
-            <Label layoutX="1.0" layoutY="111.0" text="D" />
-            <Label layoutX="1.0" layoutY="141.0" text="E" />
-            <Label layoutX="1.0" layoutY="171.0" text="H" />
-            <Label layoutX="1.0" layoutY="201.0" text="L" />
-            <TextField fx:id="regB" editable="false" layoutX="18.0" layoutY="47.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
-            <TextField fx:id="regC" editable="false" layoutX="18.0" layoutY="77.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
-            <TextField fx:id="regD" editable="false" layoutX="18.0" layoutY="107.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
-            <TextField fx:id="regE" editable="false" layoutX="18.0" layoutY="137.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
-            <TextField fx:id="regH" editable="false" layoutX="18.0" layoutY="167.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
-            <TextField fx:id="regL" editable="false" layoutX="18.0" layoutY="197.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
-            <TextField fx:id="regAPrim" editable="false" layoutX="80.0" layoutY="17.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
-            <Label layoutX="62.0" layoutY="21.0" text="A'" />
-            <Label layoutX="63.0" layoutY="51.0" text="B'" />
-            <TextField fx:id="regBPrim" editable="false" layoutX="80.0" layoutY="47.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
-            <TextField fx:id="regCPrim" editable="false" layoutX="80.0" layoutY="77.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
-            <TextField fx:id="regDPrim" editable="false" layoutX="80.0" layoutY="107.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
-            <TextField fx:id="regEPrim" editable="false" layoutX="80.0" layoutY="137.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
-            <TextField fx:id="regHPrim" editable="false" layoutX="80.0" layoutY="167.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
-            <TextField fx:id="regLPrim" editable="false" layoutX="80.0" layoutY="197.0" prefHeight="25.0" prefWidth="27.0" text="FF" />
-            <Label layoutX="63.0" layoutY="81.0" text="C'" />
-            <Label layoutX="63.0" layoutY="111.0" text="D'" />
-            <Label layoutX="63.0" layoutY="141.0" text="E'" />
-            <Label layoutX="63.0" layoutY="171.0" text="H'" />
-            <Label layoutX="63.0" layoutY="201.0" text="L'" />
-         </children>
-      </Group>
-      <Group layoutX="37.0" layoutY="248.0">
-         <children>
-            <Label layoutY="6.0" text="PC" />
-            <TextField fx:id="regPc" editable="false" layoutX="24.0" prefHeight="29.0" prefWidth="39.0" text="FFFF" />
-            <TextField fx:id="regSp" editable="false" layoutX="24.0" layoutY="30.0" prefHeight="29.0" prefWidth="39.0" text="FFFF" />
-            <Label layoutY="36.0" text="SP" />
-         </children>
-      </Group>
-      <Group layoutX="38.0" layoutY="316.0">
-         <children>
-            <TextField fx:id="regIx" editable="false" layoutX="23.0" prefHeight="29.0" prefWidth="39.0" text="FFFF" />
-            <TextField fx:id="regIy" editable="false" layoutX="23.0" layoutY="30.0" prefHeight="29.0" prefWidth="39.0" text="FFFF" />
-            <Label layoutY="6.0" text="IX" />
-            <Label layoutY="36.0" text="IY" />
-         </children>
-      </Group>
+      <TitledPane collapsible="false" layoutX="7.0" layoutY="7.0" minHeight="-Infinity" prefHeight="280.0" prefWidth="126.0" text="Rejestry główne">
+         <content>
+            <AnchorPane minWidth="-Infinity" prefHeight="150.0" prefWidth="126.0">
+               <children>
+                  <TextField fx:id="regA" alignment="CENTER" editable="false" layoutX="24.0" layoutY="17.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <Label layoutX="7.0" layoutY="21.0" text="A" />
+                  <Label layoutX="8.0" layoutY="51.0" text="B" />
+                  <Label layoutX="8.0" layoutY="81.0" text="C" />
+                  <Label layoutX="8.0" layoutY="111.0" text="D" />
+                  <Label layoutX="8.0" layoutY="141.0" text="E" />
+                  <Label layoutX="8.0" layoutY="171.0" text="H" />
+                  <Label layoutX="8.0" layoutY="201.0" text="L" />
+                  <TextField fx:id="regB" alignment="CENTER" editable="false" layoutX="24.0" layoutY="47.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <TextField fx:id="regC" alignment="CENTER" editable="false" layoutX="24.0" layoutY="77.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <TextField fx:id="regD" alignment="CENTER" editable="false" layoutX="24.0" layoutY="107.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <TextField fx:id="regE" alignment="CENTER" editable="false" layoutX="24.0" layoutY="137.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <TextField fx:id="regH" alignment="CENTER" editable="false" layoutX="24.0" layoutY="167.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <TextField fx:id="regL" alignment="CENTER" editable="false" layoutX="24.0" layoutY="197.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <TextField fx:id="regL1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="227.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <Label layoutX="8.0" layoutY="233.0" text="F" />
+                  <CheckBox layoutX="67.0" layoutY="23.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="7. S" />
+                  <CheckBox layoutX="67.0" layoutY="51.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="6. Z" />
+                  <CheckBox layoutX="67.0" layoutY="83.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="5. X" />
+                  <CheckBox layoutX="67.0" layoutY="113.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="4. H" />
+                  <CheckBox layoutX="67.0" layoutY="143.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="3. X" />
+                  <CheckBox layoutX="67.0" layoutY="173.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="2. P" />
+                  <CheckBox layoutX="67.0" layoutY="203.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="1. N" />
+                  <CheckBox layoutX="67.0" layoutY="233.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="0. C" />
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
+      <Group layoutX="14.0" layoutY="564.0" />
+      <Group layoutX="66.0" layoutY="564.0" />
+      <TitledPane collapsible="false" layoutX="140.0" layoutY="7.0" minHeight="-Infinity" prefHeight="280.0" prefWidth="126.0" text="Rejestry alternatywne">
+         <content>
+            <AnchorPane minWidth="-Infinity" prefHeight="150.0" prefWidth="124.0">
+               <children>
+                  <TextField fx:id="regA1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="17.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <Label layoutX="7.0" layoutY="21.0" text="A'" />
+                  <Label layoutX="8.0" layoutY="51.0" text="B'" />
+                  <Label layoutX="8.0" layoutY="81.0" text="C'" />
+                  <Label layoutX="8.0" layoutY="111.0" text="D'" />
+                  <Label layoutX="8.0" layoutY="141.0" text="E'" />
+                  <Label layoutX="8.0" layoutY="171.0" text="H'" />
+                  <Label layoutX="8.0" layoutY="201.0" text="L'" />
+                  <TextField fx:id="regB1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="47.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <TextField fx:id="regC1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="77.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <TextField fx:id="regD1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="107.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <TextField fx:id="regE1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="137.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <TextField fx:id="regH1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="167.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <TextField fx:id="regL1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="197.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <TextField fx:id="regL11" alignment="CENTER" editable="false" layoutX="24.0" layoutY="227.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <Label layoutX="8.0" layoutY="233.0" text="F'" />
+                  <CheckBox layoutX="67.0" layoutY="23.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="7. S" />
+                  <CheckBox layoutX="67.0" layoutY="51.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="6. Z" />
+                  <CheckBox layoutX="67.0" layoutY="83.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="5. X" />
+                  <CheckBox layoutX="67.0" layoutY="113.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="4. H" />
+                  <CheckBox layoutX="67.0" layoutY="143.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="3. X" />
+                  <CheckBox layoutX="67.0" layoutY="173.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="2. P" />
+                  <CheckBox layoutX="67.0" layoutY="203.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="1. N" />
+                  <CheckBox layoutX="67.0" layoutY="233.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="0. C" />
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
+      <TitledPane animated="false" collapsible="false" layoutX="7.0" layoutY="292.0" prefHeight="103.0" prefWidth="265.0" text="Inne rejestry">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="94.0" prefWidth="263.0">
+               <children>
+                  <TextField fx:id="regIx" alignment="CENTER" editable="false" layoutX="28.0" layoutY="41.0" prefHeight="29.0" prefWidth="45.0" text="FFFF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <TextField fx:id="regIy" alignment="CENTER" editable="false" layoutX="118.0" layoutY="41.0" prefHeight="29.0" prefWidth="45.0" text="FFFF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <Label layoutX="8.0" layoutY="47.0" text="IX" />
+                  <Label layoutX="101.0" layoutY="47.0" text="IY" />
+                  <Label layoutX="8.0" layoutY="15.0" text="PC" />
+                  <TextField fx:id="regPc" alignment="CENTER" editable="false" layoutX="28.0" layoutY="9.0" prefHeight="29.0" prefWidth="45.0" text="FFFF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <TextField fx:id="regSp" alignment="CENTER" editable="false" layoutX="118.0" layoutY="9.0" prefHeight="29.0" prefWidth="45.0" text="FFFF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font></TextField>
+                  <Label layoutX="99.0" layoutY="15.0" text="SP" />
+                  <Label layoutX="190.0" layoutY="15.0" text="I" />
+                  <TextField fx:id="regLPrim1" editable="false" layoutX="205.0" layoutY="10.0" prefHeight="10.0" prefWidth="27.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font>
+                  </TextField>
+                  <Label layoutX="190.0" layoutY="47.0" text="R" />
+                  <TextField fx:id="regLPrim11" editable="false" layoutX="205.0" layoutY="42.0" prefHeight="10.0" prefWidth="27.0" text="FF">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
    </children>
 </AnchorPane>
