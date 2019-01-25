@@ -25,6 +25,7 @@ public class MainController {
     @FXML private MemoryController memoryController;
     @FXML private RegistersController registersController;
     @FXML private AssemblerController assemblerController;
+    @FXML private TerminalController terminalController;
 
     @FXML public BorderPane mainBorderPane;
     @FXML public MenuItem closeMenuItem;

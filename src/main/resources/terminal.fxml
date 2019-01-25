@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="283.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tomaszkowalczyk94.gui.controller.TerminalController">
+   <children>
+      <TitledPane animated="false" collapsible="false" layoutX="7.0" layoutY="7.0" prefHeight="66.0" prefWidth="266.0" text="Terminal">
+        <content>
+          <AnchorPane minHeight="127.0" minWidth="0.0" prefHeight="127.0" prefWidth="264.0">
+               <children>
+                  <Label layoutX="7.0" layoutY="6.0" text="Port wyjściowy:" />
+                  <TextField editable="false" layoutX="95.0" layoutY="2.0" prefHeight="25.0" prefWidth="30.0" text="00">
+                     <font>
+                        <Font name="Monospaced Regular" size="12.0" />
+                     </font>
+                  </TextField>
+                  <TextArea editable="false" layoutX="7.0" layoutY="32.0" prefHeight="90.0" prefWidth="250.0" />
+               </children></AnchorPane>
+        </content>
+      </TitledPane>
+   </children>
+</AnchorPane>

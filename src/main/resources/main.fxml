@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<BorderPane fx:id="mainBorderPane" prefHeight="568.0" prefWidth="751.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tomaszkowalczyk94.gui.controller.MainController">
+<BorderPane fx:id="mainBorderPane" prefHeight="713.0" prefWidth="751.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tomaszkowalczyk94.gui.controller.MainController">
    <center>
       <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <columnConstraints>
@@ -39,12 +39,14 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="200.0" vgrow="ALWAYS" />
+                <RowConstraints maxHeight="39.0" minHeight="39.0" prefHeight="39.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="395.0" minHeight="395.0" prefHeight="395.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="245.0" vgrow="ALWAYS" />
               </rowConstraints>
                <children>
                   <fx:include fx:id="registers" source="registers.fxml" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                   <fx:include fx:id="debugger" source="debugger.fxml" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                  <fx:include fx:id="terminal" source="terminal.fxml" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
                </children>
             </GridPane>
          </children>
