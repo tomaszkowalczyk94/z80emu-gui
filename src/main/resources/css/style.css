@@ -10,3 +10,10 @@
  #asmTextArea .string {
      -fx-fill: #299413;
  }
+.root {
+    /* -fx-base: rgb(50, 50, 50); */
+}
+
+#mainBorderPane {
+    -fx-background-color: rgb(238, 238, 238);
+}
