@@ -1,6 +1,8 @@
 package org.tomaszkowalczyk94.gui.controller;
 
 import com.google.inject.Inject;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.AnchorPane;
 import lombok.NonNull;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -34,6 +36,7 @@ import java.util.ResourceBundle;
 
 public class AssemblerController implements Initializable {
 
+
     @Inject private DialogHelper dialogHelper;
     @Inject private AssemblerFacade assemblerFacade;
     @Inject private Z80 z80;
@@ -41,7 +44,7 @@ public class AssemblerController implements Initializable {
 
     private AssemblyOutput assemblyOutput;
 
-    @FXML public GridPane asmMainGridPane;
+    @FXML public TitledPane asmPane;
 
     @FXML public Button assemblyButton;
     @FXML public Button loadButton;
@@ -62,8 +65,7 @@ public class AssemblerController implements Initializable {
         asmHexInstructionColumn.setCellValueFactory(new PropertyValueFactory<AssemblerLine, String>("instructionInTable"));
 
         asmTextArea.setParagraphGraphicFactory(LineNumberFactory.get(asmTextArea));
-        StackPane stackPane = new StackPane(new VirtualizedScrollPane<>(asmTextArea));
-        asmMainGridPane.add(stackPane, 0, 0);
+        asmPane.setContent(new VirtualizedScrollPane<>(asmTextArea));
     }
 
     public void onAssemblyButton() {
