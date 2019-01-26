@@ -35,12 +35,13 @@
                   <fx:include fx:id="memory" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="memory.fxml" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
                </children>
             </GridPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <children>
                   <fx:include fx:id="debugger" maxWidth="1.7976931348623157E308" source="debugger.fxml" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
                   <fx:include fx:id="registers" layoutY="247.0" source="registers.fxml" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                   <fx:include fx:id="terminal" layoutX="272.0" source="terminal.fxml" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
                   <fx:include layoutX="272.0" layoutY="159.0" source="interrupt.fxml" />
+                  <fx:include layoutX="279.0" layoutY="307.0" source="io.fxml" />
                </children>
             </AnchorPane>
          </children>

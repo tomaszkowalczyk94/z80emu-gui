@@ -2,7 +2,6 @@ package org.tomaszkowalczyk94.gui.controller;
 
 import com.google.inject.Inject;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.AnchorPane;
 import lombok.NonNull;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,8 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.fxmisc.flowless.VirtualizedScrollPane;
@@ -60,9 +57,9 @@ public class AssemblerController implements Initializable {
     private final ObservableList<AssemblerLine> asmHexTableData = FXCollections.observableArrayList();
 
     public void initialize(URL location, ResourceBundle resources) {
-        asmHexAddressColumn.setCellValueFactory(new PropertyValueFactory<AssemblerLine, String>("addressInTable"));
-        asmHexBytesColumn.setCellValueFactory(new PropertyValueFactory<AssemblerLine, String>("bytesInTable"));
-        asmHexInstructionColumn.setCellValueFactory(new PropertyValueFactory<AssemblerLine, String>("instructionInTable"));
+        asmHexAddressColumn.setCellValueFactory(new PropertyValueFactory<>("addressInTable"));
+        asmHexBytesColumn.setCellValueFactory(new PropertyValueFactory<>("bytesInTable"));
+        asmHexInstructionColumn.setCellValueFactory(new PropertyValueFactory<>("instructionInTable"));
 
         asmTextArea.setParagraphGraphicFactory(LineNumberFactory.get(asmTextArea));
         asmPane.setContent(new VirtualizedScrollPane<>(asmTextArea));

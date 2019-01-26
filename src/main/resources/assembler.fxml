@@ -38,20 +38,13 @@
                         <Font size="14.0" />
                      </font>
                       <graphic>
-                          <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" rotate="90.0" text="↑↑ Kompiluj ↑↑" textAlignment="CENTER" textOverrun="CLIP">
-                              <font>
-                                  <Font size="15.0" />
-                              </font>
-                          </Label>
+                          <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" rotate="90.0" text="↑↑ Kompiluj ↑↑" textAlignment="CENTER" textOverrun="CLIP" />
                       </graphic>
                      <GridPane.margin>
                         <Insets top="7.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button fx:id="loadButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onLoadButton" text="↓↓ Wczytaj kod maszynowy ↓↓" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <font>
-                        <Font size="14.0" />
-                     </font></Button>
+                  <Button fx:id="loadButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onLoadButton" text="↓↓ Wczytaj kod maszynowy ↓↓" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Button fx:id="assemblyAndLoadButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAssemblyAndLoadButton" text="↴" GridPane.rowIndex="1" />
                   <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" text="Kod maszynowy" GridPane.columnIndex="1">
                      <content>
