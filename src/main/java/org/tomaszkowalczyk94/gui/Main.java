@@ -22,7 +22,7 @@ public class Main extends Application {
         Parent root = loader.load();
         root.getStylesheets().add("css/style.css");
         primaryStage.setTitle("Z80 emu Tomasz Kowalczyk");
-        primaryStage.setScene(new Scene(root, 938, 468));
+        primaryStage.setScene(new Scene(root, 1330, 740));
         primaryStage.show();
     }
 
