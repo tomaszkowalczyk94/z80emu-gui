@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" prefHeight="606.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tomaszkowalczyk94.gui.controller.RegistersController">
+<AnchorPane minHeight="-Infinity" prefHeight="396.0" prefWidth="280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tomaszkowalczyk94.gui.controller.RegistersController">
    <children>
       <TitledPane collapsible="false" layoutX="7.0" layoutY="7.0" minHeight="-Infinity" prefHeight="280.0" prefWidth="126.0" text="Rejestry główne">
          <content>
