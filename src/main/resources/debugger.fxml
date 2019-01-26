@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="183.0" prefWidth="279.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tomaszkowalczyk94.gui.controller.DebuggerController">
    <children>
       <TitledPane animated="false" collapsible="false" layoutX="7.0" layoutY="7.0" text="Panel kontrolny">
