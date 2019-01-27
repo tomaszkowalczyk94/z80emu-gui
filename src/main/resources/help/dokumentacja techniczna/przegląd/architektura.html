@@ -1,0 +1,174 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<body>
+
+<h1 class="main">Przegląd - Architektura</h1>
+<hr color="#336699" size="1">
+<div class="bl1">
+    <p class="bl1">Rodzina komponentów <span class="b">ZiLOG</span> Z80 należy do
+        czwartej generacji układów mikroprocesorowych posiadających wyjątkową moc
+        obliczeniową. Oferują one większą przepustowość systemu oraz bardziej efektywne
+        wykorzystywanie pamięci&nbsp; niż porównywalne mikroprocesory drugiej czy
+        trzeciej generacji. Oferowana szybkość pracy od 6 do 20MHz jest zupełnie
+        wystarczająca w szerokim zakresie zastosowań. Wewnętrzne rejestry zawierają 208
+        bitów bardzo szybkiej pamięci do zapisu i odczytu , która jest dostępna dla
+        programisty. Rejestry te zawierają dwa zestawy po sześć rejestrów ogólnego
+        przeznaczenia, które można używać indywidualnie jako albo rejestry 8-mio bitowe,
+        albo pary rejestrów 16-to bitowych. Dodatkowo istnieją dwa zestawy rejestrów
+        akumulatora oraz znaczników.</p>
+    <p class="bl1">Mikroprocesor Z80 zawiera również Wskaźnik Stosu, Licznik
+        Programu, dwa rejestry indeksowe, rejestr odświeżania oraz rejestr przerwań.
+        Układ Z80 łatwo adaptuje się w różnych urządzeniach, ponieważ wymaga on
+        pojedynczego zasilania +5V. Wszystkie sygnały wyjściowe są w pełni dekodowane i
+        przystosowane czasowo do sterowania standardowymi układami pamięci i
+        wejścia/wyjścia; mikroprocesor Z80 jest wspierany przez olbrzymią rodzinę
+        układów we/wy firmy ZiLOG oraz trzeciorzędnych producentów.</p>
+    <p class="bl1">Na rys.1 przedstawiona jest wewnętrzna architektura oraz główne
+        elementy składowe mikroprocesora Z80.</p>
+    <p class="bl2">&nbsp;</p>
+    <p class="bl2" style="text-align: center">
+        <a name="Rys.1">
+            <img border="0" src="images/0002_01.gif" width="640" height="321"></a></p>
+    <p class="bl2" style="text-align: center">Rys.1 Schemat
+        blokowy mikroprocesora Z80</p>
+    <h2><a name="Rejestry">Rejestry</a> procesora</h2>
+    <p class="bl1">Mikroprocesor Z80 zawiera 208 bitów pamięci R/W, które są
+        dostępne dla programisty. Rys.2 ilustruje sposób podziału tej pamięci na
+        osiemnaście rejestrów 8-bitowych oraz cztery rejestry 16-bitowe. Wszystkie
+        rejestry Z80 zbudowane są ze statycznej pamięci RAM. Rejestry zawierają dwa
+        zestawy po sześć rejestrów ogólnego przeznaczenia, które można indywidualnie
+        używać jako rejestry <nobr>8-bitowe</nobr> lub w parach jako rejestry 16-bitowe.
+        Mamy również dwa akumulatory i dwa rejestry znaczników oraz sześć rejestrów o
+        specjalnym przeznaczeniu.</p>
+    <p class="bl1">&nbsp;</p>
+    <p class="bl1" style="text-align: center"><a name="Rys.2"><img border="0" src="images/0002_02.gif" width="461" height="305"></a></p>
+    <p class="bl1" style="text-align: center">Rys.2 Konfiguracja
+        rejestrów mikroprocesora Z80</p>
+    <p class="bl1">&nbsp;</p>
+    <h2>Rejestry specjalnego przeznaczenia</h2>
+    <h4 class="bl1">Licznik Rozkazów <span style="font-weight: 400"> <span class="rem">(PC)</span></span></h4>
+    <p class="bl2"><span class="b">Licznik Rozkazów <code>PC</code></span> <span class="rem">
+(ang. Program Counter)</span> przechowuje 16-bitowy adres bieżąco pobieranej z
+        pamięci instrukcji. PC jest automatycznie zwiększany po przesłaniu swojej
+        zawartości na linie adresowe. Gdy zdarza się skok w programie, nowa wartość jest
+        automatycznie umieszczana w PC, zastępując wartość poprzednio zwiększoną.</p>
+    <h4 class="bl1">Wskaźnik Stosu <span style="font-weight: 400"> <span class="rem">(SP)</span></span></h4>
+    <p class="bl2"><span class="b">Wskaźnik Stosu <code>SP</code></span> <span class="rem">(ang.
+Stack Pointer)</span> przechowuje 16-bitowy adres bieżącego wierzchołka stosu,
+        który może znajdować się w dowolnym miejscu zewnętrznej pamięci RAM. Pamięć
+        zewnętrznego stosu ma strukturę typu <span class="b">LIFO</span>
+        <span class="rem">(ang. Last In First Out - ostatni wszedł a pierwszy wyszedł)</span>.
+        Dane mogą być umieszczane na stosie z określonych rejestrów mikroprocesora oraz
+        pobierane ze stosu do tychże rejestrów przez wykonanie instrukcji PUSH lub POP.
+        Dane pobierane ze stosu są zawsze danymi ostatnio na nim umieszczonymi. Stos
+        umożliwia prostą implementację wielopoziomowych przerwań, nieograniczonego
+        zagnieżdżania podprogramów oraz upraszcza wiele rodzajów przetwarzania danych.</p>
+    <h4 class="bl1">Dwa Rejestry Indeksowe <span style="font-weight: 400"> <span class="rem">(IX oraz IY)</span></span></h4>
+    <p class="bl2">Dwa niezależne rejestry indeksowe przechowują 16-bitowy adres
+        bazowy, który używany jest w indeksowanych trybach adresowania. W takim trybie
+        rejestr indeksowy stosuje się jako bazę wskazującą obszar pamięci, z którego
+        będą dane pobierane lub do którego dane będą zapisywane. W instrukcjach z
+        indeksowaniem występuje dodatkowy bajt określający przemieszczenie w stosunku do
+        adresu bazowego. Przemieszczenie jest liczbą całkowitą ze znakiem zapisana w
+        kodzie uzupełnienia do 2 - U2. Taki tryb adresowania znacząco upraszcza wiele
+        programów, szczególnie tych używających tablic danych.</p>
+    <h4 class="bl1">Rejestr Strony Adresu Przerwania <span style="font-weight: 400"> <span class="rem">(I)</span></span></h4>
+    <p class="bl2">Mikroprocesor Z80 może pracować w trybie, gdzie w odpowiedzi na
+        przerwanie następuje wywołanie procedury obsługującej je umieszczonej w dowolnym
+        obszarze pamięci. Do tego celu wykorzystywany jest rejestr <code>I</code>, w
+        którym przechowywane jest 8 najstarszych bitów adresu procedury obsługi
+        przerwania <span class="rem">(tzw. adres strony</span>), a młodsze 8 bitów
+        podaje urządzenie zgłaszające przerwanie. Właściwość ta pozwala dynamicznie
+        rozmieszczać procedury obsługi przerwań w dowolnym miejscu pamięci z minimalnym
+        czasem dostępu do takiej procedury.</p>
+    <h4 class="bl1">Rejestr Odświeżania Pamięci <span style="font-weight: 400"> <span class="rem">(R)</span></span></h4>
+    <p class="bl2">Mikroprocesor Z80 zawiera licznik odświeżania pamięci,
+        umożliwiający wykorzystanie pamięci dynamicznych z taką samą łatwością jak
+        pamięci statycznych. Po pobraniu każdej instrukcji siedem bitów tego 8-bitowego
+        rejestru licznika jest automatycznie zwiększane. Ósmy bit pozostaje tak, jak
+        został zaprogramowany przy pomocy instrukcji <nobr>LDA R,A.</nobr> Dane zawarte
+        w liczniku odświeżania są wysyłane na dolną połowę magistrali adresowej wraz z
+        sygnałem informującym o odświeżaniu podczas dekodowania i wykonywania pobranej
+        instrukcji. Ten sposób odświeżania jest przezroczysty dla programisty i nie
+        powoduje żadnych opóźnień wykonania instrukcji programu. Podczas odświeżania
+        zawartość rejestru <code>I</code> jest umieszczana w górnej połówce magistrali
+        adresowej.</p>
+    <h4 class="bl1">Rejestry Akumulatora i Znaczników</h4>
+    <p class="bl2">Mikroprocesor zawiera dwa niezależne, 8-bitowe akumulatory oraz
+        związane z nimi 8-bitowe rejestry znaczników. Akumulator <code>A</code>
+        przechowuje wynik 8-bitowych operacji arytmetycznych lub logicznych, natomiast
+        rejestr znaczników <code>F - FLAG</code> informuje o specyficznych warunkach dla
+        operacji 8- i 16-bitowych, np. zawiera informację, czy wynikiem danej operacji
+        jest zero lub wartość różna od zera. Programista wybiera&nbsp; akumulator i
+        rejestr znaczników przy pomocy pojedynczej instrukcji wymiany <nobr><code>EX AF,AF'</code></nobr><code><nobr></nobr></code><nobr>,</nobr>
+        zatem możliwa jest praca z dowolną parą tych rejestrów.</p>
+    <p class="bl2">&nbsp;</p>
+    <h3 class="bl1">Rejestry ogólnego przeznaczenia</h3>
+    <p class="bl2">W dwóch dobranych zestawach rejestrów ogólnego przeznaczenia
+        znajduje się po sześć rejestrów 8-bitowych, które można używać indywidualnie
+        jako rejestry 8-bitowe lub w parach jako rejestry 16-bitowe. Jeden zestaw jest
+        zwany <code>BC</code>, <code>DE</code> i <code>HL</code>, a drugi <code>BC'</code>,
+        <code>DE'</code> i <code>HL'</code>. W każdej chwili programista może
+        instrukcją <code>EXX</code> przełączyć się z jednego zestawu na drugi. W systemach
+        wymagających szybkiej odpowiedzi na przerwania jeden zestaw rejestrów ogólnego
+        przeznaczenia oraz akumulator i rejestr znaczników może być zarezerwowany dla
+        takiej szybkiej procedury. Powoduje to znaczne skrócenie czasu obsługi
+        przerwania, ponieważ odpada potrzeba zapamiętywania stanu używanych rejestrów na
+        stosie przy wejściu do procedury przerwania oraz odtwarzania stanu tych
+        rejestrów przy wyjściu z procedury. Rejestry ogólnego przeznaczenia stosowane są
+        praktycznie we wszystkich aplikacjach. Ułatwiają również programowanie,
+        szczególnie w systemach opartych na pamięci ROM, gdzie jest dostępne mało
+        zewnętrznej pamięci R/W.</p>
+    <p class="bl2">&nbsp;</p>
+    <h2><a name="Jednostka">Jednostka</a> Arytmetyczno Logiczna
+        <span style="font-weight: 400"> <span class="rem">(JAL)</span></span></h2>
+    <p class="bl1">8-bitowe instrukcje arytmetyczne i logiczne mikroprocesora
+        wykonywane są w JAL. Wewnętrznie JAL komunikuje się z rejestrami i zewnętrzną
+        magistralą danych przy pomocy wewnętrznej magistrali danych. Funkcje wykonywane
+        przez JAL to:</p>
+    <ul>
+        <li>
+            <p class="bl1">Dodawanie</p></li>
+        <li>
+            <p class="bl1">Odejmowanie</p></li>
+        <li>
+            <p class="bl1">Iloczyn logiczny AND</p></li>
+        <li>
+            <p class="bl1">Suma logiczna OR</p></li>
+        <li>
+            <p class="bl1">Różnica symetryczna EXOR</p></li>
+        <li>
+            <p class="bl1">Porównywanie</p></li>
+        <li>
+            <p class="bl1">Przesuwy i obroty bitów w lewo i prawo <span class="rem">
+  (arytmetyczne i logiczne)</span></p></li>
+        <li>
+            <p class="bl1">Zwiększanie o 1</p></li>
+        <li>
+            <p class="bl1">Zmniejszanie o 1</p></li>
+        <li>
+            <p class="bl1">Ustawianie bitu</p></li>
+        <li>
+            <p class="bl1">Zerowanie bitu</p></li>
+        <li>
+            <p class="bl1">Testowanie bitu</p></li>
+    </ul>
+    <p class="bl1">&nbsp;</p>
+    <h3><a name="Rejestr_Instrukcji">Rejestr Instrukcji</a> oraz Sterowanie
+        Mikroprocesorem</h3>
+    <p class="bl1">Po pobraniu każdej instrukcji z pamięci zostaje ona umieszczona w
+        rejestrze <code>INSTRUKCJI</code> i zdekodowana. Funkcje tę wykonuje sekcja
+        sterująca mikroprocesora, która następnie dostarcza odpowiednich sygnałów
+        sterujących, niezbędnych do odczytu/zapisu danych do rejestrów, sterowania
+        Jednostką Arytmetyczno-Logiczną oraz wygenerowania pożądanych zewnętrznych
+        sygnałów sterujących.</p>
+</div>
+<p class="bl1">&nbsp;</p>
+
+
+
+
+
+</body></html>

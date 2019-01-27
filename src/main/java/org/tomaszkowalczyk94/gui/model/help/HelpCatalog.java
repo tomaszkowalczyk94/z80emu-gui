@@ -3,6 +3,7 @@ package org.tomaszkowalczyk94.gui.model.help;
 import javafx.scene.control.TreeItem;
 import lombok.Getter;
 import lombok.NonNull;
+import org.controlsfx.glyphfont.Glyph;
 
 public class HelpCatalog extends TreeItem<String> {
 
@@ -18,7 +19,7 @@ public class HelpCatalog extends TreeItem<String> {
     }
 
     public HelpCatalog(String catalogName, @NonNull  HelpCatalog parentCatalog) {
-        super(catalogName);
+        super(catalogName, new Glyph("FontAwesome", "folder"));
         this.parentCatalog = parentCatalog;
         this.catalogName = catalogName;
     }

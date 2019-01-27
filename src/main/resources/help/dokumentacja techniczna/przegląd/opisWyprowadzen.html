@@ -1,0 +1,156 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<body>
+<h1 class="main">Przegląd - Opis wyprowadzeń mikroprocesora Z80</h1>
+<hr color="#336699" size="1">
+<div class="bl1">
+    <h2><a name="Przegląd">Ogólnie</a></h2>
+    <p class="bl1">Wyprowadzenia zewnętrzne mikroprocesora Z80 są przedstawione na rys.3, a ich funkcje
+        opisane w następnym podrozdziale.</p>
+    <p class="bl1">&nbsp;</p>
+    <p class="bl4"><a name="Rys.3"><img border="0" src="images/0003_01.gif" width="640" height="449"></a></p>
+    <p class="bl4">Rys.3. Konfiguracja wyprowadzeń
+        mikroprocesora Z80</p>
+    <h2><a name="Funkcje">Funkcje</a> wyprowadzeń</h2>
+    <p class="bl1"><b>A15-A0</b></p>
+    <p class="bl2"><i>Magistrala Adresowa</i> <span class="rem">(wyjście, aktywna w
+stanie Wysokim, trójstanowa)</span>. Linie A15-A0 tworzą 16-bitową magistralę
+        adresową. Udostępnia ona adresy do wymiany informacji z pamięcią poprzez
+        magistralę danych <span class="rem">(do 64K bajtów)</span> oraz do komunikacji z
+        urządzeniami I/O <span class="rem">(ang. Input / Output - wejście / wyjście)</span>.</p>
+    <p class="bl1"><span style="text-decoration: overline"><b>BUSACK</b></span></p>
+    <p class="bl2"><i>Bus Acknowledge - Potwierdzenie Zwolnienia Magistral</i>
+        <span class="rem">(wyjście, aktywne w stanie Niskim)</span>.
+        <span style="text-decoration: overline">BUSACK</span> informuje
+        żądające tego urządzenie zewnętrzne, iż magistrale adresowa, danych oraz sygnały
+        sterujące <span style="text-decoration: overline">MREQ</span>,
+        <span style="text-decoration: overline">IORQ</span>,
+        <span style="text-decoration: overline">RD</span> i
+        <span style="text-decoration: overline">WR</span> mikroprocesora przeszły w stan wysokiej impedancji
+        <span class="rem">(stały się nieaktywne elektrycznie)</span>. Urządzenie
+        zewnętrzne może teraz przejąć pełną kontrolę nad magistralami w systemie.</p>
+    <p class="bl1"><b><span style="text-decoration: overline">BUSREQ</span></b></p>
+    <font face="Times New Roman" size="3"></font>
+    <p class="bl2"><i>Bus Request - Żądanie Zwolnienia Magistral</i>
+        <span class="rem">(wejście, aktywne w stanie Niskim)</span>.
+        <span style="text-decoration: overline">BUSREQ</span> posiada
+        wyższy priorytet niż NMI i jest zawsze rozpoznawane na końcu bieżącego cyklu
+        maszynowego. <span style="text-decoration: overline">BUSREQ</span> wymusza stan wysokiej impedancji na magistrali adresowej,
+        magistrali danych oraz dla sygnałów sterujących
+        <span style="text-decoration: overline">MREQ</span>,
+        <span style="text-decoration: overline">IORQ</span>,
+        <span style="text-decoration: overline">RD</span> i
+        <span style="text-decoration: overline">WR</span>, w celu
+        przejęcia tych linii przez inne urządzenie w systemie. Wejście
+        <span style="text-decoration: overline">BUSREQ</span> zwykle
+        łączy się równolegle z liniami urządzeń i dlatego wymaga zewnętrznego
+        podciągnięcia napięcia przy takich zastosowaniach <span class="rem">(np. przez
+rezystor 4,7k do 5V)</span>. Przedłużone okresy
+        <span style="text-decoration: overline">BUSREQ</span> spowodowane operacjami
+        DMA <span class="rem">(ang. Direct Memory Access - bezpośredni dostęp do
+pamięci)</span> mogą spowodować problemy z odświeżaniem dynamicznych pamięci RAM
+        przez mikroprocesor.</p>
+    <p class="bl1"><b>D7-D0</b></p><font face="Times New Roman" size="3"></font>
+    <p class="bl2"><i>Magistrala Danych</i> <span class="rem">(wejście/wyjście, aktywna w stanie
+Wysokim, trójstanowa)</span>. Linie D7-D0 tworzą 8-bitową, dwukierunkową magistralę
+        danych, używaną przy wymianie informacji z pamięcią i urządzeniami I/O.</p>
+    <p class="bl1"><b><span style="text-decoration: overline">HALT</span></b></p>
+    <font face="Times New Roman" size="3"></font>
+    <p class="bl2"><i>Stan Zatrzymania <span class="rem"></span></i>
+        <span class="rem">(wyjście, aktywne w stanie Niskim)</span>. Sygnał
+        <span style="text-decoration: overline">HALT</span>
+        wskazuje, iż mikroprocesor wykonał instrukcję
+        <span style="text-decoration: overline">HALT</span> i czeka albo na przerwanie
+        niemaskowane, albo na maskowane <span class="rem">(z włączoną maską)</span>
+        zanim powróci do wykonywania programu. Podczas stanu Zatrzymania mikroprocesor
+        wykonuje cyklicznie rozkaz NOP w celu podtrzymania funkcji odświeżania pamięci
+        dynamicznych.</p>
+    <p class="bl1"><b><span style="text-decoration: overline">INT</span></b></p>
+    <font face="Times New Roman" size="3"></font>
+    <p class="bl2"><i>Żądanie Przerwania</i><span class="rem"> (wejście, aktywne w
+stanie Niskim)</span>. Żądanie Przerwania jest generowane przez urządzenia I/O.
+        Mikroprocesor honoruje to żądanie na końcu bieżącej instrukcji, jeśli wewnętrzny
+        przerzutnik flip-flop aktywacji przerwań <span class="rem">(IFF)</span>,
+        sterowany programowo, jest włączony Linia
+        <span style="text-decoration: overline">INT</span> zwykle łączona jest równolegle z
+        liniami urządzeń I/O i wymaga zewnętrznego podciągnięcia napięcia, aby umożliwić
+        tę funkcję.</p>
+    <p class="bl1"><b><span style="text-decoration: overline">IORQ</span></b></p>
+    <font face="Times New Roman" size="3"></font>
+    <p class="bl2"><i>Żądanie I/O</i> <span class="rem">(wyjście, aktywne w stanie
+Niskim, trójstanowe)</span>. Sygnał <span style="text-decoration: overline">IORQ</span> oznacza, iż na dolnej połowie
+        magistrali adresowej znajduje się poprawny adres I/O do operacji odczytu lub
+        zapisu I/O. <span style="text-decoration: overline">IORQ</span> jest również generowane współbieżnie z
+        <span style="text-decoration: overline">M1</span> podczas cyklu
+        potwierdzenia przyjęcia przerwania w celu poinformowania urządzenia I/O, iż
+        wektor odpowiedzi na przerwanie może zostać umieszczony na magistrali danych.</p>
+    <p class="bl1"><b><span style="text-decoration: overline">M1</span></b></p>
+    <font face="Times New Roman" size="3"></font>
+    <p class="bl2"><i>Cykl Maszynowy Nr 1</i> <span class="rem">(wyjście, aktywne w
+stanie niskim)</span>. Sygnał <span style="text-decoration: overline">M1</span> wraz z
+        <span style="text-decoration: overline">MREQ</span> oznacza, iż bieżący cykl maszynowy
+        jest cyklem pobrania kodu rozkazu dla wykonywanej instrukcji.
+        <span style="text-decoration: overline">M1</span> wraz z
+        <span style="text-decoration: overline">IORQ</span>
+        oznacza cykl potwierdzenia przyjęcia przerwania.</p>
+    <p class="bl1"><b><span style="text-decoration: overline">MREQ</span></b></p>
+    <font face="Times New Roman" size="3"></font>
+    <p class="bl2"><i>Żądanie dostępu do pamięci</i> <span class="rem">(wyjście,
+aktywne w stanie Niskim, trójstanowe)</span>. Sygnał
+        <span style="text-decoration: overline">MREQ</span> oznacza, iż magistrala
+        adresowa zawiera ważny adres dla operacji odczytu lub zapisu do pamięci.</p>
+    <p class="bl1"><b><span style="text-decoration: overline">NMI</span></b></p>
+    <p class="bl2"><i>Żądanie Przerwania Niemaskowanego</i> <span class="rem">
+(wejście, wyzwalane ujemnym zboczem: czyli przejściem ze stanu 1 na 0)</span>.
+        Sygnał <span style="text-decoration: overline">NMI</span> posiada wyższy priorytet od
+        <span style="text-decoration: overline">INT</span>. Sygnał
+        <span style="text-decoration: overline">NMI</span> jest zawsze przyjmowany
+        na końcu bieżącej instrukcji, bez względu na stan przerzutnika aktywacji
+        przerwań <span class="rem">(IFF)</span> i automatycznie wymusza na procesorze
+        restart od adresu <code>0066H</code>.</p>
+    <p class="bl1"><b><span style="text-decoration: overline">RD</span></b></p>
+    <font face="Times New Roman" size="3"></font>
+    <p class="bl2"><i>Odczyt</i> <span class="rem">(wyjście, aktywne w stanie
+Niskim, trójstanowe)</span>. Sygnał <span style="text-decoration: overline">RD</span> oznacza, iż mikroprocesor chce dokonać
+        odczytu lub zapisu z pamięci albo urządzenia I/O. Zaadresowane urządzenie I/O
+        lub pamięć powinni wykorzystywać ten sygnał do umieszczania informacji na
+        magistrali danych mikroprocesora.</p>
+    <p class="bl1"><b><span style="text-decoration: overline">RESET</span></b></p>
+    <font face="Times New Roman" size="3"></font>
+    <p class="bl2"><i>Reset</i> <span class="rem">(wejście, aktywne w stanie Niskim)</span>.
+        Sygnał <span style="text-decoration: overline">RESET</span> inicjuje mikroprocesor w sposób następujący: kasuje przerzutnik
+        aktywacji przerwań, zeruje rejestr PC oraz rejestry I i R, a następnie ustawia
+        status przerwań na tryb 0. W czasie resetowania magistrale adresowa i danych
+        przechodzą w stan wysokiej impedancji, a wszystkie wyjściowe linie sterujące
+        przyjmują stan nieaktywny. Uwaga: sygnał <span style="text-decoration: overline">RESET</span> musi być aktywny przez minimum 3
+        pełne cykle zegara, zanim operacja resetowania zostanie zakończona.</p>
+    <p class="bl1"><b><span style="text-decoration: overline">RFSH</span></b></p>
+    <font face="Times New Roman" size="3"></font>
+    <p class="bl2"><i>Odświeżanie</i> <span class="rem">(wyjście, aktywne w stanie
+Niskim)</span>. Sygnał <span style="text-decoration: overline">RFSH</span> wraz z
+        <span style="text-decoration: overline">MREQ</span> oznacza, iż dolne siedem bitów
+        magistrali adresowej systemu może zostać wykorzystane jako adres odświeżania dla
+        pamięci dynamicznych. W górnej połowie magistrali adresowej jest umieszczana
+        zawartość rejestru I.</p>
+    <p class="bl1"><b><span style="text-decoration: overline">WAIT</span></b></p>
+    <font face="Times New Roman" size="3"></font>
+    <p class="bl2"><i>Oczekiwanie</i> <span class="rem">(wejście, aktywne w stanie
+Niskim)</span>. Sygnał <span style="text-decoration: overline">WAIT</span> informuje mikroprocesor, iż zaadresowana pamięć lub
+        urządzenie I/O nie są jeszcze gotowe do wymiany informacji. Mikroprocesor
+        powtarza cykle oczekiwania tak długo, aż sygnał ten powróci do stanu wysokiego.
+        Przedłużone okresy oczekiwania mogą spowodować błędy w odświeżaniu przez
+        mikroprocesor pamięci dynamicznych.</p>
+    <p class="bl1"><b><span style="text-decoration: overline">WR</span></b></p>
+    <font face="Times New Roman" size="3"></font>
+    <p class="bl2"><i>Zapis</i> <span class="rem">(wyjście, aktywne w stanie Niskim,
+trójstanowe)</span>. Sygnał <span style="text-decoration: overline">WR</span> oznacza, iż magistrala danych mikroprocesora
+        zawiera ważne dane, które mają zostać umieszczone w zaadresowanej pamięci lub w
+        rejestrze I/O.</p>
+    <p class="bl1"><b><span style="text-decoration: overline">CLK</span></b></p><font face="Times New Roman" size="3"></font>
+    <p class="bl2"><i>Zegar</i> <span class="rem">(wejście)</span>. Jednofazowe
+        wejście zegarowe o poziomie MOS.</p>
+</div>
+</body>
+</html>

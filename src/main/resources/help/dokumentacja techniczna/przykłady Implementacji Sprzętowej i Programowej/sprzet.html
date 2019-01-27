@@ -1,0 +1,143 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<body>
+
+<body>
+
+<div class="google-auto-placed" style="text-align: center; width: 100%; height: auto; clear: both;"><ins data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-2048408300128807" data-adsbygoogle-status="done" style="display: block; margin: 12px auto 10px; background-color: transparent;"></ins></div><h1 class="main">Przykłady Implementacji Sprzętowej i Programowej - Sprzęt</h1>
+<hr color="#336699" size="1">
+<div class="bl1">
+    <h2><a name="System_Minimalny">System Minimalny</a></h2>
+    <p class="bl1">Ten rozdział jest wprowadzeniem do tworzenia systemów
+        wykorzystujących mikroprocesor Z80. <a href="#Rys.17">Rys.17</a> przedstawia
+        prosty system Z80.</p>
+    <p class="bl1">Każdy system oparty na Z80 musi zawierać następujące elementy:</p>
+    <div class="bl1">
+        <ul>
+            <li>
+                Zasilanie 5V</li>
+            <li>
+                Oscylator</li>
+            <li>
+                Urządzenia pamięci</li>
+            <li>
+                Obwody we/wy</li>
+            <li>
+                Mikroprocesor</li>
+        </ul>
+    </div>
+    <p class="bl4"><a name="Rys.17">
+        <img border="0" src="images/0006_01.gif" width="562" height="420"></a></p>
+    <p class="bl4">Rys.17 Minimalny System Komputerowy Z80</p>
+    <p class="bl1">&nbsp;</p>
+    <p class="bl1">Ponieważ mikroprocesor Z80 wymaga tylko pojedynczego zasilania
+        5V, większość małych systemów można zbudować przy zastosowaniu tylko
+        pojedynczego zasilania.</p>
+    <p class="bl1">Pamięć zewnętrzna może tworzyć dowolny zestaw standardowych
+        pamięci RAM, ROM lub EPROM. Na <a href="#Rys.17">rys.17</a> pojedyncza pamięć
+        ROM 8K bit <span class="rem">(1KB)</span> obejmuje cały system pamięciowy.
+        Konfiguracja wewnętrznych rejestrów Z80 zawiera wystarczająco dużo pamięci, aby
+        w prostych zastosowaniach nie była potrzebna zewnętrzna pamięć RAM.</p>
+    <p class="bl1">Obwody we/wy pozwalają komputerowi na współpracę z urządzeniami
+        zewnętrznymi. Na <a href="#Rys.17">rys.17</a> wyjście to 8 bitowy wektor
+        sterujący, a wejście to 8 bitowe słowo stanu. Dane wejściowe mogą być dołączane
+        do magistrali danych za pomocą dowolnych bramek trójstanowych, natomiast dane
+        wyjściowe można zapamiętywać w dowolnych przerzutnikach TTL typu latch. Jako
+        obwód we/wy służy układ Z80 PIO.&nbsp; Ten pojedynczy układ podłącza się do
+        magistrali danych w sposób pokazany powyżej. Udostępnia on wymagane 16 bitów
+        we/wy kompatybilnego z układami TTL. Ten prosty komputer o dosyć dużych
+        możliwościach jest zbudowany tylko z trzech układów LSI, prostego oscylatora i
+        pojedynczego zasilania 5V.</p>
+    <p class="bl1">&nbsp;</p>
+    <h2><a name="Dodawanie_pamięci_RAM">Dodawanie pamięci RAM</a></h2>
+    <p class="bl1">Większość systemów komputerowych wymaga nieco zewnętrznej pamięci
+        RAM na przechowywanie danych oraz realizację stosu maszynowego. Rys.18 pokazuje
+        sposób dodania 256 bajtów pamięci statycznej do przykładu z rys.17. Przestrzeń
+        adresowa zostanie zorganizowana następująco:</p>
+    <div align="center">
+        <table border="0" id="table1" cellpadding="4" style="border-collapse: collapse">
+            <tbody><tr>
+                <td>&nbsp;</td>
+                <td><b>Adres:</b></td>
+            </tr>
+            <tr>
+                <td style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">
+                    1 KB pamięci ROM</td>
+                <td>0000H<br>
+                    <br>
+                    03FFH</td>
+            </tr>
+            <tr>
+                <td style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">
+                    256 bajtów pamięci RAM</td>
+                <td>0400H<br>
+                    <br>
+                    04FFH</td>
+            </tr>
+            </tbody></table>
+    </div>
+    <p class="bl1">&nbsp;</p>
+    <p class="bl1">Na tym rysunku przestrzeń adresowa jest opisana w notacji
+        szesnastkowej. Bit adresowy A10 oddziela obszar ROM od obszaru RAM, co pozwala
+        użyć tego adresu do funkcji wyboru układu pamięci. Przy większej ilości
+        zewnętrznej ROM lub RAM konieczny jest prosty dekoder TTL do tworzenia sygnałów
+        wyboru modułów pamięciowych.</p>
+    <p class="bl1">&nbsp;</p>
+    <p class="bl4"><a name="Rys.18">
+        <img border="0" src="images/0006_02.gif" width="864" height="328"></a></p>
+    <p class="bl4">Rys.18 Implementacja ROM i RAM</p>
+    <p class="bl4">&nbsp;</p>
+    <h2><a name="Kontrola_szybkości_pamięci">Kontrola szybkości pamięci</a></h2>
+    <p class="bl1">W wielu systemach wolne pamięci mogą zmniejszyć koszty. Linia
+        <span style="text-decoration: overline">WAIT</span> w mikroprocesorze Z80
+        pozwala mu współpracować z pamięcią o dowolnej szybkości. Wymagania co do czasu
+        dostępu do pamięci są najbardziej istotne w fazie
+        <span style="text-decoration: overline">M1</span> cyklu pobierania instrukcji.
+        Wszystkie pozostałe cykle dostępu do pamięci kończą się w dodatkowym czasie
+        równym jednej połowie cyklu zegarowego. Dlatego czasami dobrze jest dodać jeden
+        cykl oczekiwania do cyklu M1, aby mogły być użyte wolniejsze pamięci. Na
+        <a href="#Rys.19">rys.19</a> jest przykład prostego obwodu, który realizuje to
+        zadanie. Obwód ten można zmienić tak, aby dodać pojedynczy cykl oczekiwania do
+        dowolnego dostępu do pamięci, co pokazano na <a href="#Rys.20">rys.20</a>.</p>
+    <p class="bl1">&nbsp;</p>
+    <p class="bl4">
+        <img border="0" src="images/0006_03.gif" width="781" height="393"></p>
+    <p class="bl4"><a name="Rys.19">Rys.19</a> Dodawanie jednego cyklu oczekiwania
+        do cyklu M1</p>
+    <p class="bl1">&nbsp;</p>
+    <p class="bl4">
+        <img border="0" src="images/0006_04.gif" width="855" height="353"></p>
+    <p class="bl4"><a name="Rys.20">Rys.20</a> Dodawanie jednego cyklu oczekiwania
+        do dowolnego cyklu pamięci</p>
+    <p class="bl1">&nbsp;</p>
+    <h2><a name="Połączenie_z_pamięciami_dynamicznymi_RAM">Połączenie z pamięciami
+        dynamicznymi RAM</a></h2>
+    <p class="bl1">Każda z osobna pamięć dynamiczna RAM posiada swoje własne
+        specyfikacje, które wymagają nieznacznych modyfikacji przedstawionych tutaj
+        przykładowych rozwiązań. Firma ZILOG udostępniła materiały opisujące sposoby
+        łączenia mikroprocesora Z80 z większością popularnych pamięci dynamicznych RAM.</p>
+    <p class="bl1"><a href="#Rys.21">Rys.21</a> przedstawia sieć logiczną niezbędną do połączenia 8 KB
+        pamięci dynamicznej RAM przy pomocy 18-nóżkowych pamięci dynamicznych 4K. Sieć
+        logiczna zakłada, iż ta pamięć RAM będzie jedyną pamięcią w systemie, więc linia
+        A12 jest używana do wyboru pomiędzy dwoma stronami pamięci. W czasie odświeżania
+        wszystkie pamięci w systemie muszą być odczytane. Mikroprocesor udostępnia
+        poprawny adres na liniach od A0 do A6. Przy dodawaniu większej ilości pamięci do
+        systemu konieczne jest zastąpienie tylko tych dwóch bramek, które działają na
+        linii A12, dekoderem operującym na wszystkich pożądanych bitach adresowych. W
+        większych systemach zwykle potrzebne stają się bufory magistrali adresowej i
+        adresowej.</p>
+    <p class="bl1">&nbsp;</p>
+    <p class="bl4">
+        <img border="0" src="images/0006_05.gif"><br>
+        <a name="Rys.21">Rys.21</a> Dołączanie pamięci dynamicznych</p>
+</div>
+<p class="bl1">&nbsp;</p>
+
+
+
+
+
+</body>
+</html>

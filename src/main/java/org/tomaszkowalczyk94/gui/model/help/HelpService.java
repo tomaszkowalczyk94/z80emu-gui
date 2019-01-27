@@ -33,7 +33,7 @@ public class HelpService {
 
             if(entry.getValue() instanceof String) {
                 parentCatalog.getChildren().add(
-                        new HelpPage((String)entry.getValue(), parentCatalog)
+                        new HelpPage(entry.getKey(), (String)entry.getValue(), parentCatalog)
                 );
             } else {
                 HelpCatalog newCatalog = new HelpCatalog(entry.getKey(), parentCatalog);

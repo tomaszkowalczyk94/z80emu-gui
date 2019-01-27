@@ -1,0 +1,112 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<body>
+
+<div class="bl1">
+    <h2><a name="Przegląd">Przegląd</a></h2>
+    <p class="bl1">Mikroprocesor Z80 potrafi wykonać 158 różnych typów instrukcji,
+        łącznie z 78 instrukcjami starszego modelu 8080A. Instrukcje te dzielą się na
+        następujące grupy główne:</p>
+    <div class="bl1">
+        <ul>
+            <li>
+                Instrukcje ładowania i wymiany danych</li>
+            <li>
+                Instrukcje przesyłów blokowych i blokowych przeszukiwań</li>
+            <li>
+                Instrukcje arytmetyczne i logiczne</li>
+            <li>
+                Instrukcje obrotów i przesuwów</li>
+            <li>
+                Instrukcje operujące na bitach <span class="rem">(ustawianie,
+	zerowanie, testowanie)</span></li>
+            <li>
+                Instrukcje skoków, wywołań procedur i powrotów z procedur</li>
+            <li>
+                Instrukcje operujące na portach wejścia / wyjścia</li>
+            <li>
+                Instrukcje sterujące mikroprocesorem</li>
+        </ul>
+    </div>
+    <p class="bl2">&nbsp;</p>
+    <h2><a name="Rodzaje_instrukcji">Rodzaje instrukcji</a></h2>
+    <p class="bl1">Instrukcje ładowania przemieszczają dane wewnętrznie pomiędzy
+        rejestrami mikroprocesora lub pomiędzy jego rejestrami a zewnętrzną pamięcią.
+        Wszystkie instrukcje tego typu określają miejsce źródłowe, z którego mają zostać
+        pobrane dane, oraz miejsce docelowe. Miejsce źródłowe nie jest zmieniane przez
+        instrukcję ładowania.&nbsp; Przykładami grup instrukcji ładowania mogą być
+        przesyły danych pomiędzy dowolnymi rejestrami ogólnego przeznaczenia, np.
+        przeniesienie danych do rejestru <code>B</code> z rejestru <code>C</code>. Ta grupa zawiera również
+        ładowanie danej natychmiastowej do dowolnego rejestru mikroprocesora lub do
+        dowolnej komórki pamięci zewnętrznej. Inne typy instrukcji ładowania pozwalają
+        przenosić dane pomiędzy rejestrami a komórkami pamięci. Instrukcje wymiany mogą
+        zamienić ze sobą zawartość dwóch rejestrów.</p>
+    <p class="bl1">Z80 został wyposażony w unikalny zestaw instrukcji przesyłu
+        blokowego. Za pomocą pojedynczej instrukcji można przesunąć obszar pamięci o
+        dowolnym rozmiarze w dowolne inne miejsce w pamięci. Ten zestaw przesyłów
+        blokowych staje się niezmiernie cenny w czasie pracy z dużymi ciągami danych. Za
+        pomocą pojedynczej instrukcji można wyszukać 8 bitowy znak w bloku zewnętrznej
+        pamięci o dowolnej, pożądanej wielkości. Gdy zostanie znaleziony poszukiwany
+        znak lub osiągnięty koniec bloku, instrukcja automatycznie kończy swoje
+        działanie. Zarówno instrukcje przesyłów blokowych jak i blokowego przeszukiwania
+        mogą być przerywane podczas swojej pracy, zatem nie zajmują one mikroprocesora
+        na długie okresy czasu.</p>
+    <p class="bl1">Instrukcje arytmetyczne i logiczne działają na danych zapisanych
+        w akumulatorze i innych rejestrach ogólnego przeznaczenia lub w komórkach
+        pamięci zewnętrznej. Wyniki operacji są umieszczane w akumulatorze z ustawieniem
+        odpowiednich znaczników zgodnie z otrzymanym wynikiem.</p>
+    <p class="bl1">Przykładem operacji arytmetycznej jest dodawanie akumulatora do
+        zawartości komórki pamięci zewnętrznej. Wyniki dodawania są umieszczane w
+        akumulatorze. Ta grupa zawiera również 16 bitowe dodawanie i odejmowanie
+        pomiędzy parami rejestrów mikroprocesora.</p>
+    <p class="bl1">Grupa obrotów i przesuwów pozwala przemieszczać arytmetycznie lub
+        logicznie bity dowolnego rejestru lub komórki pamięci w prawo lub w lewo, z lub
+        bez znacznika przeniesienia. Również cyfra 4 bitowa BCD może być przesuwana w
+        prawo lub w lewo z dowolną komórką w pamięci.</p>
+    <p class="bl1">Instrukcje operujące na poszczególnych bitach pozwalają za pomocą
+        pojedynczej instrukcji ustawiać, zerować lub testować dowolny bit akumulatora i
+        rejestru ogólnego przeznaczenia oraz dowolnej komórki pamięci zewnętrznej. Na
+        przykład można wyzerować najbardziej znaczący bit rejestru <code>H</code>. Ta grupa jest
+        szczególnie użyteczna w aplikacjach sterujących oraz w programowym sprawdzaniu
+        różnych znaczników w programach ogólnego przeznaczenia.</p>
+    <p class="bl1">Instrukcje skoków, wywołań procedur i powrotów pozwalają
+        mikroprocesorowi wykonywać kod z różnych miejsc w programie użytkownika. Grupa
+        ta wykorzystuje kilka różnych sposobów otrzymywania nowego adresu dla licznika
+        programu ze określonych komórek pamięci. Unikalnym typem wywołania jest
+        instrukcja restartu. Zawiera ona adres wywołania w swoim ośmiobitowym kodzie.
+        Jest to możliwe, ponieważ dozwolone jest tylko osiem oddzielnych adresów
+        umieszczonych na stronie zerowej pamięci zewnętrznej. Skoki programowalne można
+        osiągnąć ładując zawartość rejestrów <code>HL</code>, <code>IX</code> lub <code>IY</code> bezpośrednio do
+        <code>PC</code>, co
+        pozwala wcześniej wyliczyć adres skoku.</p>
+    <p class="bl1">Grupa instrukcji wejścia / wyjścia w mikroprocesorze Z80 pozwala
+        na szeroki zakres przesyłów pomiędzy pamięcią zewnętrzną lub rejestrami ogólnego
+        przeznaczenia a urządzeniami zewnętrznymi. W każdym przypadku jest przy dowolnej
+        transakcji wejścia / wyjścia numer portu I/O pojawia się na młodszych ośmiu
+        bitach magistrali adresowej. Jedna instrukcja pozwala podawać ten numer jako
+        drugi bajt kodu instrukcji, natomiast inne instrukcje mikroprocesora Z80
+        pozwalają go określić jako zawartość rejestru <code>C</code>. Jedną z głównych zalet
+        stosowania rejestru <code>C</code> jako wskaźnika urządzenia wejścia/ wyjścia jest możliwość
+        obsługi wielu portów I/O przez procedury wspólnego sterownika programowego.
+        Zaleta ta nie jest dostępna przy stosowaniu numeru urządzenia wejścia / wyjścia
+        jako kodu instrukcji, jeśli program jest umieszczony w pamięci ROM. Inną cechą
+        tych instrukcji wejścia/ wyjścia jest automatyczne ustawianie rejestru
+        znaczników, co czyni zbędnymi inne operacje określające stan danych wejściowych.&nbsp;
+        Jednym z przykładów jest stan parzystości.</p>
+    <p class="bl1">Mikroprocesor Z80 posiada pojedyncze instrukcje, które potrafią
+        automatycznie przesyłać bloki danych <span class="rem">(do 256 bajtów)</span> do
+        lub z dowolnego portu I/O bezpośrednio do dowolnego miejsca w pamięci. W
+        połączeniu z podwójnym zbiorem rejestrów ogólnego przeznaczenia te instrukcje
+        udostępniają szybkie transmisje I/O bloków danych. Potęga tych instrukcji
+        wejścia / wyjścia jest demonstrowana przez mikroprocesor Z80 przy formatowaniu
+        dysków elastycznych na stacjach o podwójnej gęstości zapisu za pomocą procedur
+        sterowanych przerwaniami. Przykładowo, mikroprocesor zapewnia nagłówek, adres,
+        dane i wprowadza kody CRC.</p>
+    <p class="bl1">Na koniec, podstawowe instrukcje sterujące mikroprocesorem
+        pozwalają na stosowanie różnych opcji i trybów. Ta grupa instrukcji obejmuje
+        ustawianie i zerowanie przerzutnika przerwań lub ustawianie trybu odpowiedzi na
+        przerwanie.</p>
+</div>
+</html>

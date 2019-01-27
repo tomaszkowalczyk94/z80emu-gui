@@ -1,0 +1,230 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<body>
+
+<h1 class="main">Przegląd - Reakcja na przerwanie</h1>
+<hr color="#336699" size="1">
+<div class="bl1">
+    <h1><a name="Przegląd">Ogólnie</a></h1>
+    <p class="bl1">Przerwanie pozwala urządzeniom peryferyjnym zawiesić bieżące
+        działanie mikroprocesora i zmusić go do wykonania procedury obsługi danego
+        urządzenia. Ta procedura obsługi wymaga zwykle wymiany danych, statusu lub
+        informacji kontrolnej pomiędzy mikroprocesorem a danym urządzeniem. Gdy
+        procedura obsługi zostanie zakończona, mikroprocesor powraca do wykonywania
+        przerwanego zadania.</p>
+    <p class="bl1">&nbsp;</p>
+    <h2 class="bl1"><a name="Włączanie/Wyłączanie_Obsługi_Przerwań">
+        Włączanie/Wyłączanie Obsługi Przerwań</a></h2>
+    <p class="bl2">Mikroprocesor Z80 posiada dwa wejścia przerwań, maskowane
+        programowo wejście <span style="text-decoration: overline">INT</span> oraz
+        niemaskowane wejście <span style="text-decoration: overline">NMI</span>.
+        Przerwanie niemaskowane nie może być zablokowane przez programistę i jest
+        przyjmowane zawsze, gdy urządzenie peryferyjne go zażąda. Drugi rodzaj
+        przerwania, maskowane INT, jest zarezerwowane zwykle dla bardzo ważnych funkcji,
+        które programista możne selektywnie blokować lub odblokowywać. Dzięki temu
+        programista może zablokować to przerwanie w okresach, gdy jego program ma
+        ograniczenia czasowe nie pozwalające obsługiwać przerwań. W mikroprocesorze Z80
+        znajduje się przerzutnik flip-flop aktywacji obsługi przerwań <span class="rem">
+(IFF - Interrupt Flip-Flop)</span>, który jest ustawiany lub zerowany przez
+        programistę przy pomocy instrukcji <code>EI <span class="rem"></span></code>(Enable Interrupt -
+        włączenie obsługi przerwań) i <code>DI</code> <span class="rem">(Disable Interrupt -
+wyłączenie obsługi przerwań)</span>. Gdy przerzutnik IFF jest wyzerowany,
+        mikroprocesor nie akceptuje przerwań INT.</p>
+    <p class="bl2">Dwa przerzutniki flip-flop aktywacji obsługi przerwań IFF1 i
+        IFF2.</p>
+    <p class="bl2">&nbsp;</p>
+    <div align="center">
+        <table border="0" cellpadding="4" style="border-collapse: collapse">
+            <tbody><tr>
+                <td style="border: 1px solid #000000" bgcolor="#F0F0F0"><b>
+                    <span lang="en">&nbsp;&nbsp;&nbsp;IFF1&nbsp;&nbsp;&nbsp;</span></b></td>
+                <td><b><span lang="en">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></b></td>
+                <td style="border: 1px solid #000000" bgcolor="#F0F0F0"><b>
+                    <span lang="en">&nbsp;&nbsp;&nbsp;IFF2&nbsp;&nbsp;&nbsp;</span></b></td>
+                <td><b><span lang="en">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></b></td>
+            </tr>
+            <tr>
+                <td colspan="2">Wyłącza obsługę<br>
+                    przerwań</td>
+                <td colspan="2">Tymczasowe miejsce<br>
+                    przechowywania stanu IFF1</td>
+            </tr>
+            </tbody></table>
+    </div>
+    <p class="bl2">Stan przerzutnika IFF1 jest używany do blokowania obsługi
+        przerwań, natomiast przerzutnik IFF2 wykorzystuje się jako tymczasowe miejsce
+        pamiętania stanu przerzutnika IFF1.</p>
+    <p class="bl2">Reset mikroprocesora wymusza wyzerowanie obu przerzutników IFF1 i
+        IFF2, co blokuje obsługę przerwań. Obsługę tę można w każdej chwili włączyć
+        programowo instrukcją <code>EI</code>. Gdy instrukcja <code>EI</code> jest w trakcie wykonywania, to nie
+        jest przyjmowane żadne aktywne przerwanie aż do momentu wykonania następnej po
+        <code>EI</code> instrukcji. To opóźnienie jednej instrukcji jest konieczne, gdy następną
+        instrukcją jest instrukcja powrotu. Przerwania nie będą obsługiwane aż do
+        zakończenia wykonywania instrukcji powrotu. Instrukcja <code>EI</code> ustawia oba
+        przerzutniki IFF1 i IFF2 na stan włączony. Gdy mikroprocesor przyjmuje
+        przerwanie maskowane, oba IFF1 i IFF2 zostają automatycznie wyzerowane, co
+        blokuje obsługę dalszych przerwań aż programista wyda nową instrukcję <code>EI</code>. Zwróć
+        uwagę, iż we wszystkich poprzednich przypadkach IFF1 i IFF2 są zawsze równe.</p>
+    <p class="bl2">Przeznaczeniem IFF2 jest przechowanie stanu IFF1, gdy pojawi się
+        przerwanie niemaskowane. Gdy zostanie ono zaakceptowane, IFF1 resetuje się w
+        celu zapobieżenia przyjmowaniu dalszych przerwań aż do ponownego włączenia ich
+        obsługi przez programistę. W ten sposób po przyjęciu przerwania niemaskowanego
+        przerwania maskowane są zablokowane, lecz poprzedni stan IFF1 został
+        zapamiętany, zatem kompletny stan mikroprocesora sprzed przerwania niemaskowanego można w każdej chwili przywrócić. Przy instrukcjach <code>LD A,I</code>
+        <span class="rem"><code>(Load Register A with Register I</code> - ładuj
+akumulator A rejestrem przerwań I) </span>oraz <code>LD A,R</code> <span class="rem">(<code>Load
+Register A with&nbsp; Register R</code> - ładuj akumulator A rejestrem
+odświeżania R)</span> stan przerzutnika IFF2 zostaje skopiowany do znacznika
+        parzystości, gdzie można go testować lub zapamiętywać.</p>
+    <p class="bl2">Drugą metodą odtwarzania stanu IFF1 jest wykonanie instrukcji
+        <code>RETN</code> <span class="rem">(<code>Return From Non-Mascable Interrupt</code> - powróć
+z przerwania niemaskowanego)</span>.&nbsp; Instrukcja ta oznacza, iż procedura
+        obsługi przerwania niemaskowanego została zakończona i zawartość IFF2 jest teraz
+        kopiowana z powrotem do IFF1, aby stan tego przerzutnika został odtworzony
+        automatycznie z okresu przed przyjęciem przerwania niemaskowanego.</p>
+    <p class="bl2">Tablica 1 jest podsumowaniem efektów różnych instrukcji na te dwa
+        przerzutniki flip-flop.</p>
+    <p class="bl2">&nbsp;</p>
+    <div align="center">
+        <p class="bl2"><a name="Tablica_1">Tablica 1</a>. Przerzutniki flip-flop
+            Włączania/Wyłączania Obsługi Przerwań</p>
+        <table border="1" cellspacing="0" cellpadding="4" style="border-collapse: collapse" bordercolor="#000000">
+            <tbody><tr>
+                <td bgcolor="#333333"><b><font color="#FFFFFF">Operacja</font></b></td>
+                <td bgcolor="#333333"><b><font color="#FFFFFF">IFF1</font></b></td>
+                <td bgcolor="#333333"><b><font color="#FFFFFF">IFF2</font></b></td>
+                <td bgcolor="#333333"><b><font color="#FFFFFF">Komentarz</font></b></td>
+            </tr>
+            <tr>
+                <td bgcolor="#CCCCCC">Reset mikroprocesora</td>
+                <td bgcolor="#F0F0F0">0</td>
+                <td bgcolor="#F0F0F0">0</td>
+                <td>Wyłączona obsługa przerwań maskowanych
+                    <span style="text-decoration: overline">INT</span></td>
+            </tr>
+            <tr>
+                <td bgcolor="#CCCCCC">Wykonanie instrukcji <code>DI</code></td>
+                <td bgcolor="#F0F0F0">0</td>
+                <td bgcolor="#F0F0F0">0</td>
+                <td>Wyłączona obsługa przerwań maskowanych
+                    <span style="text-decoration: overline">INT</span></td>
+            </tr>
+            <tr>
+                <td bgcolor="#CCCCCC">Wykonanie instrukcji <code>EI</code></td>
+                <td bgcolor="#F0F0F0">1</td>
+                <td bgcolor="#F0F0F0">1</td>
+                <td>W\łączona obsługa przerwań maskowanych
+                    <span style="text-decoration: overline">INT</span></td>
+            </tr>
+            <tr>
+                <td bgcolor="#CCCCCC">Wykonanie instrukcji <code>LD&nbsp;A,I</code></td>
+                <td bgcolor="#F0F0F0">*</td>
+                <td bgcolor="#F0F0F0">*</td>
+                <td>IFF2 → Znacznik Parzystości</td>
+            </tr>
+            <tr>
+                <td bgcolor="#CCCCCC">Wykonanie instrukcji L<code>D&nbsp;A,R</code></td>
+                <td bgcolor="#F0F0F0">*</td>
+                <td bgcolor="#F0F0F0">*</td>
+                <td>IFF2 → Znacznik Parzystości</td>
+            </tr>
+            <tr>
+                <td bgcolor="#CCCCCC">Przyjęcie <span style="text-decoration: overline">
+      NMI</span></td>
+                <td bgcolor="#F0F0F0">0</td>
+                <td bgcolor="#F0F0F0">*</td>
+                <td>Wyłączona obsługa przerwań maskowanych
+                    <span style="text-decoration: overline">INT</span></td>
+            </tr>
+            <tr>
+                <td valign="top" bgcolor="#CCCCCC">Wykonanie instrukcji <code>RETN</code></td>
+                <td valign="top" bgcolor="#F0F0F0">IFF2</td>
+                <td valign="top" bgcolor="#F0F0F0">*</td>
+                <td valign="top">IFF2 → IFF1<br>
+                    oznacza zakończenie procedury obsługi przerwania niemaskowanego</td>
+            </tr>
+            </tbody></table>
+        <p>&nbsp;</p></div>
+    <h3><a name="Reakcja_mikroprocesora">Reakcja mikroprocesora</a></h3>
+    <h4 class="bl1"><a name="Przerwanie_Niemaskowane">Przerwanie Niemaskowane</a></h4>
+    <p class="bl2">Mikroprocesor zawsze akceptuje przerwanie niemaskowane. Gdy
+        wystąpi, mikroprocesor ignoruje następną, pobraną już instrukcję i zamiast niej
+        wykonuje restart od adresu <code>0066H</code>. Mikroprocesor działa tak, jakby wykonywał
+        instrukcję restartu, lecz do adresu innego, niż jeden z ośmiu programowych
+        adresów restartu. Restart jest jedynie wywołaniem podprogramu leżącego w
+        specyficznym obszarze strony 0 w pamięci.</p>
+    <p class="bl2">Obsługa przerwania maskowanego przez mikroprocesor może być
+        zaprogramowana do wykonywania w jednym z trzech możliwych trybów.</p>
+    <h4 class="bl1"><a name="Tryb_0">Tryb 0</a></h4>
+    <p class="bl2">Ten tryb przypomina reakcję na przerwania mikroprocesora 8080A. W
+        trybie 0 urządzenie przerywające może umieścić na magistrali danych dowolną
+        instrukcję a mikroprocesor ją wykona. Zatem urządzenie przerywające dostarcza
+        następnej instrukcji do wykonania. Często jest to instrukcja restartu, gdyż
+        urządzenie przerywające musi w takim przypadku dostarczyć tylko jednobajtową
+        instrukcję. Jednakże może zostać wykonana dowolna inna instrukcja, przykładowo
+        3-bajtowy skok do jakiejkolwiek lokacji w pamięci.</p>
+    <p class="bl2">Liczba cykli zegarowych niezbędnych do wykonania tej instrukcji
+        jest o dwa większa od normalnej liczby cykli dla tej instrukcji. Dzieje się tak
+        z tego powodu, iż mikroprocesor automatycznie dodaje dwa stany oczekiwania do
+        cyklu odpowiedzi na przerwanie, aby udostępnić wystarczająco dużo czasu na
+        implementację sterowania zewnętrzną kolejką przerwań priorytetowych. Na
+        <a href="0004.php#Rys.9">rys.9</a> i <a href="0004.php#Rys.10">rys.10</a>
+        przedstawione są szczegółowe przebiegi czasowe przy odpowiedzi na przerwanie. Po
+        zastosowaniu <span style="text-decoration: overline">RESET</span> mikroprocesor
+        automatycznie wchodzi w Tryb 0.</p>
+    <h4 class="bl1"><a name="Tryb_1">Tryb 1</a></h4>
+    <p class="bl2">Ten tryb jest wybierany przez programistę, mikroprocesor reaguje
+        na przerwanie przez wykonanie restartu od adresu <code>0038H</code>. Zatem reakcja jest
+        identyczna jak reakcja na przerwanie niemaskowane, z tą różnicą, iż adresem
+        wywoływanym jest <code>0038H</code> zamiast <code>0066H</code>. Liczba cykli wymaganych do wykonania
+        instrukcji restartu jest o dwa większa od normalnej z powodu dodanych dwóch
+        stanów oczekiwania.</p>
+    <h4 class="bl1"><a name="Tryb_2">Tryb 2</a></h4>
+    <p class="bl2">Ten tryb jest najmocniejszym trybem reakcji na przerwanie. Za
+        pomocą pojedynczego bajtu od użytkownika może zostać wykonane pośrednie
+        wywołanie do dowolnego miejsca w pamięci.</p>
+    <p class="bl2">W tym trybie programista tworzy tablicę 16-bitowych adresów
+        startowych dla każdej procedury obsługi przerwania.&nbsp; Tablica ta może być
+        umieszczona w dowolnym miejscu w pamięci. Gdy przerwanie zostanie przyjęte, musi
+        zostać utworzony 16-bitowy wskaźnik w celu pobrania z tej tablicy adresu
+        startowego pożądanej procedury obsługi przerwania. Górne osiem bitów tego
+        wskaźnika tworzy zawartość rejestru I. Rejestr I musi zostać załadowany
+        odpowiednią wartością przez programistę, np. instrukcją <nobr><code>LD I,A</code></nobr>.
+        Reset mikroprocesora zeruje rejestr <code>I</code>, aby był zainicjowany na 0.
+        Dolne osiem bitów wskaźnika musi przekazać urządzenie przerywające. Od
+        urządzenia tego wymagane jest tylko siedem bitów, ponieważ najmniej znaczący bit
+        będzie zawsze ustawiony na zero. Potrzebne dlatego, iż wskaźnik zostanie użyty
+        do pobrania dwóch sąsiednich bajtów, aby utworzyły kompletny 16-bitowy adres
+        procedury obsługującej to przerwanie, a adresy muszą zawsze być umieszczane w
+        pamięci na adresach parzystych.</p>
+    <p class="bl2">&nbsp;</p>
+    <p class="bl4"><a name="Rys.16"><img border="0" src="images/0005_01.gif" width="593" height="269"></a></p>
+    <p class="bl4">Rys.16 Reakcja na przerwanie w trybie 2</p>
+    <p class="bl2">Pierwszy bajt tablicy jest najmniej znaczącym <span class="rem">
+(dolną połówką adresu)</span>. Programista musi wypełnić tę tablicę poprawnymi
+        adresami przed przyjęciem jakiegokolwiek przerwania.</p>
+    <p class="bl2">Programista może zmieniać zawartość tej tablicy umieszczając ją w
+        RAM, co również pozwala na obsługiwanie tych samych urządzeń zewnętrznych przez
+        różne procedury.</p>
+    <p class="bl2">Gdy urządzenie przerywające dostarczy dolną część wskaźnika,
+        mikroprocesor automatycznie umieszcza na stosie licznik programu, pobiera adres
+        startowy z tablicy i wykonuje skok pod ten adres. Ten tryb reakcji wymaga 19
+        okresów zegara <span class="rem">(siedem do pobrania dolnych 8 bitów od
+urządzenia przerywającego, sześć do zapisu licznika programu i sześciu do
+pobrania adresu skoku)</span>.</p>
+    <p class="bl2">Urządzenia peryferyjne systemu Z80 posiadają łańcuchową strukturę
+        priorytetów przerwań, która automatycznie przekazuje mikroprocesorowi
+        zaprogramowany wektor podczas potwierdzenia przyjęcia obsługi przerwania. Więcej
+        informacji na ten temat znajdziesz w Instrukcji Użytkownika dla Urządzeń I/O
+        mikroprocesora Z80.</p>
+</div>
+<p class="bl4">&nbsp;</p>
+
+
+
+
+
+</body>
+</html>

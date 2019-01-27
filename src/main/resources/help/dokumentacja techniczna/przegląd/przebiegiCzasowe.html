@@ -1,0 +1,273 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<body>
+
+<h1 class="main">Przegląd - Przebiegi czasowe</h1>
+<hr color="#336699" size="1">
+<h2 class="bl1"><a name="Przegląd">Ogólnie</a></h2>
+<p class="bl2">Mikroprocesor Z80 wykonuje instrukcje przechodząc krok po kroku
+    przez ściśle określony zbiór podstawowych operacji. Obejmują one co następuje:</p>
+<div class="bl2">
+    <ul>
+        <li>
+            Odczyt lub Zapis pamięci</li>
+        <li>
+            Odczyt lub Zapis do Urządzeń I/O</li>
+        <li>
+            Potwierdzenie Przerwania</li>
+    </ul>
+</div>
+<p class="bl2">Wszystkie instrukcje są ciągiem podstawowych operacji. Wykonanie
+    każdej z tych operacji może zabrać od trzech do sześciu okresów zegara lub może
+    zostać wydłużone w celu synchronizacji mikroprocesora z szybkością pracy
+    urządzeń zewnętrznych. Okresy zegara oznaczamy jako cykle T <span class="rem">
+(ang. time - czas)</span> a operacje jako cykle M <span class="rem">(ang.
+machine - cykle maszynowe)</span>. Rys. 4 pokazuje powiązanie pomiędzy cyklami T
+    i M dla typowej instrukcji. Instrukcja ta składa się z trzech cykli maszynowych
+    <span class="rem">(M1, M2 i M3)</span>. Pierwszy cykl maszynowy każdej
+    instrukcji jest cyklem pobrania, który ma długość czterech, pięciu lub sześciu
+    cykli T <span class="rem">(o ile nie zostanie wydłużony przez sygnał WAIT, który
+opisujemy w następnym rozdziale)</span>. Cykl pobrania <span class="rem">(M1)</span>
+    jest używany do odczytu z pamięci kodu operacyjnego kolejnej do wykonania
+    instrukcji. Następne cykle maszynowe przesyłają dane pomiędzy mikroprocesorem a
+    pamięcią lub urządzeniami I/O i mogą zawierać od trzech do pięciu cykli T
+    <span class="rem">(ponownie można je wydłużać za pomocą cykli oczekiwania w celu
+synchronizacji mikroprocesora z urządzeniami zewnętrznymi)</span>. W następnych
+    podrozdziałach opisujemy przebiegi czasowe występujące wewnątrz wszystkich
+    podstawowych cykli maszynowych.</p>
+<p class="bl2">Podczas cyklu T2 oraz wszystkich cykli zegara Tw następujących za
+    T2 mikroprocesor próbkuje stan linii WAIT przy opadającym zboczu Zegara. Jeśli w
+    tym czasie linia WAIT będzie aktywna, to w bieżącym cyklu wstawiany jest kolejny
+    stan WAIT. Używając tej techniki odczyt można wydłużać w celu dopasowania czasu
+    dostępu do dowolnego typu urządzenia pamięciowego.</p>
+<p class="bl4"><a name="Rys.4"><img border="0" src="images/0004_01.gif" width="761" height="288"></a></p>
+<p class="bl4">Rys.4. Przykład podstawowych przebiegów
+    czasowych mikroprocesora</p>
+<p class="bl1">&nbsp;</p>
+<h2 class="bl1"><a name="Pobranie_instrukcji">Pobranie instrukcji</a></h2>
+<p class="bl2">Rys.5 przedstawia przebiegi czasowe podczas cyklu M1
+    <span class="rem">(pobranie kodu operacji)</span>. Na początku cyklu M1
+    zawartość rejestru PC jest umieszczana na magistrali adresowej. Po upływie
+    połowy cyklu zegarowego uaktywnia się sygnał
+    <span style="text-decoration: overline">MREQ</span>. Do tego czasu adres dla
+    pamięci ustabilizuje się, zatem opadające zbocze
+    <span style="text-decoration: overline">MREQ</span> może zostać bezpośrednio
+    wykorzystane jako sygnał zegarowy aktywacji pamięci dynamicznych. Linia
+    <span style="text-decoration: overline">RD</span> również staje się aktywna
+    informując pamięć, iż na magistrali danych ma ona umieścić zawartość
+    zaadresowanej komórki. Mikroprocesor odczytuje dane z pamięci na magistrali
+    danych przy narastającym zboczu cyklu zegarowego T3 i to samo zbocze
+    mikroprocesor wykorzystuje do wyłączenia sygnałów
+    <span style="text-decoration: overline">RD</span> oraz
+    <span style="text-decoration: overline">MREQ</span>. W ten sposób magistrala
+    danych zostaje odczytana przez mikroprocesor zanim sygnał
+    <span style="text-decoration: overline">RD</span> stanie się nieaktywny. Cykle
+    zegarowe T3 i T4 cyklu pobrania rozkazu są używane do odświeżania pamięci
+    dynamicznych. W tym czasie mikroprocesor dekoduje i wykonuje pobraną instrukcję,
+    więc żadna inna operacja nie może być wtedy wykonywana.</p>
+<p class="bl2">Podczas T3 i T4 dolne siedem bitów magistrali adresowej zawiera
+    adres odświeżania pamięci i sygnał <span style="text-decoration: overline">RFSH</span>
+    staje się aktywny informując, iż ma być wykonany odświeżający odczyt wszystkich
+    pamięci dynamicznych. Podczas odświeżania nie jest generowany sygnał
+    <span style="text-decoration: overline">RD</span> w celu zapobieżenia
+    umieszczaniu na magistrali danych informacji pochodzących z różnych segmentów
+    pamięci. Sygnał <span style="text-decoration: overline">MREQ</span> podczas
+    odświeżania powinien być używany do wykonania odczytu odświeżającego wszystkich
+    elementów pamięci. Sam sygnał odświeżania nie może być używany w tym
+    charakterze, ponieważ adres odświeżania ustabilizowany jest dopiero w czasie
+    trwania sygnału <span style="text-decoration: overline">MREQ</span>.</p>
+<p class="bl4"><a name="Rys.5"><img border="0" src="images/0004_02.gif" width="687" height="467"></a><br>
+    Rys.5 Pobranie kodu operacyjnego rozkazu</p>
+<p class="bl1">&nbsp;</p>
+<h2 class="bl1"><a name="Odczyt_i_zapis_pamięci">Odczyt i zapis pamięci</a></h2>
+<p class="bl2">Rys.6 ilustruje przebiegi czasowe w cyklach odczytu lub zapisu
+    pamięci innych niż cykl pobrania kodu rozkazu. Cykle te mają zwykle długość
+    trzech cykli zegarowych o ile nie zostaną wydłużone o cykle oczekiwania żądane
+    przez pamięć przy pomocy sygnału <span style="text-decoration: overline">WAIT</span>.
+    Sygnały <span style="text-decoration: overline">MREQ</span> i RD<span style="text-decoration: overline"> </span>są używane w identyczny sposób jak w cyklu pobrania kodu
+    rozkazu. W cyklu zapisu pamięci <span style="text-decoration: overline">MREQ</span> również staje się aktywny, gdy magistrala
+    adresowa ustabilizuje się, co umożliwia bezpośrednie wykorzystanie go do
+    aktywacji układów pamięci dynamicznych. Linia
+    <span style="text-decoration: overline">WR</span> staje się aktywna, gdy
+    informacja na magistrali danych jest ustabilizowana i może zostać wykorzystana
+    bezpośrednio jako impuls R/W dla dosłownie każdego rodzaju pamięci
+    półprzewodnikowych. Co więcej sygnał <span style="text-decoration: overline">WR</span> staje się nieaktywny o pół okresu
+    zegarowego przed zmianą na magistrali adresowej i magistrali danych, co spełnia
+    wymogi prawie każdego rodzaju pamięci.</p>
+<p class="bl4"><a name="Rys.6"><img border="0" src="images/0004_03.gif" width="729" height="343"></a><br>
+    Rys.6 Cykl Odczytu Pamięci i Cykl Zapisu Pamięci</p>
+<p class="bl4">&nbsp;</p>
+<h2 class="bl1"><a name="Cykle_wejścia_lub_wyjścia">Cykle wejścia lub wyjścia</a></h2>
+<p class="bl2">Na rys.7 przedstawiona jest operacja odczytu I/O lub zapisu I/O.
+    Podczas operacji I/O automatycznie wstawiany jest pojedynczy cykl oczekiwania.
+    Powodem jest to, iż podczas operacji I/O czas od aktywacji sygnału
+    <span style="text-decoration: overline">IORQ</span> do momentu, gdy
+    mikroprocesor musi zbadać stan linii <span style="text-decoration: overline">
+WAIT</span> jest bardzo krótki. Bez tego dodatkowego cyklu nie ma wystarczającej
+    ilości czasu do zdekodowania przez port I/O swojego adresu i aktywacji linii
+    <span style="text-decoration: overline">WAIT</span> w przypadku, gdy jest
+    konieczne oczekiwanie. Również bez tego cyklu oczekiwania trudno jest
+    zaprojektować urządzenia IO MOS, które mogłyby pracować przy pełnej prędkości
+    mikroprocesora. Podczas trwania cyklu oczekiwania testowany jest sygnał żądania
+    <span style="text-decoration: overline">WAIT</span>.</p>
+<p class="bl2">Podczas operacji odczytu I/O linia
+    <span style="text-decoration: overline">RD</span> jest używana do umożliwienia
+    zaadresowanemu portowi umieszczenia informacji na magistrali danych, tak jak w
+    przypadku odczytu pamięci. Przy operacjach zapisu I/O linia
+    <span style="text-decoration: overline">WR</span> jest używana jako zegar dla
+    portu I/O.</p>
+<p class="bl4"><a name="Rys.7"><img border="0" src="images/0004_04.gif" width="702" height="400"></a><br>
+    <span class="small">* Cykl WAIT wstawiony automatycznie</span></p>
+<p class="bl4">Rys.7 Cykle Wejścia lub Wyjścia</p>
+<p class="bl4">&nbsp;</p>
+<h2 class="bl1"><a name="Cykl_żądania/potwierdzenia_dostępu_do_magistrali">Cykl
+    żądania/potwierdzenia dostępu do magistrali</a></h2>
+<p class="bl2">Rys.8 ilustruje przebiegi czasowe dla cyklu Żądania/Potwierdzenia
+    Dostępu do magistrali. Sygnał <span style="text-decoration: overline">BUSREQ</span>
+    jest testowany przez mikroprocesor przy narastającym zboczu ostatniego cyklu
+    zegarowego w każdym cyklu maszynowym. Jeśli sygnał
+    <span style="text-decoration: overline">BUSREQ</span> jest aktywny, to przy
+    narastającym zboczu następnego impulsu zegarowego mikroprocesor przełącza
+    magistrale adresową, danych i część sterującej w stan wysokiej impedancji. W tym
+    czasie dowolne urządzenie zewnętrzne może przejąć kontrolę nad tymi magistralami
+    w celu przesłania danych pomiędzy pamięcią a urządzeniami I/O <span class="rem">
+(operacja ta znana jest pod nazwą Bezpośredniego Dostępu do Pamięci - DMA =
+Direct Memory Access - z podkradaniem cykli)</span>. Maksymalny czas odpowiedzi
+    mikroprocesora na żądanie dostępu do magistrali ma długość cyklu maszynowego, a
+    zewnętrzny kontroler może utrzymywać kontrolę nad magistralą tak długo jak jest
+    to konieczne. Jeśli stosowane są bardzo długie cykle DMA przy korzystaniu z
+    pamięci dynamicznych, to zewnętrzny kontroler również realizuje funkcję
+    odświeżania. Sytuacja taka ma miejsce tylko wtedy, jeśli bardzo duże bloki
+    danych są przesyłane poprzez sterowanie DMA. Podczas cyklu żądania dostępu do
+    magistrali mikroprocesor nie może reagować na sygnały
+    <span style="text-decoration: overline">NMI</span> oraz
+    <span style="text-decoration: overline">INT</span>.</p>
+<p class="bl4"><a name="Rys.8"><img border="0" src="images/0004_05.gif" width="739" height="316"></a></p>
+<p class="bl4">Rys.8 Cykl Żądania/Potwierdzenia Dostępu Do Magistrali</p>
+<p class="bl4">&nbsp;</p>
+<h2 class="bl1"><a name="Cykl_żądania/potwierdzenia_obsługi_przerwania">Cykl
+    żądania/potwierdzenia obsługi przerwania</a> maskowanego</h2>
+<p class="bl2">Rys.9 ilustruje przebiegi czasowe związane z cyklem przerwania.
+    Mikroprocesor bada sygnał przerwania <span class="rem">(<span style="text-decoration: overline">INT</span>)</span> przy narastającym zboczu
+    ostatniego impulsy zegara na końcu każdej instrukcji. Sygnał ten nie jest
+    akceptowany w przypadku, gdy nie jest ustawiony wewnętrzny przerzutnik flip-flop
+    aktywacji przerwań sterowany programowo lub gdy jest aktywny sygnał
+    <span style="text-decoration: overline">BUSREQ</span>. Gdy sygnał ten zostaje
+    przyjęty, jest generowany specjalny cykl M1. Podczas tego specjalnego cyklu M1
+    aktywuje się sygnał <span style="text-decoration: overline">IORQ</span>
+    <span class="rem">(zamiast zwykłego <span style="text-decoration: overline">MREQ</span>)</span>
+    w celu poinformowania urządzenia przerywającego, iż może ono umieścić na
+    magistrali danych 8-bitowy wektor. Do tego cyklu są automatycznie dodawane dwa
+    stany oczekiwania. Te dwa stany dodaje się po to, aby można było łatwo
+    zaimplementować schemat priorytetowego systemu przerwań. Dwa stany oczekiwania
+    dają wystarczająco dużo czasu, aby sygnały przerwań ustabilizowały się i możliwa
+    była identyfikacja urządzenia I/O, które musi wstawić wektor odpowiedzi na
+    przerwanie. Sposób wykorzystania tego wektora przez mikroprocesor jest
+    szczegółowo opisany w rozdziale 6.</p>
+<p class="bl4"><a name="Rys.9"><img border="0" src="images/0004_06.gif" width="719" height="391"></a></p>
+<p class="bl4">Rys.9 Cykl żądania/potwierdzenia obsługi przerwania maskowanego</p>
+<p class="bl4">&nbsp;</p>
+<h2 class="bl1"><a name="Reakcja_na_przerwanie_niemaskowane">Reakcja na
+    przerwanie niemaskowane</a></h2>
+<p class="bl2">Rys.10 ilustruje cykl żądania/potwierdzenia dla przerwania
+    niemaskowanego. Sygnał ten jest testowany w tym samym czasie co linia przerwań
+    maskowanych, lecz ma wyższy priorytet i nie można go zablokować programowo.&nbsp;
+    Jego podstawową funkcją jest zapewnienie natychmiastowej reakcji na ważne
+    sygnały, np. zagrożenie brakiem zasilania. Reakcja mikroprocesora na przerwanie
+    niemaskowane jest podobna do zwykłej operacji odczytu pamięci. Jedyną różnicą
+    jest to, iż zawartość magistrali danych zostaje zignorowana, a mikroprocesor
+    automatycznie umieszcza w zewnętrznym stosie rejestr licznika rozkazów PC i
+    wykonuje skok do adresu <code>0066H</code>. Jeśli ten rodzaj przerwania jest
+    używany, to od podanego adresu musi rozpoczynać się procedura obsługująca
+    przerwanie niemaskowane.</p>
+<p class="bl4"><a name="Rys.10"><img border="0" src="images/0004_07.gif" width="717" height="319"></a></p>
+<p class="bl4">Rys.10 Operacja Żądania Obsługi Przerwania Niemaskowanego</p>
+<p class="bl4">&nbsp;</p>
+<h2 class="bl1"><a name="Wyjście_z_HALT">Wyjście z HALT</a></h2>
+<p class="bl2">Jeśli zostanie wykonana programowa instrukcja HALT, to
+    mikroprocesor wykonuje w pętli instrukcje NOP <span class="rem">(ang. No
+OPeration - instrukcja pusta)</span> aż do momentu otrzymania
+    przerwania <span class="rem">(albo przerwania niemaskowanego, albo maskowanego
+przy włączonym przerzutniku flip-flop przerwań)</span>. Dwie linie przerwań są
+    testowane przy narastającym zboczu sygnału zegarowego w każdym cyklu T4, jak
+    przedstawiono na rys.11.&nbsp; Jeśli pojawi się przerwanie niemaskowane lub
+    przerwanie maskowane przy włączonej jego obsłudze, to stan HALT jest przerywany
+    przy następnym narastającym zboczu impulsu zegarowego. Następny cykl jest cyklem
+    potwierdzenia przyjęcia przerwania odpowiednim do typu otrzymanego przerwania.
+    Jeśli oba rodzaje przerwań pojawią się w tym samym czasie, to zostanie
+    potwierdzone przerwanie niemaskowane, ponieważ ma ono najwyższy priorytet. Celem
+    wykonywania instrukcji NOP w stanie HALT jest konieczność odświeżania pamięci
+    dynamicznych i generowania do tego celu odpowiednich sygnałów sterujących. Każdy
+    cykl w stanie HALT jest zwykłym cyklem M1 <span class="rem">(pobrania)</span> z
+    wyjątkiem tego, iż dane otrzymywane z pamięci są ignorowane, a wewnętrznie w
+    mikroprocesorze zostaje wymuszone wykonanie instrukcji NOP. W tym czasie jest
+    aktywny sygnał potwierdzający <span style="text-decoration: overline">HALT</span>,
+    który oznacza, iż mikroprocesor jest w stanie wstrzymania.</p>
+<p class="bl4"><a name="Rys.11">
+    <img border="0" src="images/0004_08.gif" width="659" height="186"></a></p>
+<p class="bl4"><span class="small">W stanie HALT powtarzane jest wykonywanie
+instrukcji NOP w Cyklu Pamięci<br>
+</span>Rys.12 Wyjście z HALT</p>
+<p class="bl4">&nbsp;</p>
+<h2 class="bl1"><a name="Cykl_potwierdzenia_przejścia_w_stan_spoczynku">Cykl
+    potwierdzenia przejścia w stan spoczynku</a></h2>
+<p class="bl2">Gdy zostaną zatrzymane impulsy zegarowe dla mikroprocesora Z80
+    CMOS albo w stanie wysokim, albo w niskim, to mikroprocesor wstrzymuje działanie
+    i utrzymuje wszystkie rejestry oraz sygnały sterujące. Jednakże I<sub>CC2</sub>
+    <span class="rem">(prąd spoczynkowy)</span> jest gwarantowane tylko wtedy, gdy
+    zegar systemowy jest zatrzymywany na poziomie niskim podczas cyklu T4 w cyklu
+    maszynowym, który następuje po wykonaniu instrukcji HALT. Przebieg czasowy dla
+    funkcji przejścia w stan spoczynku przy implementacji za pomocą instrukcji HALT
+    jest pokazany na rys.12.</p>
+<p class="bl4"><a name="Rys.12"><img border="0" src="images/0004_09.gif" width="656" height="188"></a></p>
+<p class="bl4">Rys.12 Potwierdzenie przejścia w stan spoczynku</p>
+<h2 class="bl1"><a name="Cykl_wyjścia_ze_stanu_spoczynku">Cykl wyjścia ze stanu
+    spoczynku</a></h2>
+<p class="bl2">Aby wyjść ze stanu spoczynku, do mikroprocesora Z80 CMOS musi być
+    dostarczony sygnał zegarowy. Gdy sygnał ten pojawi się na wejściu
+    <span style="text-decoration: overline">CLK</span>, mikroprocesor Z80 CMOS
+    wznawia swoje działanie od punktu, w którym przeszedł do stanu spoczynku.
+    Przebiegi czasowe dla wyjście za stanu spoczynku przedstawione są na rys.13, 14
+    i 15.</p>
+<p class="bl2">Jeśli do wejścia w stan spoczynku użyta była instrukcja HALT, to
+    mikroprocesor Z80 CMOS również wejdzie w stan HALT. Aby procesor wyszedł ze
+    stanu spoczynku, należy mu dostarczyć jeden z sygnałów
+    <span style="text-decoration: overline">NMI</span>,
+    <span style="text-decoration: overline">INT</span> lub
+    <span style="text-decoration: overline">RESET</span>.</p>
+<p class="bl4"><a name="Rys.13"><img border="0" src="images/0004_10.gif" width="641" height="212"></a></p>
+<p class="bl4">Rys.13 Cykl nr 1 Wyjścia ze Stanu Spoczynku </p>
+<p class="bl4">&nbsp;</p>
+<p class="bl4"><a name="Rys.14"><img border="0" src="images/0004_11.gif" width="645" height="207"></a></p>
+<p class="bl4">Rys.14 Cykl nr 2 Wyjścia ze Stanu Spoczynku</p>
+<p class="bl4">&nbsp;</p>
+<p class="bl4"><a name="Rys.15"><img border="0" src="images/0004_12.gif" width="710" height="227"></a></p>
+<p class="bl4">Rys.15 Cykl nr 3 Wyjścia ze Stanu Spoczynku</p>
+<p class="bl4">&nbsp;</p>
+<div class="bl1">
+
+    <p>&nbsp;</p>
+    <hr color="#C0C0C0" size="1">
+    <div align="left">
+        <table style="float: right; BORDER-COLLAPSE: collapse; padding-left:8px; padding-right:8px; padding-top:1px; padding-bottom:1px; cellPadding=" 4"="" border="0">
+        <tbody><tr>
+            <td><img src="/images/i-lo_budynek.jpg"></td><td valign="top"><p align="center" style="text-align: center">&nbsp;&nbsp;&nbsp;I Liceum Ogólnokształcące&nbsp;&nbsp;&nbsp;<br><span class="small">im. Kazimierza Brodzińskiego<br> w Tarnowie</span><br><span class="small">©2019 mgr Jerzy Wałaszek</span></p></td>
+        </tr>
+        </tbody></table>
+    </div>
+    <span class="small">Dokument ten rozpowszechniany jest zgodnie z zasadami licencji<br>
+<b>GNU Free Documentation License</b>.</span><p>Pytania proszę przesyłać na adres email: <a href="mailto:i-lo@eduinf.waw.pl">i-lo@eduinf.waw.pl</a>
+</p>
+    <p><span class="small">W artykułach serwisu są używane cookies. Jeśli nie chcesz ich otrzymywać,<br>
+zablokuj je w swojej przeglądarce.<br>
+<a target="_blank" href="https://policies.google.com/technologies/partner-sites?hl=pl">
+Informacje dodatkowe</a></span></p>
+
+</div>
+
+
+
+
+</body>

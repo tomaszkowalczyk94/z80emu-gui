@@ -1,0 +1,234 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<body>
+
+<body>
+<div class="bl1">
+    <h2><a name="Tryby_adresowania">Tryby adresowania</a></h2>
+    <p class="bl1">Większość instrukcji mikroprocesora Z80 operuje na danych
+        przechowywanych w wewnętrznych rejestrach, w pamięci zewnętrznej lub w portach
+        wejścia / wyjścia. Adresowanie określa, w jaki sposób tworzony jest adres tych
+        danych w każdej instrukcji. Ten rozdział jest krótkim podsumowaniem typów
+        adresowania używanych przez mikroprocesor Z80, natomiast w następnych
+        rozdziałach są opisane szczegółowo rodzaje adresowania dostępne dla każdej z
+        grup instrukcji.</p>
+    <p class="bl1">&nbsp;</p>
+    <h3 class="bl1">Tryb natychmiastowy</h3>
+    <p class="bl2">W tym trybie adresowania bajt występujący w pamięci po kodzie
+        operacji zawiera sam argument.</p>
+    <p class="bl2">&nbsp;</p>
+    <table border="0" id="table1" cellpadding="4" style="border-collapse: collapse" class="bl2">
+        <tbody><tr>
+            <td colspan="2" style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Kod operacji</td>
+            <td>}- jeden lub dwa bajty</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Argument</td>
+            <td>}- jeden bajt</td>
+        </tr>
+        <tr>
+            <td style="text-align: left">D7</td>
+            <td style="text-align: right">D0</td>
+            <td>&nbsp;</td>
+        </tr>
+        </tbody></table>
+    <p class="bl2">Przykładem tego typu instrukcji jest wpisywanie stałej do
+        akumulatora, która występuje natychmiast po kodzie operacyjnym instrukcji.</p>
+    <p class="bl2">&nbsp;</p>
+    <h3 class="bl1">Tryb natychmiastowy rozszerzony</h3>
+    <p class="bl2">Ten tryb jest rozszerzeniem adresowania natychmiastowego, które
+        polega na tym, iż za kodem instrukcji występują dwa bajty argumentu.</p>
+    <p class="bl2">&nbsp;</p>
+    <table border="0" id="table2" cellpadding="4" style="border-collapse: collapse" class="bl2">
+        <tbody><tr>
+            <td style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Kod operacji</td>
+            <td>}- jeden lub dwa bajty</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Argument</td>
+            <td>}- młodszy bajt</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Argument</td>
+            <td>}- starszy bajt</td>
+        </tr>
+        </tbody></table>
+    <p>&nbsp;</p><p class="bl2">Przykładem tego typu instrukcji jest ładowanie pary
+    rejestrów <code>HL</code>
+    <span class="rem">(rejestr 16 bitowy)</span> za pomocą 16 bitów danych
+    <span class="rem">(dwa bajty)</span>.</p>
+    <p class="bl1">&nbsp;</p>
+    <h3 class="bl1">Zmodyfikowany tryb adresowania strony zerowej</h3>
+    <p class="bl2">Mikroprocesor posiada specjalną, jednobajtową instrukcję <code>CALL</code>,
+        która może wykonać skok pod jeden z ośmiu adresów na stronie zerowej pamięci.
+        Instrukcja ta, którą nazywa się restartem, ustawia <code>PC</code> na adres odnoszący się do
+        strony zerowej. Wartość kodu tej instrukcji pozwala określić przy pomocy jednego
+        bajtu 16 bitowy adres, pod którym są umieszczane często wywoływane podprogramy,
+        co oszczędza pamięć.</p>
+    <p class="bl2">&nbsp;</p>
+    <table border="0" id="table3" cellpadding="4" style="border-collapse: collapse" class="bl2">
+        <tbody><tr>
+            <td colspan="2" style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Kod operacji</td>
+            <td>}- jeden bajt</td>
+        </tr>
+        <tr>
+            <td style="text-align: left">B7</td>
+            <td style="text-align: right">B0</td>
+            <td>Adres efektywny to (B5 B4 B3 000)<sub>2</sub></td>
+        </tr>
+        </tbody></table>
+    <p class="bl1">&nbsp;</p>
+    <h3 class="bl1">Adresowanie względne</h3>
+    <p class="bl2">Ten tryb wykorzystuje jeden bajt danych umieszczony za kodem
+        instrukcji, który określa przesunięcie od obecnej pozycji w programie do
+        miejsca, gdzie może zostać wykonany skok. Przesunięcie to jest liczbą ze znakiem
+        w kodzie U2 i zostaje dodane do adresu następnej instrukcji.</p>
+    <p class="bl2">&nbsp;</p>
+    <table border="0" id="table4" cellpadding="4" style="border-collapse: collapse" class="bl2">
+        <tbody><tr>
+            <td style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Kod operacji</td>
+            <td>}- jeden bajt</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Przesunięcie</td>
+            <td>}- liczba U2 dodawana do adresu instrukcji + 2</td>
+        </tr>
+        </tbody></table>
+    <p class="bl2">&nbsp;</p>
+    <p class="bl2">Zaletą względnego adresowania jest możliwość wykonywania skoków
+        do okolicznych punktów w programie przy pomocy jedynie dwubajtowych instrukcji.
+        Dla większości programów skoki względne są najbardziej rozpowszechnionymi
+        rodzajami skoków z powodu bliskości powiązanych ze sobą segmentów programu. Z
+        tego powodu instrukcje te w sposób istotny mogą zmniejszyć wymagania pamięciowe
+        programu. Przesunięcie ze znakiem wpada w zakres od +129 do -126 w stosunku do
+        adresu komórki zawierającej adres kodu operacji skoku względnego. Drugą ważną
+        zaletą jest tworzenie kodu przemieszczalnego w pamięci.</p>
+    <p class="bl2">&nbsp;</p>
+    <h3 class="bl1">Adresowanie rozszerzone</h3>
+    <p class="bl2">Ten tryb udostępnia dwa bajty <span class="rem">(16 bitów)</span>
+        adresu, który może być dołączony do instrukcji. Dane te mogą oznaczać adres, pod
+        który program ma wykonać skok, lub adres komórki pamięci zawierającej argument
+        dla instrukcji.</p>
+    <p class="bl2">&nbsp;</p>
+    <table border="0" id="table5" cellpadding="4" style="border-collapse: collapse" class="bl2">
+        <tbody><tr>
+            <td style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Kod operacji</td>
+            <td>}- jeden lub dwa bajty</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Młodszy bajt adresu młodszego bajtu argumentu</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Starszy bajt adresu młodszego bajtu argumentu</td>
+            <td>&nbsp;</td>
+        </tr>
+        </tbody></table>
+    <p>&nbsp;</p><p class="bl2">Adresowanie rozszerzone jest niezbędne dla programu do
+    wykonywania skoków z dowolnego miejsca w pamięci do dowolnego innego miejsca lub
+    do odczytywania i zapisywania danych w dowolnej komórce pamięci.</p>
+    <p class="bl2">W czasie używania rozszerzonego adresowania należy określić adres
+        źródłowy lub docelowy argumentu. Używana jest notacja <code>(nn)</code> do
+        wskazywania zawartości pamięci pod adresem <code>nn</code>, gdzie nn jest 16
+        bitowym adresem określonym w instrukcji. Te dwa bajty adresu <code>nn</code> są
+        używane jako wskaźnik komórki pamięci. Użycie nawiasów zawsze znaczy, że wartość
+        w nich zawarta jest używana jako wskaźnik miejsca w pamięci. Na przykład (3200)
+        odnosi się do komórki pamięci umieszczonej pod adresem 3200.</p>
+    <p class="bl2">&nbsp;</p>
+    <h3 class="bl1">Adresowanie indeksowane</h3>
+    <p class="bl2">W tym rodzaju adresowania bajt danych umieszczony za za kodem
+        instrukcji zawiera przesunięcie, które zostaje dodane do jednego z dwóch
+        rejestrów indeksowych <span class="rem">(kod operacyjny instrukcji wskazuje ten
+rejestr)</span>, aby utworzyć wskaźnik do pamięci. Operacja nie powoduje zmiany
+        zawartości tego rejestru indeksowego.</p>
+    <p class="bl2">&nbsp;</p>
+    <table border="0" id="table6" cellpadding="4" style="border-collapse: collapse" class="bl2">
+        <tbody><tr>
+            <td style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Kod operacji</td>
+            <td rowspan="2">}- dwa bajty kodu instrukcji</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Kod operacji</td>
+        </tr>
+        <tr>
+            <td style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Przesunięcie</td>
+            <td>}- argument dodawany do rejestru indeksowego w celu stworzenia
+                wskaźnika do pamięci</td>
+        </tr>
+        </tbody></table>
+    <p class="bl2">&nbsp;</p>
+    <p class="bl2">Przykładem indeksowanej instrukcji jest ładowanie zawartości
+        pamięci <span class="rem">(rejestr indeksowy + przesunięcie)</span> do
+        akumulatora.</p>
+    <p class="bl2">Przesunięcie jest liczbą ze znakiem w kodzie U2. Adresowanie
+        indeksowane ogromnie upraszcza programy wykorzystujące tablice danych, ponieważ
+        rejestr indeksowy może wskazywać na początek tablicy. Dostępne są dwa rejestry
+        indeksowe, ponieważ często operacje wymagają dwóch lub więcej tablic.
+        Adresowanie indeksowane również umożliwia tworzenie kodu przemieszczalnego.</p>
+    <p class="bl2">Dwa rejestry indeksowe mikroprocesora Z80 są oznaczane jako IX i
+        IY. Adresowanie indeksowane zapisujemy w notacji jako:</p>
+    <p class="bl2"><code>(IX+d)</code> lub <code>(IY+d)</code></p>
+    <p class="bl2">Tutaj d jest przesunięciem <span class="rem">(ang. displacement)</span>
+        umieszczanym za kodem operacyjnym instrukcji. Nawiasy oznaczają, iż ta wartość
+        jest używana jako wskaźnik do zewnętrznej pamięci.</p>
+    <p class="bl2">&nbsp;</p>
+    <h3 class="bl1">Adresowanie rejestrowe</h3>
+    <p class="bl2">Wiele kodów operacyjnych mikroprocesora Z80 zawiera bity
+        informacji, które określają rejestr używany przez daną operację. Przykładem
+        adresowania rejestrowego jest przesłanie zawartości rejestru <code>E</code> do rejestru
+        <code>C</code>.</p>
+    <p class="bl2">&nbsp;</p>
+    <h3 class="bl1">Adresowanie implikowane</h3>
+    <p class="bl2">Adresowanie to odnosi się do operacji, w których kod operacyjny
+        automatycznie implikuje jeden lub kilka rejestrów mikroprocesora z argumentami.
+        Przykładem jest zbiór operacji arytmetycznych, gdzie akumulator jest zawsze
+        implikowanym rejestrem do zapisu wyników.</p>
+    <p class="bl2">&nbsp;</p>
+    <h3 class="bl1">Adresowanie pośrednie rejestrowe</h3>
+    <p class="bl2">Ten rodzaj adresowania określa 16 bitową parę rejestrów
+        mikroprocesora <span class="rem">(taką jak <code>HL</code>)</span> używaną jako wskaźnik
+        dowolnej komórki w pamięci. Ten typ instrukcji jest bardzo potężny i stosuje się
+        go w dużej liczbie aplikacji.</p>
+    <p class="bl2">&nbsp;</p>
+    <table border="0" id="table7" cellpadding="4" style="border-collapse: collapse" class="bl2">
+        <tbody><tr>
+            <td style="text-align: center; border: 2px solid #000000" bgcolor="#F0F0F0">Kod operacji</td>
+            <td>}- jeden lub dwa bajty</td>
+        </tr>
+        </tbody></table>
+    <p>&nbsp;</p><p class="bl2">Przykładem tego typu instrukcji jest załadowanie akumulatora
+    danymi z komórki pamięci wskazanej przez zawartość pary rejestrów <code>HL</code>. W
+    rzeczywistości adresowanie indeksowe jest odmianą adresowania pośredniego
+    rejestrowego, w którym do rejestrów wskazujących dane dodaje się jeszcze
+    przesunięcie. Adresowanie pośrednie rejestrowe pozwala na bardzo zaawansowany,
+    lecz łatwy do stosowania dostęp do komórek pamięci. Rozkazy przesyłu i
+    przeszukiwania blokowego w Z80 są rozszerzeniami tego typu adresowania, gdzie
+    dodano automatyczne zwiększanie i zmniejszanie zawartości rejestrów oraz
+    porównywanie z danymi w pamięci. W zapisie tryb ten oznaczamy umieszczając parę
+    rejestrów adresujących pamięć w nawiasach. Na przykład, symbol <code>(HL)</code> oznacza, że
+    zawartość rejestru <code>HL</code> ma być użyta jako wskaźnik komórki pamięci. Często
+    adresowanie pośrednie rejestrowe wykorzystuje się do określania argumentów 16
+    bitowych. W takim przypadku rejestr wskazuje na młodszy bajt argumentu,
+    natomiast adres ten jest automatycznie zwiększany o 1 przy pobieraniu lub
+    zapisie starszego bajtu argumentu <span class="rem">(zawartość rejestru
+adresującego nie jest zmieniana)</span>.</p>
+    <p class="bl2">&nbsp;</p>
+    <h3 class="bl1">Adresowanie bitów</h3>
+    <p class="bl2">Mikroprocesora Z80 wykonuje obszerny zestaw instrukcji
+        ustawiania, zerowania i testowania bitów. Instrukcje te pozwalają użyć do
+        operacji bitowej dowolną komórkę pamięci lub rejestr mikroprocesora za pomocą
+        jednego z trzech powyżej opisanych trybów adresowania <span class="rem">
+(rejestrowego, pośredniego rejestrowego i indeksowanego)</span> oraz określić w
+        kodzie operacyjnym, którego z ośmiu bitów dotyczy dana operacja.</p>
+    <p class="bl2">&nbsp;</p>
+    <h3 class="bl1">Kombinacje trybów adresowania</h3>
+    <p class="bl2">Wiele instrukcji zawiera więcej niż jeden argument
+        <span class="rem">(np. instrukcje arytmetyczne lub instrukcje przesyłania
+danych)</span>. W takich przypadkach mogą być zastosowane dwa rodzaje
+        adresowania. Na przykład, ładowanie danych może używać trybu natychmiastowego do
+        określenia źródła oraz rejestrowego pośredniego lub indeksowego do określenia
+        przeznaczenia tych danych.</p>
+</div>
+</body>

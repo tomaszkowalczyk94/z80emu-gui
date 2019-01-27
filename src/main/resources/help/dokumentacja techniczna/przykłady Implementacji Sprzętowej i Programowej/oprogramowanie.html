@@ -1,0 +1,868 @@
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<body>
+
+<body>
+
+<div class="google-auto-placed" style="text-align: center; width: 100%; height: auto; clear: both;"><ins data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-2048408300128807" data-adsbygoogle-status="done" style="display: block; margin: 12px auto 10px; background-color: transparent; height: 90px;"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:1200px;background-color:transparent;"><ins id="aswift_2_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:1200px;background-color:transparent;"><iframe width="1200" height="90" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0px;width:1200px;height:90px;"></iframe></ins></ins></ins></div><h1 class="main">Przykłady Implementacji Sprzętowej i Programowej -
+    Oprogramowanie</h1>
+<hr color="#336699" size="1">
+<div class="bl1">
+    <h2><a name="Przegląd_własności_programowych">Przegląd własności programowych</a></h2>
+    <p class="bl1">Zestaw instrukcji Z80 udostępnia użytkownikowi dużą liczbę
+        operacji do sterowania mikroprocesorem Z80. Rejestry główne oraz indeksowe mogą
+        przechowywać wyniki operacji arytmetycznych i logicznych, tworzyć adresy pamięci
+        lub grać rolę szybkiej, podręcznej pamięci na często używane dane.</p>
+    <p class="bl1">Informację można przemieszczać bezpośrednio z rejestru do
+        rejestru, z pamięci do pamięci, z pamięci do rejestrów oraz z rejestrów do
+        pamięci. Dodatkowo zawartość rejestrów oraz zawartość innych rejestrów lub
+        pamięci można ze sobą wymieniać bez konieczności rezerwowania tymczasowego
+        miejsca na wymieniane dane. W szczególności można wymienić ze sobą zawartość
+        głównych i pomocniczych rejestrów za pomocą jedynie dwóch instrukcji: <code>EX</code>
+        i <code>EXX</code>. Taka wymiana rejestrów może być wykorzystywana do otrzymania
+        rejestrów roboczych dla różnych procedur lub zwiększenia dostępnych rejestrów w
+        pojedynczej procedurze.</p>
+    <p class="bl1">Zachowywanie i odzyskiwanie danych dla par rejestrów lub komórek
+        pamięci może być dokonywane metodą LIFO za pomocą instrukcji <code>PUSH</code> i
+        <code>POP</code>, które wykorzystują rejestr<code> WSKAŹNIKA STOSU</code>
+        <span class="rem">(<code>SP</code>)</span>,
+        Ten rejestr stosu jest udostępniony zarówno do manipulacji danymi jak i do
+        zapisu i odczytu adresów powrotnych z procedur. Na przykład, gdy wywołana
+        zostanie procedura, to adres następnej instrukcji za instrukcją <code>CALL</code>
+        jest umieszczany na szczycie stosu adresowanego rejestrem <code>SP</code>. Gdy procedura
+        wraca do wywołującego ją programu, adres ze szczytu stosu zostaje użyty do
+        ustawienia licznika programu na adres tej następnej instrukcji. Wskaźnik stosu
+        jest automatycznie korygowany tak, aby odzwierciedlał bieżący szczyt stosu
+        podczas wykonywania instrukcji <code>PUSH</code>, <code>POP</code>, <code>CALL</code>
+        i <code>RET</code>. Ten mechanizm pozwala umieszczać na stosie dane i adresy
+        powrotu praktycznie do dowolnej głębokości zagnieżdżenia, ponieważ obszar stosu
+        potencjalnie może być tak duży, jak duża jest dostępna przestrzeń pamięci.</p>
+    <p class="bl1">Kolejność wykonywania instrukcji może być sterowana przy pomocy
+        sześciu różnych znaczników <span class="rem">(przeniesienie, zero, znak,
+parzystość/nadmiar, dodawanie/odejmowanie, przeniesienie połówkowe)</span>,
+        które odzwierciedlają wyniki operacji arytmetycznych, logicznych, przesunięć i
+        porównań.</p>
+    <p class="bl1">Po wykonaniu instrukcji ustawiającej dany znacznik, może on
+        zostać użyty jako warunek w instrukcji skoku lub powrotu z procedury. Instrukcje
+        te udostępniają logiczną kontrolę nad przetwarzaniem pojedynczego bitu, bajtu
+        lub słowa.</p>
+    <p class="bl1">Dostępny jest pełny zestaw operacji logicznych <code>AND</code>,
+        <code>OR</code>, <code>XOR</code> <span class="rem">(exclusive-OR)</span>, <code>
+            CPL</code> <span class="rem">(NOR)</span> i <code>NEG</code> <span class="rem">
+(uzupełnienie do podstawy 2)</span> dla działań logicznych pomiędzy akumulatorem
+        a wszystkimi pozostałymi rejestrami 8 bitowymi, komórkami pamięci czy danymi
+        bezpośrednimi.</p>
+    <p class="bl1">Dodatkowo dostępny jest pełen zestaw przesunięć arytmetycznych i
+        logicznych w obu kierunkach, który działa na zawartości wszystkich, głównych
+        rejestrów 8 bitowych lub bezpośrednio na komórce pamięci. Znacznik przeniesienia
+        może uczestniczyć lub być ustawiany w trakcie tych instrukcji przesunięć, aby
+        udostępniać zarówno możliwość testowania wyników przesunięć jak również pozwalać
+        na łączenie przesunięć w kilku rejestrach lub rejestrach i komórkach pamięci.</p>
+    <p class="bl1">&nbsp;</p>
+    <h3><a name="Przykłady_specyficznych_instrukcji_Z80">Przykłady specyficznych
+        instrukcji Z80</a></h3>
+    <h4 class="bl1">Przykład nr 1:</h4>
+    <p class="bl2">Jeśli należy przemieścić w pamięci łańcuch danych o długości 737
+        bajtów spod adresu DATA do BUFFER, to operację tę programujemy następująco:</p>
+    <p class="bl2">&nbsp;</p>
+    <p class="bl2"><code><span class="i">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+LD</span>&nbsp;&nbsp; HL, DATA&nbsp;&nbsp;&nbsp; <span class="c">; adres
+startowy łańcucha danych</span><br>
+        <span class="i">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+        <span class="i">LD</span>&nbsp;&nbsp; DE, BUFFER&nbsp; <span class="c">; adres
+startowy miejsca przeznaczenia danych</span><br>
+        <span class="i">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LD</span>&nbsp;&nbsp;
+        BC, 737&nbsp;&nbsp;&nbsp;&nbsp; <span class="c">; długość łańcucha</span><br>
+        <span class="i">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LDIR</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="c">; prześlij łańcuch - przemieść obszar pamięci wskazywany<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span class="i">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span class="c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ; przez
+HL do obszaru pamięci wskazywanego przez DE,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span class="i">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
+        <span class="c">&nbsp;; zwiększ HL i DE, Zmniejsz BC i kontynuuj aż BC = 0.</span></code></p>
+    <p class="bl2">&nbsp;</p>
+    <p class="bl2">Operacja ta wymaga 11 bajtów kodu, a każdy bajt danej jest
+        przesyłany w ciągu 21 taktów zegara.</p>
+    <p class="bl1">&nbsp;</p>
+    <h4 class="bl1">Przykład nr 2:</h4>
+    <p class="bl2">Łańcuch w pamięci <span class="rem">(o długości ograniczonej do 132 znaków)</span>
+        umieszczony pod adresem DATA ma być przenoszony w inne miejsce pamięci o adresie BUFFER aż do momentu napotkania w tym łańcuchu na znak ASCI '$'
+        <span class="rem">(używany jako
+znak końca łańcucha)</span> lub przesłania wszystkich 132 znaków. Operację wykonujemy
+        następująco:</p>
+    <p class="bl2">&nbsp;</p>
+    <p class="bl2"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">
+LD</span>&nbsp;&nbsp; HL, DATA&nbsp;&nbsp;&nbsp; <span class="c">; adres
+początku łańcucha</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">LD</span>&nbsp;&nbsp;
+        DE, BUFFER&nbsp; <span class="c">; adres docelowego bufora</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">LD</span>&nbsp;&nbsp;
+        BC, 132&nbsp;&nbsp;&nbsp;&nbsp; <span class="c">; maksymalna długość łańcucha</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">LD</span>&nbsp;&nbsp;
+        A, '$'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="c">; kod zakończenia łańcucha</span><br>
+        LOOP:&nbsp;&nbsp; <span class="i">CP</span>&nbsp;&nbsp; (HL)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="c">; porównaj zawartość pamięci ze znakiem końca łańcucha</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">JR</span>&nbsp;&nbsp;
+        Z, END-$&nbsp;&nbsp;&nbsp; <span class="c">; idź na koniec, jeśli znak się
+zgadza</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">LDI</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="c">; przenieś znak spod (HL) do (DE)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; zwiększ HL i DE, zmniejsz BC</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">JP</span>&nbsp;&nbsp;
+        PE, LOOP&nbsp;&nbsp;&nbsp; <span class="c">; wróć do LOOP, jeśli pozostało
+więcej znaków</span><br>
+        END:&nbsp;&nbsp;&nbsp; ...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="c">; inaczej przejdź do zakończenia.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; Uwaga: znacznik P/V jest używany do informowania,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; że BC osiągnął zero.</span></code></p>
+    <p class="bl2">&nbsp;</p>
+    <p class="bl2">Operacja wymaga 19 bajtów kodu.</p>
+    <p class="bl2">&nbsp;</p>
+    <h4 class="bl1">Przykład nr 3:</h4>
+    <p class="bl2">&nbsp;</p>
+    <p class="bl4"><a name="Rys.22">
+        <img border="0" src="images/0007_01.gif" width="188" height="317"></a><br>
+        Rys.22 Przesuwanie cyfr BCD/bajtów</p>
+    <p class="bl4">&nbsp;</p>
+    <p class="bl2">16 cyfrowa liczba dziesiętna jest przesuwana w sposób pokazany na
+        rys.22. Te przesunięcie wykonuje się przy mnożeniu lub dzieleniu liczb BCD (<span class="rem">ang.
+Binary Coded Decimal - liczby dziesiętne, gdzie każda cyfra kodowana jest na 4
+bitach)</span>. 16 cyfrowa liczba dziesiętna jest zapisana w spakowanym formacie
+        BCD <span class="rem">(dwie cyfry BCD na bajt)</span>. Operację programuje się
+        następująco:</p>
+    <p class="bl2">&nbsp;</p>
+    <p class="bl2"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">
+LD</span>&nbsp;&nbsp; HL, DATA&nbsp;&nbsp;&nbsp; <span class="c">; adres
+pierwszego bajtu</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">LD</span>&nbsp;&nbsp;
+        B, COUNT&nbsp;&nbsp;&nbsp; <span class="c">; licznik przesunięć</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">XOR</span>&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="c">; wymaż akumulator</span><br>
+        ROTAT:&nbsp; <span class="i">RLD</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="c">; obróć w lewo młodszą cyfrę w akumulatorze<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; z cyframi wskazywanymi przez (HL)</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">INC</span>&nbsp; HL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="c">; przesuń wskaźnik</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">DJNZ</span> ROTAT-$&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="c">; zmniejsz B i wróć do ROTAT, jeśli B jest większe od zera<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; inaczej przejdź do kolejnej instrukcji</span></code></p>
+    <p class="bl1">&nbsp;</p>
+    <p class="bl2">Operacja wymaga 11 bajtów.</p>
+    <p class="bl1">&nbsp;</p>
+    <h4 class="bl1">Przykład nr 4:</h4>
+    <p class="bl2">Jedna liczba ma być odjęta od drugiej i obie są w tym samym
+        spakowanym formacie BCD, posiadając tą samą długość, która jednakże nie musi być
+        stała. Wynik odejmowania ma być umieszczony w miejscu odjemnej. Operację
+        programuje się następująco:</p>
+    <p class="bl2">&nbsp;</p>
+    <p class="bl2"><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">
+LD</span>&nbsp;&nbsp; HL, ARG1&nbsp;&nbsp;&nbsp; <span class="c">; adres
+odjemnej</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">LD</span>&nbsp;&nbsp;
+        DE, ARG2&nbsp;&nbsp;&nbsp; <span class="c">; adres odjemnika</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">LD</span>&nbsp;&nbsp;
+        B, LENGTH&nbsp;&nbsp; <span class="c">; długość tych dwóch argumentów</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">AND</span>&nbsp; A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="c">; zeruj znacznik przeniesienia</span><br>
+        SUBDEC: <span class="i">LD</span>&nbsp;&nbsp; A, (DE)&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="c">; odjemnik do A</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">SBC</span>&nbsp; A, (HL)&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="c">; odejmij (HL) od A</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">DAA</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="c">; popraw wynik na BCD</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">LD</span>&nbsp;&nbsp;
+        (HL), A&nbsp;&nbsp;&nbsp;&nbsp; <span class="c">; zachowaj wynik</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">INC</span>&nbsp; HL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="c">; zwiększ wskaźniki pamięci</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">INC</span>&nbsp; DE<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="i">DJNZ</span> SUBDEC-$&nbsp;&nbsp;&nbsp;
+        <span class="c">; zmniejsz B i skocz do SUBDEC,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; jeśli B jest różne od zera.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+; inaczej wykonaj kolejną instrukcję</span></code></p>
+    <p class="bl1">&nbsp;</p>
+    <p class="bl2">Operacja wymaga 17 bajtów.</p>
+    <p class="bl1">&nbsp;</p>
+    <h3><a name="Przykłady_zadań_programistycznych">Przykłady zadań
+        programistycznych</a></h3>
+    <p class="bl1">Przykładowy program z tablicy 2 sortuje ciąg liczb w porządku
+        rosnącym za pomocą algorytmu standardowego sortowania bąbelkowego. Sortowane
+        liczby posiadają zakres od 0 do 255.</p>
+    <p class="bl1">&nbsp;</p>
+    <p class="bl4"><a name="Tablica_2">Tablica 2</a>. Listing programu sortowania
+        bąbelkowego</p>
+    <div align="center">
+        <table border="1" id="table1" cellspacing="0" cellpadding="4" style="border-collapse: collapse" bordercolor="#CCCCCC">
+            <tbody><tr>
+                <td style="text-align: center" bgcolor="#F0F0F0"><b>Adres</b></td>
+                <td style="text-align: center" bgcolor="#F0F0F0"><b>Kod<br>
+                    wynikowy</b></td>
+                <td style="text-align: center" bgcolor="#F0F0F0"><b>Wiersz</b></td>
+                <td colspan="2" style="text-align: center" bgcolor="#F0F0F0"><b>
+                    Wiersz źródłowy</b></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">1</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">standardowa procedura sortowania
+			bąbelkowego</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">2</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">3</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">na wejściu:&nbsp;&nbsp; HL zawiera
+			adres danych</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">4</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			C zawiera liczbę elementów do sortowania</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">5</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			(1 &lt; C &lt; 256)</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">6</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">7</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">na wyjściu:&nbsp;&nbsp; dane
+			posortowane w porządku rosnącym</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">8</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">9</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">użycie rejestrów</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">10</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">11</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">rejestr&nbsp;&nbsp; zawartość</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">12</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">13</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			przechowuje wyniki tymczasowe</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">14</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			licznik ciągu danych</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">15</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			długość ciągu danych</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">16</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			pierwszy element porównania</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">17</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			drugi element porównania</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">18</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">H&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			znacznik informujący o zamianie</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">19</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">L&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			nieużywany</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">20</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">IX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			wskaźnik ciągu danych</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">21</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">IY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			nieużywany</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">22</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0000</td>
+                <td class="code">222600</td>
+                <td style="text-align: right" class="code">23</td>
+                <td class="code">SORT:</td>
+                <td class="code"><span class="i">LD</span>&nbsp;&nbsp; (DATA),HL&nbsp;&nbsp;
+                    <span class="c">; zachowaj adres danych</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0003</td>
+                <td class="code">CB84</td>
+                <td style="text-align: right" class="code">24</td>
+                <td class="code">LOOP:</td>
+                <td class="code"><span class="i">RES</span>&nbsp; FLAH,H&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; zeruj znacznik wymiany</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0005</td>
+                <td class="code">41</td>
+                <td style="text-align: right" class="code">25</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">LD</span>&nbsp;&nbsp; B,C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; ustaw licznik długości</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0006</td>
+                <td class="code">05</td>
+                <td style="text-align: right" class="code">26</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">DEC</span>&nbsp; B&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; ustaw do testowania</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0007</td>
+                <td class="code">DD2A2600</td>
+                <td style="text-align: right" class="code">27</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">LD</span>&nbsp;&nbsp; IX,(DATA)&nbsp;
+                    <span class="c">&nbsp;; ustaw wskaźnik danych</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">000B</td>
+                <td class="code">DD7E00</td>
+                <td style="text-align: right" class="code">28</td>
+                <td class="code">NEXT:</td>
+                <td class="code"><span class="i">LD</span>&nbsp;&nbsp; A,(IX)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; pierwszy element do porównania</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">000E</td>
+                <td class="code">57</td>
+                <td style="text-align: right" class="code">29</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">LD</span>&nbsp;&nbsp; D,A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; chwilowo zapamiętamy go w D</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">000F</td>
+                <td class="code">DD5E01</td>
+                <td style="text-align: right" class="code">30</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">LD</span>&nbsp;&nbsp; E,(IX+1)&nbsp;&nbsp;&nbsp;
+                    <span class="c">; drugi element do porównania</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0012</td>
+                <td class="code">93</td>
+                <td style="text-align: right" class="code">31</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">SUB</span>&nbsp; E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; porównaj pierwszy z drugim</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0013</td>
+                <td class="code">3008</td>
+                <td style="text-align: right" class="code">32</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">JR</span>&nbsp;&nbsp; PC,NOEX-$&nbsp;
+                    <span class="c">&nbsp;; jeśli pierwszy &gt; drugi, skoku nie będzie</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0015</td>
+                <td class="code">DD7300</td>
+                <td style="text-align: right" class="code">33</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">LD</span>&nbsp;&nbsp; (IX),E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; zamień elementy ciągu</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0018</td>
+                <td class="code">DD7201</td>
+                <td style="text-align: right" class="code">34</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">LD</span>&nbsp;&nbsp; (IX+1),D</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">001B</td>
+                <td class="code">CBC4</td>
+                <td style="text-align: right" class="code">35</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">SET</span>&nbsp; FLAG,H&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; zapamiętaj, że była wymiana</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">001D</td>
+                <td class="code">DD23</td>
+                <td style="text-align: right" class="code">36</td>
+                <td class="code">NOEX:</td>
+                <td class="code"><span class="i">INC</span>&nbsp; IX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; wskaż następny element danych</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">001F</td>
+                <td class="code">10EA</td>
+                <td style="text-align: right" class="code">37</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">DJNZ</span> NEXT-$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; zliczaj ilość porównań,</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">38</td>
+                <td class="code">&nbsp;</td>
+                <td class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; powtarza=j, jeśli pozostały pary danych</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0021</td>
+                <td class="code">CB44</td>
+                <td style="text-align: right" class="code">39</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">BIT</span>&nbsp; FLAG,H&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; sprawdź, czy wystąpiła wymiana</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0023</td>
+                <td class="code">20DE</td>
+                <td style="text-align: right" class="code">40</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">JR</span>&nbsp;&nbsp; NZ,LOOP-$&nbsp;&nbsp;
+                    <span class="c">; kontynuuj, jeśli dane nie są posortowane</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0025</td>
+                <td class="code">C9</td>
+                <td style="text-align: right" class="code">41</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">RET</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; inaczej zakończ</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">42</td>
+                <td class="code">;</td>
+                <td class="code">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0026</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">43</td>
+                <td class="code">FLAG:</td>
+                <td class="code"><span class="i">EQU</span>&nbsp; 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; przydzielenie bitu znacznika</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0026</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">44</td>
+                <td class="code">DATA:</td>
+                <td class="code"><span class="i">DEFS</span> 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; miejsce na adres danych</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">45</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">END</span></td>
+            </tr>
+            </tbody></table>
+    </div>
+    <p class="bl1">&nbsp;</p>
+    <p class="bl1">Program z tablicy 3 mnoży dwie 16 bitowe liczby bez znaku,
+        pozostawiając wynik w parze rejestrów HL.</p>
+    <p class="bl1">&nbsp;</p>
+    <p class="bl4"><a name="Tablica_3">Tablica 3</a>. Listing programu mnożenia</p>
+    <div align="center">
+        <table border="1" id="table2" cellspacing="0" cellpadding="4" style="border-collapse: collapse" bordercolor="#CCCCCC">
+            <tbody><tr>
+                <td style="text-align: center" bgcolor="#F0F0F0"><b>Adres</b></td>
+                <td style="text-align: center" bgcolor="#F0F0F0"><b>Kod<br>
+                    wynikowy</b></td>
+                <td style="text-align: center" bgcolor="#F0F0F0"><b>Wiersz</b></td>
+                <td colspan="2" style="text-align: center" bgcolor="#F0F0F0"><b>
+                    Wiersz źródłowy</b></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0000</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">1</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">mnożenie 16 bitowych liczb bez
+			znaku</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">2</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">na wejściu: mnożnik w DE</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">3</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			mnożna w HL</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">4</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">5</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">na wyjściu: wynik w HL</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">6</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">7</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">użycie rejestrów:</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">8</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">9</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">10</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">H&nbsp;&nbsp;&nbsp; starsze bity
+			wyniku częściowego</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">11</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">L&nbsp;&nbsp;&nbsp; młodsze bity
+			wyniku częściowego</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">12</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">D&nbsp;&nbsp;&nbsp; starsze bity
+			mnożnej</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">13</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">E&nbsp;&nbsp;&nbsp; młodsze bity
+			mnożnej</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">14</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">B&nbsp;&nbsp;&nbsp; licznik liczby
+			przesunięć</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">15</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">C&nbsp;&nbsp;&nbsp; starsze bity
+			mnożnika</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">16</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code"><span class="c">A&nbsp;&nbsp;&nbsp; młodsze bity
+			mnożnika</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">17</td>
+                <td class="code"><span class="c">;</span></td>
+                <td class="code">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0000</td>
+                <td class="code">0610</td>
+                <td style="text-align: right" class="code">18</td>
+                <td class="code">MULT:</td>
+                <td class="code"><span class="i">LD</span>&nbsp;&nbsp; B,16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; liczba bitów</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0002</td>
+                <td class="code">4A</td>
+                <td style="text-align: right" class="code">19</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">LD</span>&nbsp;&nbsp; C,D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; przenieś mnożnik</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0003</td>
+                <td class="code">7B</td>
+                <td style="text-align: right" class="code">20</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">LD</span>&nbsp;&nbsp; A,E</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0004</td>
+                <td class="code">EB</td>
+                <td style="text-align: right" class="code">21</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">EX</span>&nbsp;&nbsp; DE,HL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; przenieś mnożną</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0005</td>
+                <td class="code">210000</td>
+                <td style="text-align: right" class="code">22</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">LD</span>&nbsp;&nbsp; HL,0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; wymaż wynik częściowy</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0008</td>
+                <td class="code">CB39</td>
+                <td style="text-align: right" class="code">23</td>
+                <td class="code">MLOOP:</td>
+                <td class="code"><span class="i">SRL</span>&nbsp; C&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; przesuń mnożnik w prawo</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">000A</td>
+                <td class="code">1F</td>
+                <td style="text-align: right" class="code">24</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">RRA</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; najmniej znaczący bit trafia</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">25</td>
+                <td class="code">&nbsp;</td>
+                <td class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; znacznika przeniesienia</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">000B</td>
+                <td class="code">3001</td>
+                <td style="text-align: right" class="code">26</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">JR</span>&nbsp;&nbsp; NC,NOADD-$
+                    <span class="c">; jeśli brak przeniesienia, pomiń dodawanie</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">000D</td>
+                <td class="code">19</td>
+                <td style="text-align: right" class="code">27</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">ADD</span>&nbsp; HL,DE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; inaczej dodaj mnożną</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">28</td>
+                <td class="code">&nbsp;</td>
+                <td class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; do wyniku częściowego</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">000E</td>
+                <td class="code">EB</td>
+                <td style="text-align: right" class="code">29</td>
+                <td class="code">NOADD:</td>
+                <td class="code"><span class="i">EX</span>&nbsp;&nbsp; DE,HL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; przesuń mnożną w lewo</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">000F</td>
+                <td class="code">29</td>
+                <td style="text-align: right" class="code">30</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">ADD</span>&nbsp; HL,HL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="c">; mnożąc ją przez dwa</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0010</td>
+                <td class="code">EB</td>
+                <td style="text-align: right" class="code">31</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">EX</span>&nbsp;&nbsp; DE,HL</td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0011</td>
+                <td class="code">10F5</td>
+                <td style="text-align: right" class="code">32</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">DJNZ</span> MLOOP-$&nbsp;&nbsp;&nbsp;
+                    <span class="c">; powtarzaj, aż do wykończenia bitów</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">0013</td>
+                <td class="code">C9</td>
+                <td style="text-align: right" class="code">33</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">RET</span></td>
+            </tr>
+            <tr>
+                <td class="code" style="text-align: left">&nbsp;</td>
+                <td class="code">&nbsp;</td>
+                <td style="text-align: right" class="code">34</td>
+                <td class="code">&nbsp;</td>
+                <td class="code"><span class="i">END</span></td>
+            </tr>
+            </tbody></table>
+    </div>
+</div>
+<p class="bl1">&nbsp;</p>
+<div class="bl1">
+
+    <p>&nbsp;</p>
+    <hr color="#C0C0C0" size="1">
+    <div align="left">
+        <table style="float: right; BORDER-COLLAPSE: collapse; padding-left:8px; padding-right:8px; padding-top:1px; padding-bottom:1px; cellPadding=" 4"="" border="0">
+        <tbody><tr>
+            <td><img src="/images/i-lo_budynek.jpg"></td><td valign="top"><p align="center" style="text-align: center">&nbsp;&nbsp;&nbsp;I Liceum Ogólnokształcące&nbsp;&nbsp;&nbsp;<br><span class="small">im. Kazimierza Brodzińskiego<br> w Tarnowie</span><br><span class="small">©2019 mgr Jerzy Wałaszek</span></p></td>
+        </tr>
+        </tbody></table>
+    </div>
+    <span class="small">Dokument ten rozpowszechniany jest zgodnie z zasadami licencji<br>
+<b>GNU Free Documentation License</b>.</span><p>Pytania proszę przesyłać na adres email: <a href="mailto:i-lo@eduinf.waw.pl">i-lo@eduinf.waw.pl</a>
+</p>
+    <p><span class="small">W artykułach serwisu są używane cookies. Jeśli nie chcesz ich otrzymywać,<br>
+zablokuj je w swojej przeglądarce.<br>
+<a target="_blank" href="https://policies.google.com/technologies/partner-sites?hl=pl">
+Informacje dodatkowe</a></span></p>
+
+</div>
+
+
+
+
+</body>
+</html>

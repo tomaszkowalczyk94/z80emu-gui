@@ -12,16 +12,18 @@ public class HelpPage extends TreeItem<String> {
 
     @Getter private HelpCatalog parentCatalog;
     @Getter private String name;
+    @Getter private String fileName;
 
-    public HelpPage(String name, HelpCatalog parentCatalog) {
-        super(name, new Glyph("FontAwesome", "folder"));
+    public HelpPage(String name, String fileName, HelpCatalog parentCatalog) {
+        super(name, new Glyph("FontAwesome", "file"));
         this.parentCatalog = parentCatalog;
         this.name = name;
+        this.fileName = fileName;
     }
 
     public URI getUriToFile(){
         try {
-            return getClass().getClassLoader().getResource(parentCatalog.getAddressToCatalog().toString()+name).toURI();
+            return getClass().getClassLoader().getResource(parentCatalog.getAddressToCatalog().toString()+fileName).toURI();
         } catch (URISyntaxException e) {
             throw new EmulatorCriticalException(e);
         }
