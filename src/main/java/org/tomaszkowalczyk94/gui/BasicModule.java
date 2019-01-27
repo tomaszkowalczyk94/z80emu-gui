@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import org.tomaszkowalczyk94.gui.controller.*;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblerFacade;
+import org.tomaszkowalczyk94.gui.model.help.HelpService;
 import org.tomaszkowalczyk94.gui.model.memory.MemoryService;
 import org.tomaszkowalczyk94.gui.view.DialogHelper;
 import org.tomaszkowalczyk94.gui.view.HelpStage;
@@ -28,6 +29,7 @@ public class BasicModule extends AbstractModule {
         bind(ValueFormatter.class).in(Singleton.class);
         bind(AssemblerFacade.class).in(Singleton.class);
         bind(MemoryService.class).in(Singleton.class);
+        bind(HelpService.class).in(Singleton.class);
 
 
     }
