@@ -38,7 +38,6 @@ public class HelpController implements Initializable {
                     if(newValue instanceof HelpPage) {
                         HelpPage helpPage = (HelpPage) newValue;
                         webView.getEngine().load(helpPage.getUriToFile().toString());
-                        System.out.println(helpPage.getUriToFile());
                     }
                 });
 

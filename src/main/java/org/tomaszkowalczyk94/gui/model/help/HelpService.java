@@ -21,16 +21,13 @@ public class HelpService {
         try {
             InputStream in = getClass().getClassLoader().getResourceAsStream(BOOTSTRAP_FILE_DIR);
             JSONObject bootstrapJson = new JSONObject(IOUtils.toString(in, "UTF-8"));
-
-            create(root, bootstrapJson.toMap());
-
-            System.out.println("xxx");
+            createTreeNode(root, bootstrapJson.toMap());
         } catch (IOException | URISyntaxException e) {
             throw new EmulatorCriticalException(e);
         }
     }
 
-    private void create(HelpCatalog parentCatalog, Map<String, Object> map) throws URISyntaxException {
+    private void createTreeNode(HelpCatalog parentCatalog, Map<String, Object> map) throws URISyntaxException {
 
         for(Map.Entry<String, Object> entry : map.entrySet() ) {
 
@@ -41,7 +38,7 @@ public class HelpService {
             } else {
                 HelpCatalog newCatalog = new HelpCatalog(entry.getKey(), parentCatalog);
                 parentCatalog.getChildren().add(newCatalog);
-                create(newCatalog, (Map)entry.getValue());
+                createTreeNode(newCatalog, (Map)entry.getValue());
             }
         }
 
