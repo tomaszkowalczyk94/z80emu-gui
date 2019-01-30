@@ -46,8 +46,6 @@
             <groupId>org.bitbucket.grauw</groupId>
             <artifactId>glass</artifactId>
             <version>0.5</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/jar/glass-0.5.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.fxmisc.richtext</groupId>
@@ -81,6 +79,9 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>myMavenRepo</id>
+            <url>https://mymavenrepo.com/repo/PmCL80jeU82fLVGyuUt4/</url>
+        </repository>
     </repositories>
-
 </project>
