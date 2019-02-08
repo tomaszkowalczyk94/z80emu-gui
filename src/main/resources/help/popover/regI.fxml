@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+
+<AnchorPane prefHeight="208.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rejestr Strony Adresu Przerwania (I)">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Text>
+      <TextFlow layoutX="16.0" layoutY="53.0" prefHeight="156.0" prefWidth="348.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mikroprocesor Z80 może pracować w trybie, gdzie w odpowiedzi na przerwanie następuje wywołanie procedury obsługującej je umieszczonej w dowolnym obszarze pamięci. Do tego celu wykorzystywany jest rejestr I, w którym przechowywane jest 8 najstarszych bitów adresu procedury obsługi przerwania (tzw. adres strony), a młodsze 8 bitów podaje urządzenie zgłaszające przerwanie. Właściwość ta pozwala dynamicznie rozmieszczać procedury obsługi przerwań w dowolnym miejscu pamięci z minimalnym czasem dostępu do takiej procedury." wrappingWidth="353.283203125" />
+         </children>
+      </TextFlow>
+   </children>
+</AnchorPane>

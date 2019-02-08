@@ -2,15 +2,25 @@ package org.tomaszkowalczyk94.gui.controller;
 
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import org.controlsfx.control.PopOver;
+import org.tomaszkowalczyk94.gui.model.help.HelpPopOverService;
 import org.tomaszkowalczyk94.gui.view.ValueFormatter;
 import org.tomaszkowalczyk94.z80emu.core.Z80;
 import org.tomaszkowalczyk94.z80emu.core.register.RegisterBank;
 
-public class RegistersController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class RegistersController implements Initializable{
+
 
     @Inject private ValueFormatter valueFormatter;
     @Inject private Z80 z80;
+    @Inject private HelpPopOverService helpPopOverService;
 
     @FXML public TextField regA;
     @FXML public TextField regB;
@@ -30,6 +40,11 @@ public class RegistersController {
     @FXML public TextField regSp;
     @FXML public TextField regIx;
     @FXML public TextField regIy;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        popOverForIReg = helpPopOverService.createPopOverForIReg();
+    }
 
     public void refreshRegs() {
         RegisterBank regs = z80.getRegs();
@@ -55,5 +70,19 @@ public class RegistersController {
         regIx.setText(valueFormatter.getUnsignedHex( regs.getIx().getUnsignedValue(), 4));
         regIy.setText(valueFormatter.getUnsignedHex( regs.getIy().getUnsignedValue(), 4));
     }
+
+    PopOver popOverForIReg;
+    @FXML public Label regILabel;
+
+    public void onMouseEntered(MouseEvent mouseEvent) {
+        System.out.println("mouse entered");
+        popOverForIReg.show(regILabel);
+    }
+
+    public void onMouseExited(MouseEvent mouseEvent) {
+        System.out.println("mouse exited");
+        popOverForIReg.hide();
+    }
+
 
 }

@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import org.tomaszkowalczyk94.gui.controller.*;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblerFacade;
+import org.tomaszkowalczyk94.gui.model.help.HelpPopOverService;
 import org.tomaszkowalczyk94.gui.model.help.HelpService;
 import org.tomaszkowalczyk94.gui.model.memory.MemoryService;
 import org.tomaszkowalczyk94.gui.view.DialogHelper;
@@ -15,6 +16,9 @@ public class BasicModule extends AbstractModule {
 
     @Override
     protected void configure() {
+
+        bind(FxmlLoaderCreator.class).in(Singleton.class);
+
         bind(HelpStage.class).in(Singleton.class);
 
         bind(AssemblerController.class).in(Singleton.class);
@@ -30,7 +34,7 @@ public class BasicModule extends AbstractModule {
         bind(AssemblerFacade.class).in(Singleton.class);
         bind(MemoryService.class).in(Singleton.class);
         bind(HelpService.class).in(Singleton.class);
-
+        bind(HelpPopOverService.class).in(Singleton.class);
 
     }
 }

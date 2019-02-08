@@ -16,17 +16,10 @@ public class Main extends Application {
 
     private Injector injector = Guice.createInjector(new BasicModule());
 
-    private FXMLLoader createFxmlLoader(String file) {
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(file));
-        loader.setControllerFactory(injector::getInstance);
-        return loader;
-    }
-
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = createFxmlLoader("main.fxml");
 
-        loader.setControllerFactory(injector::getInstance);
+        FXMLLoader loader = injector.getInstance(FxmlLoaderCreator.class).createFxmlLoader("main.fxml");
 
         Parent root = loader.load();
         root.getStylesheets().add("css/style.css");
@@ -42,7 +35,7 @@ public class Main extends Application {
      * @param parent owner window of help window
      */
     private void initHelpWindow(Window parent) throws IOException {
-        FXMLLoader loader = createFxmlLoader("help.fxml");
+        FXMLLoader loader = injector.getInstance(FxmlLoaderCreator.class).createFxmlLoader("help.fxml");
 
         HelpStage helpStage = injector.getInstance(HelpStage.class);
 
