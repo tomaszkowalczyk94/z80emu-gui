@@ -49,7 +49,7 @@
                      <font>
                         <Font name="Monospaced Regular" size="12.0" />
                      </font></TextField>
-                  <TextField fx:id="regL1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="227.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                  <TextField fx:id="regF" alignment="CENTER" editable="false" layoutX="24.0" layoutY="227.0" prefHeight="25.0" prefWidth="30.0" text="FF">
                      <font>
                         <Font name="Monospaced Regular" size="12.0" />
                      </font></TextField>
@@ -72,7 +72,7 @@
          <content>
             <AnchorPane minWidth="-Infinity" prefHeight="150.0" prefWidth="124.0">
                <children>
-                  <TextField fx:id="regA1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="17.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                  <TextField fx:id="regAPrim" alignment="CENTER" editable="false" layoutX="24.0" layoutY="17.0" prefHeight="25.0" prefWidth="30.0" text="FF">
                      <font>
                         <Font name="Monospaced Regular" size="12.0" />
                      </font></TextField>
@@ -83,31 +83,31 @@
                   <Label layoutX="8.0" layoutY="141.0" text="E'" />
                   <Label layoutX="8.0" layoutY="171.0" text="H'" />
                   <Label layoutX="8.0" layoutY="201.0" text="L'" />
-                  <TextField fx:id="regB1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="47.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                  <TextField fx:id="regBPrim" alignment="CENTER" editable="false" layoutX="24.0" layoutY="47.0" prefHeight="25.0" prefWidth="30.0" text="FF">
                      <font>
                         <Font name="Monospaced Regular" size="12.0" />
                      </font></TextField>
-                  <TextField fx:id="regC1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="77.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                  <TextField fx:id="regCPrim" alignment="CENTER" editable="false" layoutX="24.0" layoutY="77.0" prefHeight="25.0" prefWidth="30.0" text="FF">
                      <font>
                         <Font name="Monospaced Regular" size="12.0" />
                      </font></TextField>
-                  <TextField fx:id="regD1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="107.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                  <TextField fx:id="regDPrim" alignment="CENTER" editable="false" layoutX="24.0" layoutY="107.0" prefHeight="25.0" prefWidth="30.0" text="FF">
                      <font>
                         <Font name="Monospaced Regular" size="12.0" />
                      </font></TextField>
-                  <TextField fx:id="regE1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="137.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                  <TextField fx:id="regEPrim" alignment="CENTER" editable="false" layoutX="24.0" layoutY="137.0" prefHeight="25.0" prefWidth="30.0" text="FF">
                      <font>
                         <Font name="Monospaced Regular" size="12.0" />
                      </font></TextField>
-                  <TextField fx:id="regH1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="167.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                  <TextField fx:id="regHPrim" alignment="CENTER" editable="false" layoutX="24.0" layoutY="167.0" prefHeight="25.0" prefWidth="30.0" text="FF">
                      <font>
                         <Font name="Monospaced Regular" size="12.0" />
                      </font></TextField>
-                  <TextField fx:id="regL1" alignment="CENTER" editable="false" layoutX="24.0" layoutY="197.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                  <TextField fx:id="regLPrim" alignment="CENTER" editable="false" layoutX="24.0" layoutY="197.0" prefHeight="25.0" prefWidth="30.0" text="FF">
                      <font>
                         <Font name="Monospaced Regular" size="12.0" />
                      </font></TextField>
-                  <TextField fx:id="regL11" alignment="CENTER" editable="false" layoutX="24.0" layoutY="227.0" prefHeight="25.0" prefWidth="30.0" text="FF">
+                  <TextField fx:id="regFPrim" alignment="CENTER" editable="false" layoutX="24.0" layoutY="227.0" prefHeight="25.0" prefWidth="30.0" text="FF">
                      <font>
                         <Font name="Monospaced Regular" size="12.0" />
                      </font></TextField>
@@ -149,13 +149,13 @@
                      </font></TextField>
                   <Label layoutX="99.0" layoutY="15.0" text="SP" />
                   <Label fx:id="regILabel" layoutX="190.0" layoutY="15.0" onMouseClicked="#onMouseEntered" onMouseDragged="#onMouseExited" text="I" />
-                  <TextField fx:id="regLPrim1" editable="false" layoutX="205.0" layoutY="10.0" prefHeight="10.0" prefWidth="30.0" text="FF">
+                  <TextField fx:id="regI" editable="false" layoutX="205.0" layoutY="10.0" prefHeight="10.0" prefWidth="30.0" text="FF">
                      <font>
                         <Font name="Monospaced Regular" size="12.0" />
                      </font>
                   </TextField>
                   <Label layoutX="190.0" layoutY="47.0" text="R" />
-                  <TextField fx:id="regLPrim11" editable="false" layoutX="205.0" layoutY="42.0" prefHeight="10.0" prefWidth="30.0" text="FF">
+                  <TextField fx:id="regR" editable="false" layoutX="205.0" layoutY="42.0" prefHeight="10.0" prefWidth="30.0" text="FF">
                      <font>
                         <Font name="Monospaced Regular" size="12.0" />
                      </font>

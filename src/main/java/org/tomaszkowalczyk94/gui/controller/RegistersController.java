@@ -18,6 +18,7 @@ import java.util.ResourceBundle;
 public class RegistersController implements Initializable{
 
 
+
     @Inject private ValueFormatter valueFormatter;
     @Inject private Z80 z80;
     @Inject private HelpPopOverService helpPopOverService;
@@ -29,6 +30,8 @@ public class RegistersController implements Initializable{
     @FXML public TextField regE;
     @FXML public TextField regH;
     @FXML public TextField regL;
+    @FXML public TextField regF;
+
     @FXML public TextField regAPrim;
     @FXML public TextField regBPrim;
     @FXML public TextField regCPrim;
@@ -36,10 +39,16 @@ public class RegistersController implements Initializable{
     @FXML public TextField regEPrim;
     @FXML public TextField regHPrim;
     @FXML public TextField regLPrim;
+    @FXML public TextField regFPrim;
+
     @FXML public TextField regPc;
     @FXML public TextField regSp;
     @FXML public TextField regIx;
     @FXML public TextField regIy;
+    @FXML public TextField regI;
+    @FXML public TextField regR;
+
+    @FXML public Label regILabel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -56,6 +65,7 @@ public class RegistersController implements Initializable{
         regE.setText(valueFormatter.getUnsignedHex( regs.getE().getUnsignedValue(), 2));
         regH.setText(valueFormatter.getUnsignedHex( regs.getH().getUnsignedValue(), 2));
         regL.setText(valueFormatter.getUnsignedHex( regs.getL().getUnsignedValue(), 2));
+        regF.setText(valueFormatter.getUnsignedHex( regs.getF().getUnsignedValue(), 2));
 
         regAPrim.setText(valueFormatter.getUnsignedHex( regs.getAlternativeRegisterSet().getA().getUnsignedValue(), 2));
         regBPrim.setText(valueFormatter.getUnsignedHex( regs.getAlternativeRegisterSet().getB().getUnsignedValue(), 2));
@@ -64,6 +74,7 @@ public class RegistersController implements Initializable{
         regEPrim.setText(valueFormatter.getUnsignedHex( regs.getAlternativeRegisterSet().getE().getUnsignedValue(), 2));
         regHPrim.setText(valueFormatter.getUnsignedHex( regs.getAlternativeRegisterSet().getH().getUnsignedValue(), 2));
         regLPrim.setText(valueFormatter.getUnsignedHex( regs.getAlternativeRegisterSet().getL().getUnsignedValue(), 2));
+        regFPrim.setText(valueFormatter.getUnsignedHex( regs.getAlternativeRegisterSet().getF().getUnsignedValue(), 2));
 
         regPc.setText(valueFormatter.getUnsignedHex( regs.getPc().getUnsignedValue(), 4));
         regSp.setText(valueFormatter.getUnsignedHex( regs.getSp().getUnsignedValue(), 4));
@@ -72,7 +83,7 @@ public class RegistersController implements Initializable{
     }
 
     PopOver popOverForIReg;
-    @FXML public Label regILabel;
+
 
     public void onMouseEntered(MouseEvent mouseEvent) {
         System.out.println("mouse entered");

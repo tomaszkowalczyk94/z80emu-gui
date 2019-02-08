@@ -8,14 +8,14 @@ public class KeyboardAndTerminal implements IoDevice {
 
     @Override
     public XBit8 read(XBit16 addressBus) {
-        XBit8 port = addressBus.getLowByte();
+        XBit8 port = addressBus.getSecondByte();
 
         return null;
     }
 
     @Override
     public void write(XBit16 addressBus, XBit8 dataBus) {
-        XBit8 port = addressBus.getLowByte();
+        XBit8 port = addressBus.getSecondByte();
     }
 
 

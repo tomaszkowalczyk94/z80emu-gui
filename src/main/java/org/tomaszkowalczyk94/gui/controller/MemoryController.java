@@ -101,7 +101,7 @@ public class MemoryController implements Initializable {
 
             for(int memAddress = startAddress, columnI = 0 ; memAddress<startAddress + COUNT_OF_COLUMN ; memAddress++, columnI++) {
                 try {
-                    memRowData[columnI] = z80.getMem().read(memAddress).getUnsignedValue();
+                    memRowData[columnI] = (short)z80.getMem().read(memAddress).getUnsignedValue();
                 } catch (MemoryException e) {
                     throw new EmulatorCriticalException(e);
                 }

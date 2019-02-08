@@ -29,12 +29,12 @@
         <dependency>
             <groupId>org.tomaszkowalczyk94.xbit</groupId>
             <artifactId>xbit</artifactId>
-            <version>1.1.5</version>
+            <version>1.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.tomaszkowalczyk94.z80emu</groupId>
             <artifactId>z80emu-core</artifactId>
-            <version>0.1.0</version>
+            <version>0.1.1</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
