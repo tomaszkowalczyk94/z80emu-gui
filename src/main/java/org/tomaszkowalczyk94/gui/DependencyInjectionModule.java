@@ -4,6 +4,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import org.tomaszkowalczyk94.gui.controller.*;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblerFacade;
+import org.tomaszkowalczyk94.gui.model.emulation.EmulationManager;
+import org.tomaszkowalczyk94.gui.model.emulation.EmulatorThread;
 import org.tomaszkowalczyk94.gui.model.help.HelpPopOverService;
 import org.tomaszkowalczyk94.gui.model.help.HelpService;
 import org.tomaszkowalczyk94.gui.model.memory.MemoryService;
@@ -12,7 +14,7 @@ import org.tomaszkowalczyk94.gui.view.HelpStage;
 import org.tomaszkowalczyk94.gui.view.ValueFormatter;
 import org.tomaszkowalczyk94.z80emu.core.Z80;
 
-public class BasicModule extends AbstractModule {
+public class DependencyInjectionModule extends AbstractModule {
 
     @Override
     protected void configure() {
@@ -35,6 +37,7 @@ public class BasicModule extends AbstractModule {
         bind(MemoryService.class).in(Singleton.class);
         bind(HelpService.class).in(Singleton.class);
         bind(HelpPopOverService.class).in(Singleton.class);
-
+        bind(EmulationManager.class).in(Singleton.class);
+        bind(EmulatorThread.class).in(Singleton.class);
     }
 }

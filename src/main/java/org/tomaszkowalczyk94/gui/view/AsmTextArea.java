@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 @SuppressWarnings("squid:MaximumInheritanceDepth")
 public class AsmTextArea extends CodeArea {
 
-    private static final String DEFAULT_CODE = "label: inc a";
+    private static final String DEFAULT_CODE = "label: jp 0";
 
     private static final String[] INSTRUCTIONS = new String[] {
             "adc", "add", "and", "bit", "call", "ccf", "cp", "cpd", "cpdr", "cpi", "cpir", "cpl",

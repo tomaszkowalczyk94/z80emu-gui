@@ -31,7 +31,7 @@
                   <Label layoutX="26.0" layoutY="105.0" text="Licznik cykli maszynowych:" />
                   <TextField alignment="CENTER" layoutX="175.0" layoutY="126.0" prefHeight="25.0" prefWidth="82.0" text="24" />
                   <Label layoutX="64.0" layoutY="130.0" text="Licznik cykli zegara:" />
-                  <Button fx:id="oneStepButton1" layoutX="3.0" layoutY="65.0" mnemonicParsing="false" onAction="#onOneStepClick" prefHeight="25.0" prefWidth="99.0" text="Tryb ciągły" />
+                  <Button fx:id="cyclicButton" layoutX="3.0" layoutY="65.0" mnemonicParsing="false" onAction="#onCyclicButton" prefHeight="25.0" prefWidth="99.0" text="stan nieokreślony" />
                   <Label layoutX="10.0" layoutY="155.0" text="Licznik wykonanych instrukcji:" />
                   <TextField alignment="CENTER" layoutX="175.0" layoutY="151.0" prefHeight="25.0" prefWidth="82.0" text="7" />
                </children>

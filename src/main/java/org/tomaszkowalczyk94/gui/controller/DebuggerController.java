@@ -3,25 +3,36 @@ package org.tomaszkowalczyk94.gui.controller;
 
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import org.tomaszkowalczyk94.gui.model.emulation.EmulationManager;
 import org.tomaszkowalczyk94.gui.view.DialogHelper;
-import org.tomaszkowalczyk94.z80emu.core.Z80;
 import org.tomaszkowalczyk94.z80emu.core.Z80Exception;
 
-public class DebuggerController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class DebuggerController implements Initializable {
+
 
     @Inject private DialogHelper dialogHelper;
-    @Inject private Z80 z80;
     @Inject private MemoryController memoryController;
     @Inject private RegistersController registersController;
     @Inject private HelpController helpController;
+    @Inject private EmulationManager emulationManager;
 
     @FXML public Button oneStepButton;
     @FXML public Button resetButton;
+    @FXML public Button cyclicButton;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        refreshCyclicButtonText();
+    }
 
     public void onOneStepClick() {
         try {
-            z80.runOneInstruction();
+            emulationManager.runOneInstruction();
             memoryController.refreshMemoryTable();
             registersController.refreshRegs();
 
@@ -34,5 +45,24 @@ public class DebuggerController {
         System.out.println("kliknieto w reset");
 
         helpController.openHelpWindow();
+    }
+
+    public void onCyclicButton() {
+
+        if(emulationManager.cyclicModeIsRunning()) {
+            emulationManager.stopCyclicEmulation();
+        } else {
+            emulationManager.startCyclicMode();
+        }
+
+        refreshCyclicButtonText();
+    }
+
+    public void refreshCyclicButtonText() {
+        if(emulationManager.cyclicModeIsRunning()) {
+            cyclicButton.setText("STOP");
+        } else {
+            cyclicButton.setText("Tryb ciągły");
+        }
     }
 }
