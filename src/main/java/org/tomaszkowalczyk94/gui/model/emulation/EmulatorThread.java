@@ -41,9 +41,9 @@ public class EmulatorThread extends Thread {
             while (true) {
                 synchronized (lock) {
                     pauseEmulationIfPausedFlag();
-
+                    makeInterruptsRequests();
                     z80.runOneInstruction();
-                    System.out.println("COS ROBIE");
+                    refreshGui();
                 }
             }
         } catch (Exception e) {
@@ -52,7 +52,12 @@ public class EmulatorThread extends Thread {
         }
     }
 
+    private void refreshGui() {
+    }
 
+    private void makeInterruptsRequests() {
+
+    }
 
 
 }

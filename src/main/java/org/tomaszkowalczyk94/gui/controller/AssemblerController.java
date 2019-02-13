@@ -33,7 +33,6 @@ import java.util.ResourceBundle;
 
 public class AssemblerController implements Initializable {
 
-
     @Inject private DialogHelper dialogHelper;
     @Inject private AssemblerFacade assemblerFacade;
     @Inject private Z80 z80;
@@ -42,7 +41,6 @@ public class AssemblerController implements Initializable {
     private AssemblyOutput assemblyOutput;
 
     @FXML public TitledPane asmPane;
-
     @FXML public Button assemblyButton;
     @FXML public Button loadButton;
     @FXML public Button assemblyAndLoadButton;

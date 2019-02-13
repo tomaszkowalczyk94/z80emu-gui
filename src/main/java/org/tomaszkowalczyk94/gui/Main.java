@@ -21,7 +21,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-
         initializeEmulationThread();
 
         FXMLLoader loader = injector.getInstance(FxmlLoaderCreator.class).createFxmlLoader("main.fxml");

@@ -10,7 +10,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import org.tomaszkowalczyk94.gui.EmulatorCriticalException;
-import org.tomaszkowalczyk94.gui.model.memory.MemoryService;
 import org.tomaszkowalczyk94.gui.model.memory.MemoryRowModel;
 import org.tomaszkowalczyk94.gui.view.DialogHelper;
 import org.tomaszkowalczyk94.gui.view.ValueFormatter;
@@ -26,7 +25,6 @@ public class MemoryController implements Initializable {
     @Inject private ValueFormatter valueFormatter;
     @Inject private DialogHelper dialogHelper;
     @Inject private Z80 z80;
-    @Inject private MemoryService memoryService = new MemoryService();
 
     private static final int COUNT_OF_ROW = 0xFFF+1;
     private static final int COUNT_OF_COLUMN = 0xF+1;
