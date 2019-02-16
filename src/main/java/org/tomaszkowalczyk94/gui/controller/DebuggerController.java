@@ -10,7 +10,9 @@ import org.tomaszkowalczyk94.gui.model.assembler.AssemblyOutput;
 import org.tomaszkowalczyk94.gui.model.assembler.AssemblyOutput.AssemblerLine;
 
 import org.tomaszkowalczyk94.gui.model.emulation.EmulationManager;
+import org.tomaszkowalczyk94.gui.model.memory.MemoryService;
 import org.tomaszkowalczyk94.gui.view.DialogHelper;
+import org.tomaszkowalczyk94.xbit.XBit16;
 import org.tomaszkowalczyk94.z80emu.core.Z80;
 import org.tomaszkowalczyk94.z80emu.core.Z80Exception;
 
@@ -26,6 +28,7 @@ public class DebuggerController implements Initializable {
     @Inject private RegistersController registersController;
     @Inject private HelpController helpController;
     @Inject private EmulationManager emulationManager;
+    @Inject private MemoryService memoryService;
 
     @FXML public Button oneStepButton;
     @FXML public Button resetButton;
@@ -54,9 +57,13 @@ public class DebuggerController implements Initializable {
     }
 
     public void onResetClick() {
-        System.out.println("kliknieto w reset");
-
-        helpController.openHelpWindow();
+        try {
+            memoryService.resetMemory();
+            z80.getRegs().setPc(XBit16.valueOfUnsigned(0));
+            refreshAllAfterChanges();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onCyclicButton() {

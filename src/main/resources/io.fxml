@@ -18,7 +18,7 @@
                   <TableColumn fx:id="ioTableOptionColumn" prefWidth="75.0" resizable="false" text="opcje" />
               </columns>
             </TableView>
-            <Button layoutX="156.0" layoutY="154.0" mnemonicParsing="false" text="Dodaj urządzenie" />
+            <Button fx:id="addDevice" layoutX="156.0" layoutY="154.0" mnemonicParsing="false" text="Dodaj urządzenie" />
          </children>
       </AnchorPane>
   </content>

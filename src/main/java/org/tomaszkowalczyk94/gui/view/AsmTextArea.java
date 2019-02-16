@@ -15,7 +15,19 @@ import java.util.regex.Pattern;
 @SuppressWarnings("squid:MaximumInheritanceDepth")
 public class AsmTextArea extends CodeArea {
 
-    private static final String DEFAULT_CODE = "label: jp 0";
+    private static final String DEFAULT_CODE = "MAX\t    LD HL, 30h\n" +
+            "        LD B, (HL)\n" +
+            "\t\tLD A, 0\n" +
+            "\t\tINC HL\n" +
+            "\t\tLD (50h), HL\n" +
+            "LOOP    CP (HL)\n" +
+            "\t\tJR NC, NOSWITCH\n" +
+            "\t\tLD A, (HL)\n" +
+            "\t\tLD (50h), HL\n" +
+            "NOSWITCH INC HL\n" +
+            "\t\tDEC B\n" +
+            "\t\tJR NZ, LOOP\n" +
+            "\t\tRET";
 
     private static final String[] INSTRUCTIONS = new String[] {
             "adc", "add", "and", "bit", "call", "ccf", "cp", "cpd", "cpdr", "cpi", "cpir", "cpl",
