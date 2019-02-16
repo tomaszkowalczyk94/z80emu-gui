@@ -10,6 +10,7 @@ public class EmulatorThread extends Thread {
     @Inject Z80 z80;
     @Inject DialogHelper dialogHelper;
     @Inject DebuggerController debuggerController;
+    @Inject EmulationManager emulationManager;
 
     private Object lock = new Object();
     boolean pause = false;
@@ -39,12 +40,10 @@ public class EmulatorThread extends Thread {
         try {
             pause = true;
             while (true) {
-                synchronized (lock) {
                     pauseEmulationIfPausedFlag();
                     makeInterruptsRequests();
                     z80.runOneInstruction();
                     refreshGui();
-                }
             }
         } catch (Exception e) {
             dialogHelper.displayError("emulation error", e);
@@ -53,6 +52,8 @@ public class EmulatorThread extends Thread {
     }
 
     private void refreshGui() {
+        emulationManager.refreshNextAndPrevAsmLine();
+        debuggerController.refreshAllAfterChanges();
     }
 
     private void makeInterruptsRequests() {

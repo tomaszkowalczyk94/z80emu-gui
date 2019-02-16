@@ -3,6 +3,7 @@ package org.tomaszkowalczyk94.gui.controller;
 import com.google.inject.Inject;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -10,6 +11,7 @@ import org.controlsfx.control.PopOver;
 import org.tomaszkowalczyk94.gui.model.help.HelpPopOverService;
 import org.tomaszkowalczyk94.gui.view.ValueFormatter;
 import org.tomaszkowalczyk94.z80emu.core.Z80;
+import org.tomaszkowalczyk94.z80emu.core.register.FlagRegManager;
 import org.tomaszkowalczyk94.z80emu.core.register.RegisterBank;
 
 import java.net.URL;
@@ -48,6 +50,15 @@ public class RegistersController implements Initializable{
     @FXML public TextField regI;
     @FXML public TextField regR;
 
+    @FXML public CheckBox flagS;
+    @FXML public CheckBox flagZ;
+    @FXML public CheckBox flagX5;
+    @FXML public CheckBox flagH;
+    @FXML public CheckBox flagX3;
+    @FXML public CheckBox flagP;
+    @FXML public CheckBox flagN;
+    @FXML public CheckBox flagC;
+
     @FXML public Label regILabel;
 
     @Override
@@ -80,6 +91,15 @@ public class RegistersController implements Initializable{
         regSp.setText(valueFormatter.getUnsignedHex( regs.getSp().getUnsignedValue(), 4));
         regIx.setText(valueFormatter.getUnsignedHex( regs.getIx().getUnsignedValue(), 4));
         regIy.setText(valueFormatter.getUnsignedHex( regs.getIy().getUnsignedValue(), 4));
+    }
+
+    public void refreshFlags() {
+        flagS.setSelected(z80.getRegs().getFlag(FlagRegManager.Flag.S));
+        flagZ.setSelected(z80.getRegs().getFlag(FlagRegManager.Flag.Z));
+        flagH.setSelected(z80.getRegs().getFlag(FlagRegManager.Flag.H));
+        flagP.setSelected(z80.getRegs().getFlag(FlagRegManager.Flag.PV));
+        flagN.setSelected(z80.getRegs().getFlag(FlagRegManager.Flag.N));
+        flagC.setSelected(z80.getRegs().getFlag(FlagRegManager.Flag.C));
     }
 
     PopOver popOverForIReg;

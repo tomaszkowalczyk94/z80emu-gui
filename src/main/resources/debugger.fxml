@@ -17,23 +17,23 @@
                  <Button fx:id="oneStepButton" layoutX="108.0" layoutY="65.0" mnemonicParsing="false" onAction="#onOneStepClick" text="Wykonaj jedną instrukcje" />
                   <Label layoutX="10.0" layoutY="14.0" text="Ostatnia wykonana instrukcja:" />
                   <Label layoutX="60.0" layoutY="39.0" text="Następna instrukcja:" />
-                  <TextField alignment="CENTER" layoutX="174.0" layoutY="10.0" prefHeight="25.0" prefWidth="84.0" text="INC A, 30H">
+                  <TextField fx:id="lastInstructionName" alignment="CENTER" layoutX="174.0" layoutY="10.0" prefHeight="25.0" prefWidth="84.0" text="BRAK DANYCH">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" layoutX="174.0" layoutY="35.0" prefHeight="25.0" prefWidth="84.0" text="LD A, 30h">
+                  <TextField fx:id="nextInstructionName" alignment="CENTER" layoutX="174.0" layoutY="35.0" prefHeight="25.0" prefWidth="84.0" text="BRAK DANYCH">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </TextField>
-                  <TextField alignment="CENTER" layoutX="175.0" layoutY="101.0" prefHeight="25.0" prefWidth="82.0" text="10" />
+                  <TextField fx:id="machineCycles" alignment="CENTER" layoutX="175.0" layoutY="101.0" prefHeight="25.0" prefWidth="82.0" text="brak danych" />
                   <Label layoutX="26.0" layoutY="105.0" text="Licznik cykli maszynowych:" />
-                  <TextField alignment="CENTER" layoutX="175.0" layoutY="126.0" prefHeight="25.0" prefWidth="82.0" text="24" />
+                  <TextField fx:id="clockCycles" alignment="CENTER" layoutX="175.0" layoutY="126.0" prefHeight="25.0" prefWidth="82.0" text="brak danych" />
                   <Label layoutX="64.0" layoutY="130.0" text="Licznik cykli zegara:" />
                   <Button fx:id="cyclicButton" layoutX="3.0" layoutY="65.0" mnemonicParsing="false" onAction="#onCyclicButton" prefHeight="25.0" prefWidth="99.0" text="stan nieokreślony" />
                   <Label layoutX="10.0" layoutY="155.0" text="Licznik wykonanych instrukcji:" />
-                  <TextField alignment="CENTER" layoutX="175.0" layoutY="151.0" prefHeight="25.0" prefWidth="82.0" text="7" />
+                  <TextField fx:id="instructionCounter" alignment="CENTER" layoutX="175.0" layoutY="151.0" prefHeight="25.0" prefWidth="82.0" text="brak danych" />
                </children>
             </AnchorPane>
         </content>

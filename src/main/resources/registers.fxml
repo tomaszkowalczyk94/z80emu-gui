@@ -54,14 +54,14 @@
                         <Font name="Monospaced Regular" size="12.0" />
                      </font></TextField>
                   <Label layoutX="8.0" layoutY="233.0" text="F" />
-                  <CheckBox layoutX="67.0" layoutY="23.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="7. S" />
-                  <CheckBox layoutX="67.0" layoutY="51.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="6. Z" />
-                  <CheckBox layoutX="67.0" layoutY="83.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="5. X" />
-                  <CheckBox layoutX="67.0" layoutY="113.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="4. H" />
-                  <CheckBox layoutX="67.0" layoutY="143.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="3. X" />
-                  <CheckBox layoutX="67.0" layoutY="173.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="2. P" />
-                  <CheckBox layoutX="67.0" layoutY="203.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="1. N" />
-                  <CheckBox layoutX="67.0" layoutY="233.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="0. C" />
+                  <CheckBox fx:id="flagS" layoutX="67.0" layoutY="23.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="7. S" />
+                  <CheckBox fx:id="flagZ" layoutX="67.0" layoutY="51.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="6. Z" />
+                  <CheckBox fx:id="flagX5" layoutX="67.0" layoutY="83.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="5. X" />
+                  <CheckBox fx:id="flagH" layoutX="67.0" layoutY="113.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="4. H" />
+                  <CheckBox fx:id="flagX3" layoutX="67.0" layoutY="143.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="3. X" />
+                  <CheckBox fx:id="flagP" layoutX="67.0" layoutY="173.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="2. P" />
+                  <CheckBox fx:id="flagN" layoutX="67.0" layoutY="203.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="1. N" />
+                  <CheckBox fx:id="flagC" layoutX="67.0" layoutY="233.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="57.0" text="0. C" />
                </children>
             </AnchorPane>
          </content>

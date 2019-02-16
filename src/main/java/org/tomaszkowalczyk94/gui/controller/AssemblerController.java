@@ -119,5 +119,12 @@ public class AssemblerController implements Initializable {
         });
     }
 
-
+    public AssemblerLine getAssemblerLineForAddress(int address) {
+        for (AssemblerLine line: assemblyOutput.getLines()) {
+            if(line.getAddress() == address) {
+                return line;
+            }
+        }
+        return null;
+    }
 }
